@@ -1,9 +1,34 @@
-function App() {
+import { Routes, Route } from 'react-router-dom'
 
+import Card from './components/Card'
+import CardDetails from './pages/CardDetails'
+import Login from './pages/Login'
+
+import cards from './data'
+import HomePage from './pages/HomePage'
+
+function App() {
   return (
-    <>
-      <div className='text-xl text-blue-300 font-bold'>Hello roshan nikhil</div>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />}>
+        <Route
+          index
+          element={
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {cards.map(card => (
+                <Card key={card.id} card={card} />
+              ))}
+            </div>
+          }
+        />
+
+        <Route path="card/:id" element={<CardDetails />} />
+
+        <Route path="login" element={<Login />} />
+
+      </Route>
+
+    </Routes>
   )
 }
 
