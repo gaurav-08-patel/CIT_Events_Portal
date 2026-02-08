@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-<nav className="flex items-center justify-between bg-slate-800 h-26 px-5 text-white">
+    <nav className="flex items-center justify-between bg-slate-800 h-26 px-5 text-white">
       <h2 className="text-xl font-semibold">
         <img
           src="chennai-cit-logo.svg"
@@ -12,16 +12,11 @@ function Navbar() {
       </h2>
 
       <ul className="flex items-center gap-5 list-none">
-
         <li>
-          <Link
-            to="/"
-            className="text-white hover:text-sky-400 transition"
-          >
+          <Link to="/" className="text-white hover:text-sky-400 transition">
             Home
           </Link>
         </li>
-
 
         <li>
           <Link
@@ -31,11 +26,9 @@ function Navbar() {
             Login
           </Link>
         </li>
-
       </ul>
-
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
