@@ -5,7 +5,7 @@ import userAuth from '../middleware/userAuth.js'
 const authRouter = express.Router();
 
 authRouter.get('/', (req,res) => {
-    res.send("Auth Endpoint working . . .")
+    res.send("Auth Endpoint working . . . .");
 })
 
 authRouter.post('/signup',registerUser)
