@@ -1,43 +1,70 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { Calendar, MapPin, Users, IndianRupee } from "lucide-react";
 
 function Card({ card }) {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div
       onClick={() => navigate(`/card/${card.id}`)}
-      className="w-100
-        m-12
+      className="
+        bg-[#2f4154]
+        text-white
+        w-[300px]
+        md:w-[320px]
+        rounded-xl
+        shadow-lg
         p-5
-        bg-white
-        border
-        border-gray-300
-        rounded-lg
-        shadow-sm
         cursor-pointer
         transition
-        duration-200
+        duration-300
         hover:scale-105
+        hover:shadow-2xl
       "
     >
-
-      <img
-        src={card.image}
-        alt={card.title}
-        className="w-full rounded-lg mb-3"
-      />
-
-      <h3 className="text-lg font-semibold mb-1">
+      {/* Title */}
+      <h3 className="text-xl font-serif text-yellow-300 text-center mb-4">
         {card.title}
       </h3>
 
-      <p className="text-gray-600 text-sm">
-        {card.content}
-      </p>
+      {/* Image */}
+      <img
+        src={card.image}
+        alt={card.title}
+        className="w-full h-40 object-cover rounded-md mb-4"
+      />
 
+      {/* Content */}
+      <p className="text-sm text-center text-gray-200 mb-4">{card.content}</p>
+
+      {/* Info Section */}
+      <div className="space-y-2 text-sm text-gray-300">
+        {/* Date */}
+        <div className="flex items-center gap-2">
+          <Calendar size={16} />
+          <span>2026-02-10</span>
+        </div>
+
+        {/* Location */}
+        <div className="flex items-center gap-2">
+          <MapPin size={16} />
+          <span>Campus / Online</span>
+        </div>
+
+        {/* Fee */}
+        <div className="flex items-center gap-2">
+          <IndianRupee size={16} />
+          <span>150</span>
+        </div>
+
+        {/* Participants */}
+        <div className="flex items-center gap-2">
+          <Users size={16} />
+          <span>1-10</span>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Card
+export default Card;
