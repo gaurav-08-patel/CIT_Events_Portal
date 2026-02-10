@@ -7,24 +7,6 @@ import Signup from "./pages/Signup";
 function App() {
     return (
         <Routes>
-            {/* <Route path="/" element={<HomePage />}>
-        <Route
-          index
-          element={
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {cards.map(card => (
-                <Card key={card.id} card={card} />
-              ))}
-            </div>
-          }
-        />
-
-        <Route path="card/:id" element={<CardDetails />} />
-
-        <Route path="login" element={<Login />} />
-
-      </Route> */}
-
             <Route
                 path="/"
                 element={
@@ -51,7 +33,7 @@ function App() {
                     </Layout>
                 }
             />
-        </Routes>
+            </Routes>
     );
 }
 
