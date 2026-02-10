@@ -1,26 +1,18 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import Search from "../components/Search";
-import { Outlet } from "react-router-dom";
+import Card from "../components/Card";
+import cards from "../data";
+import Search from "../Search";
 
 const HomePage = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
-      {/* Navbar */}
-      <Navbar />
-
-      {/* Search Bar */}
-      <Search />
-
-      {/* Main Content Area */}
-      <main className="flex-grow">
-        <Outlet />
-      </main>
-
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
+    return (
+        <div>
+            <Search />
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {cards.map(card => (
+                <Card key={card.id} card={card} />
+              ))}
+            </div>
+        </div>
+    );
 };
 
 export default HomePage;
