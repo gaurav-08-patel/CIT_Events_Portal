@@ -1,8 +1,8 @@
 -- Create the database 
-CREATE DATABASE IF NOT EXISTS citEvents;
+CREATE DATABASE IF NOT EXISTS events;
 
 -- Use database
-USE citEvents;
+USE events;
 
 -- users table
 CREATE TABLE users (
@@ -11,6 +11,7 @@ CREATE TABLE users (
     phone VARCHAR(20),
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    college VARCHAR(255),
     role ENUM('admin', 'organizer', 'participant') NOT NULL,
     is_verified BOOLEAN DEFAULT FALSE,
     resetOtp VARCHAR(6),

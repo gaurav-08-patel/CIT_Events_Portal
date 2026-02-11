@@ -5,7 +5,7 @@ import transporter from "../config/nodemailer.js";
 import { EMAIL_VERIFY_TEMPLATE, PASSWORD_RESET_TEMPLATE, PASSWORD_RESET_SUCCESSFULLY_TEMPLATE } from "../config/emailTemplates.js";
 
 export const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, college, phone } = req.body;
   const db = await getDB();
 
   try {
@@ -41,9 +41,9 @@ export const registerUser = async (req, res) => {
 
     //  Insert user
     const [result] = await db.query(
-      `INSERT INTO users (name, phone, email, password, role)
-       VALUES (?, ?, ?, ?, ?)`,
-      [name, phone || null, email, hashedPassword, role]
+      `INSERT INTO users (name,email, password, role, college, phone)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [name, email, hashedPassword, role, college || null, phone || null]
     );
 
     //  Success
@@ -65,8 +65,8 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const db = await getDB();
   const { email, password } = req.body;
+  const db = await getDB();
 
   if (!email || !password)
     return res.status(400).json({ success: false, message: "All fields are required" });
@@ -79,13 +79,13 @@ export const loginUser = async (req, res) => {
 
     if (!user) return res.status(400).json({ success: false, message: "Invalid credentials" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user[0].password);
 
     if (!isMatch)
       return res.status(400).json({ success: false, message: "Invalid credentials" });
 
    // Generate Token
-    generateToken(user.id,res);
+    generateToken(user[0].id,res);
 
     res.status(200).json({ success: true, message: "Login Success" });
 
@@ -115,6 +115,7 @@ export const logoutUser = async (req, res) => {
 export const sendVerifyOtp = async (req, res) => {
   const db = await getDB();
   const userId = req.userId;
+  console.log("User ID in sendVerifyOtp:", userId);
 
   if (!userId)
     return res.json({
@@ -124,17 +125,17 @@ export const sendVerifyOtp = async (req, res) => {
 
   try {
     const user = await db.query(
-      "SELECT email, isAccountVerified, verifyOtp, verifyOtpExpireAt FROM users WHERE id = ?",
+      "SELECT email, is_verified, resetOtp, resetOtpExpiryAt FROM users WHERE id = ?",
       [userId]
     );
 
-    if (user[0].isAccountVerified)
+    if (user[0].is_verified)
       return res.json({ success: false, message: "User Already Verified" });
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
 
     await db.query(
-      "UPDATE users SET verifyOtp = ?, verifyOtpExpireAt = ? WHERE id = ?",
+      "UPDATE users SET resetOtp = ?, resetOtpExpiryAt = ? WHERE id = ?",
       [otp, Date.now() + 24 * 60 * 60 * 1000, userId]
     );
 
