@@ -44,7 +44,7 @@ const Signup = () => {
                             <option value="citian">CITIAN</option>
                             <option value="organizer">CIT Organizer</option>
                             <option value="external">
-                                External Participant
+                                External Participants
                             </option>
                         </select>
                     </div>
