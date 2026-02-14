@@ -38,7 +38,7 @@ const Signup = () => {
                             value={role}
                             required
                             onChange={(e) => setRole(e.target.value)}
-                            className="block max-sm:py-2 max-sm:text-sm w-full font-semibold text-lg py-3 px-5 bg-white focus:outline-none rounded-full appearance-none text-gray-500"
+                            className="border border-gray-300 block max-sm:py-2 max-sm:text-sm w-full font-semibold text-lg py-3 px-5 bg-white focus:outline-none rounded-full appearance-none text-gray-500"
                         >
                             <option value="">--Participant Type--</option>
                             <option value="citian">CITIAN</option>
@@ -53,7 +53,7 @@ const Signup = () => {
                             <select
                                 id="mySelect"
                                 required
-                                className="block max-sm:py-2 max-sm:text-sm w-full font-semibold text-lg py-3 px-5 bg-white focus:outline-none rounded-full appearance-none text-gray-500"
+                                className= "border border-gray-300 block max-sm:py-2 max-sm:text-sm w-full font-semibold text-lg py-3 px-5 bg-white focus:outline-none rounded-full appearance-none text-gray-500"
                             >
                                 <option value="">
                                     --External Participant Type--
@@ -82,7 +82,7 @@ const Signup = () => {
                             icon={School}
                             type="text"
                             placeholder="College Name"
-                            className="max-sm:py-2 max-sm:text-sm"
+                            className=" max-sm:py-2 max-sm:text-sm"
                         />
                     )}
                     <InputBox
