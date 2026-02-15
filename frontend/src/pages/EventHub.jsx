@@ -55,8 +55,8 @@ const EventHub = () => {
     }
 
     return (
-        <div className="min-h-screen ">
-            <div className="mx-auto min-h-screen max-w-7xl mt-8 max-sm:mt-4  p-2">
+        <div className="min-h-screen bg-gray-50">
+            <div className="mx-auto min-h-screen max-w-7xl pt-8 max-sm:mt-4  p-2">
                 {/* tabs to navigate   */}
                 <div className="relative ">
                     {/* Left Arrow */}
