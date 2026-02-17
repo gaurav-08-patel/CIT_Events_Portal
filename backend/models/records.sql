@@ -43,6 +43,7 @@ CREATE TABLE events (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    policy TEXT,
     event_venue VARCHAR(255) NOT NULL,
     event_type ENUM('paid', 'free') NOT NULL,
     amount DECIMAL(10,2) DEFAULT 0,
@@ -107,6 +108,7 @@ CREATE TABLE event_registrations (
 -- payments table
 -- CREATE TABLE payments (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
+
 --     registration_id INT NOT NULL,
 --     amount DECIMAL(10,2) NOT NULL,
 --     payment_method VARCHAR(50),
