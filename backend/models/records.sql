@@ -44,6 +44,7 @@ CREATE TABLE events (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     policy TEXT,
+    image_url VARCHAR(255) NULL,
     event_venue VARCHAR(255) NOT NULL,
     event_type ENUM('paid', 'free') NOT NULL,
     amount DECIMAL(10,2) DEFAULT 0,
