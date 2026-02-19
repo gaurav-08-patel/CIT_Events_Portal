@@ -14,7 +14,7 @@ CREATE TABLE users (
     college VARCHAR(255),
     dob DATE,
 
-    user_type ENUM('CITian', 'External') NOT NULL,
+    user_type ENUM('CITIAN', 'External') NOT NULL,
     external_types VARCHAR(255),
 
     role ENUM('admin', 'organizer', 'participant') NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE users (
         (role = 'organizer' AND dob IS NULL AND college IS NULL)
         OR
         (role = 'participant' AND dob IS NOT NULL AND college IS NOT NULL)
-    )
+    ),
 
     CHECK (
         (user_type = 'External' AND external_types IS NOT NULL)
