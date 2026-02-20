@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import FallBack404 from "./FallBack404";
 import { useEffect, useRef, useState } from "react";
-import Profile from "../components/Profile";
-import CreateTeam from "../components/CreateTeam";
-import RegisteredEvents from "../components/RegisteredEvents";
-import CreateEvent from "../components/CreateEvent";
-import MyEvents from "../components/MyEvents";
+import Profile from "../components/EventHub/Profile";
+import CreateTeam from "../components/EventHub/CreateTeam";
+import RegisteredEvents from "../components/EventHub/RegisteredEvents";
+import CreateEvent from "../components/EventHub/CreateEvent";
+import MyEvents from "../components/EventHub/MyEvents";
 
 const EventHub = () => {
     let { tab } = useParams();

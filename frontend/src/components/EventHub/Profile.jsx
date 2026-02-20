@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InputBox from "./InputBox";
+import InputBox from "../InputBox";
 import { Copy, KeyRound } from "lucide-react";
 
 export default function Profile() {

@@ -1,5 +1,5 @@
 import { UserRound } from "lucide-react";
-import InputBox from "./InputBox";
+import InputBox from "../InputBox";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { useState } from "react";
 

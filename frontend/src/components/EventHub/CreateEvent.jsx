@@ -1,5 +1,5 @@
 import * as React from "react";
-import InputBox from "./InputBox";
+import InputBox from "../InputBox";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
