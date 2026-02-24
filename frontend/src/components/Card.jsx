@@ -17,7 +17,7 @@ function Card({ card: event }) {
     return (
         <div className="bg-[#2f4154] text-white shadow-md rounded-lg p-6 flex flex-col justify-between">
             {/* Event Title */}
-            <h2 className=" text-2xl font-semibold line-clamp-3 text-yellow-300 text-center mb-3 min-h-23.75">
+            <h2 className=" text-3xl font-semibold line-clamp-3 text-yellow-300 text-center mb-3 min-h-23.75">
                 {event.name}
             </h2>
 
@@ -60,7 +60,7 @@ function Card({ card: event }) {
             {/* Action Button */}
             <Link to={`event/${event.id}`}>
                 <button className="cursor-pointer w-full mt-4 px-4 py-2 bg-[rgb(0,188,255)] text-white rounded hover:bg-blue-700 transition transition-duration-300">
-                    Participate
+                    View
                 </button>
             </Link>
         </div>
