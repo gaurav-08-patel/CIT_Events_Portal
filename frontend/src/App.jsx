@@ -5,8 +5,10 @@ import Layout from "./Layouts/Layout";
 import Signup from "./pages/Signup";
 import EventHub from "./pages/EventHub";
 import FallBack404 from "./pages/FallBack404";
-import './index.css';
+import "./index.css";
 import ResetPassword from "./pages/ResetPassword";
+import EventDetails from "./pages/EventDetails";
+import MyEventsEventDetails from "./components/EventHub/MyEvents.EventDetails";
 
 function App() {
     return (
@@ -16,6 +18,14 @@ function App() {
                 element={
                     <Layout>
                         <HomePage />
+                    </Layout>
+                }
+            />
+            <Route
+                path="/event/:id"
+                element={
+                    <Layout>
+                        <EventDetails />
                     </Layout>
                 }
             />
@@ -45,6 +55,16 @@ function App() {
                     </Layout>
                 }
             />
+            {/* route for myEvents/event details (accessible only by organizers) */}
+            <Route
+                path="/EventHub/myEvents/event/:id"
+                element={
+                    <Layout>
+                        <MyEventsEventDetails />
+                    </Layout>
+                }
+            />
+
             <Route
                 path="/resetPassword"
                 element={
