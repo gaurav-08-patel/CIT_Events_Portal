@@ -1,88 +1,100 @@
 const cards = [
-  {
-    id: 1,
-    title: "Nature",
-    image: "https://picsum.photos/id/10/900/800",
-    content: "Beautiful view",
-    details: "Full details of nature"
-  },
-  {
-    id: 2,
-    title: "Mountain",
-    image: "https://picsum.photos/id/20/900/800",
-    content: "High mountain",
-    details: "Full details of mountain"
-  },
-  {
-    id: 3,
-    title: "City",
-    image: "https://picsum.photos/id/30/900/800",
-    content: "City life",
-    details: "Full details of city"
-  },
-  {
-    id: 4,
-    title: "Beach",
-    image: "https://picsum.photos/id/40/900/800",
-    content: "Sunny beach",
-    details: "Full details of beach"
-  },
-  {
-    id: 5,
-    title: "Forest",  
-    image: "https://picsum.photos/id/50/900/800",
-    content: "Green forest",
-    details: "Full details of forest"
-  },
-  {
-    id: 6,
-    title: "Desert",
-    image: "https://picsum.photos/id/60/900/800",
-    content: "Hot desert",
-    details: "Full details of desert"
-  },
-  {
-    id: 7,
-    title: "River",
-    image: "https://picsum.photos/id/70/900/800",
-    content: "Flowing river",
-    details: "Full details of river"
-  },
-  {
-    id: 8,
-    title: "Sky",
-    image: "https://picsum.photos/id/80/900/800",
-    content: "Blue sky",
-    details: "Full details of sky"
-  },
-  {
-    id: 9,
-    title: "Snow",
-    image: "https://picsum.photos/id/90/900/800",
-    content: "Snowy landscape",
-    details: "Full details of snow"
-  },
-  {
-    id:10,
-    title: "Ocean",
-    image: "https://picsum.photos/id/100/900/800",
-    content: "Vast ocean",
-    details: "Full details of ocean"
-  },
-  {
-    id: 11,
-    title: "Sunset",
-    image: "https://picsum.photos/id/110/900/800",
-    content: "Beautiful sunset",
-    details: "Full details of sunset"
-  },
-  {
-    id: 12,
-    title: "Waterfall",
-    image: "https://picsum.photos/id/120/900/800",
-    content: "Majestic waterfall",
-    details: "Full details of waterfall"
-  }
-]
+    {
+        id: 1,
+        name: "Tech Conference 2026 with a Very Long Name That Should Be Clamped awndn maw dijojaw mawdkaw awkljd a wa ed awlka scjke  emk sdf esf efj ",
+        date: "2026-02-25",
+        time: "22:30",
+        venue: "Kathmandu",
+        entryType: "Free",
+        participantsAllowedInTeam: 10,
+    },
+    {
+        id: 2,
+        name: "Startup Pitch Night",
+        date: "2026-03-10",
+        time: "6:30",
+        venue: "Pokhara",
+        entryType: "Paid",
+        entryAmount: 1000,
+        participantsAllowedInTeam: 4,
+    },
+    {
+        id: 3,
+        name: "Startup Pitch Night",
+        date: "2026-03-10",
+        time: "13:00",
+        venue: "Pokhara",
+        entryType: "Paid",
+        entryAmount: 200,
+        participantsAllowedInTeam: 4,
+    },
+    {
+        id: 4,
+        name: "Startup Pitch Night",
+        date: "2026-03-10",
+        time: "00:00",
+        venue: "Pokhara",
+        entryType: "Paid",
+        entryAmount: 300,
+        participantsAllowedInTeam: 1,
+    },
+    {
+        id: 5,
+        name: "Tech Confej",
+        date: "2026-02-25",
+        time: "10:00",
+        venue: "Kathmandu",
+        entryType: "Free",
+        participantsAllowedInTeam: 1,
+    },
+    {
+        id: 6,
+        name: "AI Workshop",
+        date: "2026-04-05",
+        time: "2:00",
+        venue: "Online",
+        entryType: "Free",
+        participantsAllowedInTeam: 2,
+    },
+    {
+        id: 7,
+        name: "Web Development Bootcamp",
+        date: "2026-04-15",
+        time: "9:00",
+        venue: "Kathmandu",
+        entryType: "Paid",
+        entryAmount: 1500,
+        participantsAllowedInTeam: 1,
+    },
+    {
+        id: 8,
+        name: "Mobile App Development Summit",
+        date: "2026-05-01",
+        time: "10:00",
+        venue: "Pokhara",
+        entryType: "Paid",
+        entryAmount: 800,
+        participantsAllowedInTeam: 3,
+    },
+    {
+        id: 9,
+        name: "Cloud Computing Workshop",
+        date: "2026-05-20",
+        time: "14:00",
+        venue: "Online",
+        entryType: "Free",
+        participantsAllowedInTeam: 5,
+    },
+    {
+        id: 10,
+        name: "Cybersecurity Conference",
+        date: "2026-06-10",
+        time: "9:30",
+        venue: "Kathmandu",
+        entryType: "Paid",
+        entryAmount: 1200,
+        participantsAllowedInTeam: 2,
+    },
+];
 
-export default cards
+export default cards;
