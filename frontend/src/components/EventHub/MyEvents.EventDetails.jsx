@@ -34,7 +34,7 @@ const MyEventsEventDetails = () => {
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             {/* Main Box */}
-            <div className="max-w-7xl mx-auto  flex flex-row max-md:flex-col  gap-5">
+            <div className="container mx-auto  flex flex-row max-md:flex-col  gap-5">
                 {/* Left - Image */}
                 <div className=" flex-1">
                     <img
