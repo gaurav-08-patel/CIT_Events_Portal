@@ -129,7 +129,7 @@ const EventParticipants = () => {
                                             Payment Status
                                         </th>
                                         <th className="px-4 py-4 text-nowrap border border-black">
-                                            Participants
+                                            Members
                                         </th>
                                     </tr>
                                 </thead>
@@ -153,7 +153,10 @@ const EventParticipants = () => {
                                             </span>
                                         </td>
                                         <td className="px-4 py-4 border border-black text-center">
-                                            <Link className="text-blue-700 underline">
+                                            <Link
+                                                className="text-blue-700 underline"
+                                                to={"teamMembers?teamId=3"}
+                                            >
                                                 View
                                             </Link>
                                         </td>
@@ -177,7 +180,10 @@ const EventParticipants = () => {
                                             </span>
                                         </td>
                                         <td className="px-4 py-4 border border-black text-center">
-                                            <Link className="text-blue-700 underline">
+                                            <Link
+                                                className="text-blue-700 underline"
+                                                to={"teamMembers?teamId=3"}
+                                            >
                                                 View
                                             </Link>
                                         </td>
@@ -201,7 +207,10 @@ const EventParticipants = () => {
                                             </span>
                                         </td>
                                         <td className="px-4 py-4 border border-black text-center">
-                                            <Link className="text-blue-700 underline">
+                                            <Link
+                                                className="text-blue-700 underline"
+                                                to={"teamMembers?teamId=3"}
+                                            >
                                                 View
                                             </Link>
                                         </td>
