@@ -10,6 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import EventDetails from "./pages/EventDetails";
 import MyEventsEventDetails from "./components/EventHub/MyEvents.EventDetails";
 import EventParticipants from "./pages/EventParticipants";
+import TeamMembers from "./pages/TeamMembers";
 
 function App() {
     return (
@@ -70,6 +71,14 @@ function App() {
                 element={
                     <Layout>
                         <EventParticipants />
+                    </Layout>
+                }
+            />
+            <Route
+                path="/EventHub/myEvents/event/:id/participants/teamMembers"
+                element={
+                    <Layout>
+                        <TeamMembers />
                     </Layout>
                 }
             />
