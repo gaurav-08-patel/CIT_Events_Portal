@@ -32,6 +32,11 @@ const EventParticipants = () => {
                                         <th className="px-4 py-4 text-nowrap border border-black">
                                             College Name
                                         </th>
+                                        
+                                        <th className="px-4 py-4 text-nowrap border border-black">
+                                            DOB
+                                        </th>
+
                                         <th className="px-4 py-4 text-nowrap border border-black">
                                             Payment Status
                                         </th>
@@ -43,13 +48,16 @@ const EventParticipants = () => {
                                             1
                                         </td>
                                         <td className="px-4 py-4 border border-black">
-                                            Megha Patel
+                                            Krishna Patel
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             xyz@gmail.com
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             SRM
+                                        </td>
+                                        <td className="px-4 py-4 border border-black">
+                                            2022-09-21
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             <span className="bg-orange-400 text-white p-2 rounded-lg">
@@ -62,13 +70,16 @@ const EventParticipants = () => {
                                             1
                                         </td>
                                         <td className="px-4 py-4 border border-black">
-                                            Megha Patel
+                                            Risab Patel
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             xyz@gmail.com
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             Chennai Institute of technology
+                                        </td>
+                                        <td className="px-4 py-4 border border-black">
+                                            2002-01-02
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             <span className="bg-red-600 text-white p-2 rounded-lg">
@@ -88,6 +99,9 @@ const EventParticipants = () => {
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             Vellore Institute of technology
+                                        </td>
+                                        <td className="px-4 py-4 border border-black">
+                                            2000-01-09
                                         </td>
                                         <td className="px-4 py-4 border border-black">
                                             <span className="bg-green-600 text-white p-2 rounded-lg">
@@ -139,7 +153,7 @@ const EventParticipants = () => {
                                             1
                                         </td>
                                         <td className="px-4 py-4 border border-black">
-                                            Megha Patel
+                                            Patel
                                         </td>
                                         <td className="px-4 py-4 border border-black text-center text-blue-500">
                                             2000
@@ -166,7 +180,7 @@ const EventParticipants = () => {
                                             2
                                         </td>
                                         <td className="px-4 py-4 border border-black">
-                                            Megha Patel
+                                            Kaluwa
                                         </td>
                                         <td className="px-4 py-4 border border-black text-center text-blue-500">
                                             1000
