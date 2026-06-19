@@ -66,7 +66,7 @@ const events = [
     },
 ];
 
-const categoryStyle = {
+export const categoryStyle = {
     hackathon: {
         color: "#1877F2",
         bg: "#E7F3FF",
@@ -92,8 +92,8 @@ const categoryStyle = {
         bg: "#FEF9E7",
     },
     sports: {
-        color: "#42B72A",
-        bg: "#E6F9E3",
+         color: "#1877Ff",
+        bg: "#E7F3FF",
     },
     "non-technical": {
         color: "#42B72A",
