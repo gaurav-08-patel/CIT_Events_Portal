@@ -2,6 +2,7 @@ import { CategoriesSection } from "../components/CategoriesSection";
 import { FeaturedEvents } from "../components/FeaturedEvents";
 import { HeroSection } from "../components/HeroSection";
 import { StatsSection } from "../components/StatsSection";
+import { SuccessStories } from "../components/SuccessStories";
 import { UpcomingTimeline } from "../components/UpcomingTimeline";
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
             <CategoriesSection/> 
             <FeaturedEvents/>
             <UpcomingTimeline/>
+            <SuccessStories/>
         </div>
     );
 };
