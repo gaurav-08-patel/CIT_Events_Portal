@@ -11,7 +11,6 @@ const Home = () => {
     return (
         <div>
             <MetaData
-                title="CIT Events Portal"
                 description="Welcome to the CIT Events Portal. Discover, explore, and register for the latest upcoming college festivals, tech symposiums, and success stories at CIT."
                 canonical="/"
             />
