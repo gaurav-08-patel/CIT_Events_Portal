@@ -86,9 +86,7 @@ export default function Header() {
                         className="nav-desktop"
                     >
                         {navLinks.map((link) => {
-                            const isActive = location.pathname.startsWith(
-                                link.page,
-                            );
+                            const isActive = location.pathname === link.page;
                             return (
                                 <Link
                                     to={link.page}
