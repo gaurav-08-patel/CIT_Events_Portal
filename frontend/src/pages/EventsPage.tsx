@@ -795,6 +795,7 @@ function FilterPanel({
                 boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
                 position: "sticky",
                 top: 80,
+                alignSelf: "start",
                 maxHeight: "calc(100vh - 100px)",
                 overflowY: "auto",
             }}
@@ -1519,7 +1520,15 @@ export function EventsPage() {
                         className="events-layout"
                     >
                         {/* Sidebar */}
-                        <div className="sidebar-col">
+                        <div
+                            className="sidebar-col"
+                            style={{
+                                position: "sticky",
+                                top: 70,
+                                alignSelf: "start",
+                                height: "fit-content",
+                            }}
+                        >
                             <FilterPanel
                                 filters={filters}
                                 setFilters={handleSetFilters}
