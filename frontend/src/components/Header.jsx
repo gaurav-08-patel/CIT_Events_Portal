@@ -1,15 +1,14 @@
 import { Menu, X, Zap } from "lucide-react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigation } from "react-router-dom";
 
 export default function Header() {
     const [mobileOpen, setMobileOpen] = useState(false);
     let location = useLocation();
-    console.log(location);
 
     const navLinks = [
         { label: "Home", page: "/" },
-        { label: "Events", page: "events" },
+        { label: "Events", page: "/events" },
         { label: "About", page: null },
         { label: "FAQ", page: null },
         { label: "Contact", page: null },
@@ -91,7 +90,8 @@ export default function Header() {
                                 link.page,
                             );
                             return (
-                                <button
+                                <Link
+                                    to={link.page}
                                     key={link.label}
                                     style={{
                                         padding: "8px 16px",
@@ -126,7 +126,7 @@ export default function Header() {
                                     }}
                                 >
                                     {link.label}
-                                </button>
+                                </Link>
                             );
                         })}
                     </div>
