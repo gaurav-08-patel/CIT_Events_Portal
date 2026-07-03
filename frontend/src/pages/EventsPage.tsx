@@ -21,6 +21,7 @@ import {
     Gift,
 } from "lucide-react";
 import Layout from "../layout/Layout";
+import MetaData from "../components/MetaData";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -1298,6 +1299,11 @@ export function EventsPage() {
 
     return (
         <Layout>
+            <MetaData
+                title="Events"
+                description="Browse upcoming CIT events, workshops, hackathons, and cultural competitions with filters for category, mode, department, and date."
+                canonical="/events"
+            />
             <div style={{ minHeight: "100vh", background: "#F0F2F5" }}>
                 {/* Page header */}
                 <div
