@@ -1,0 +1,1630 @@
+import { useState, useMemo } from "react";
+import {
+    Search,
+    Filter,
+    ChevronDown,
+    ChevronLeft,
+    ChevronRight,
+    Calendar,
+    MapPin,
+    Trophy,
+    Users,
+    Clock,
+    Tag,
+    X,
+    SlidersHorizontal,
+    Wifi,
+    WifiOff,
+    UserRound,
+    UsersRound,
+    Banknote,
+    Gift,
+} from "lucide-react";
+import Layout from "../layout/Layout";
+
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const ALL_EVENTS = [
+    {
+        id: 1,
+        title: "CodeStorm 2025 Hackathon",
+        category: "Hackathon",
+        image: "https://images.unsplash.com/photo-1759884248009-92c5e957708e?w=500&h=260&fit=crop&auto=format",
+        date: "Jul 15–16, 2025",
+        venue: "Main Campus, Block A",
+        deadline: "Jul 10, 2025",
+        participants: 320,
+        maxParticipants: 500,
+        mode: "Offline",
+        type: "Team",
+        paid: false,
+        prize: "₹75,000",
+        department: "CSE",
+        tags: ["Web Dev", "AI", "Open Source"],
+        featured: true,
+    },
+    {
+        id: 2,
+        title: "AI Innovate Summit",
+        category: "Workshop",
+        image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=500&h=260&fit=crop&auto=format",
+        date: "Aug 3, 2025",
+        venue: "Seminar Hall, Block C",
+        deadline: "Jul 28, 2025",
+        participants: 150,
+        maxParticipants: 200,
+        mode: "Offline",
+        type: "Individual",
+        paid: true,
+        prize: "₹30,000",
+        department: "CSE",
+        tags: ["ML", "Deep Learning"],
+        featured: false,
+    },
+    {
+        id: 3,
+        title: "Code Blitz Championship",
+        category: "Coding Challenge",
+        image: "https://images.unsplash.com/photo-1638029202288-451a89e0d55f?w=500&h=260&fit=crop&auto=format",
+        date: "Aug 20, 2025",
+        venue: "CS Lab, Block B",
+        deadline: "Aug 15, 2025",
+        participants: 480,
+        maxParticipants: 600,
+        mode: "Online",
+        type: "Individual",
+        paid: false,
+        prize: "₹50,000",
+        department: "CSE",
+        tags: ["DSA", "Competitive"],
+        featured: true,
+    },
+    {
+        id: 4,
+        title: "CulturFest 2025",
+        category: "Cultural",
+        image: "https://images.unsplash.com/photo-1673700910520-c08849045e8b?w=500&h=260&fit=crop&auto=format",
+        date: "Sep 5–7, 2025",
+        venue: "College Auditorium",
+        deadline: "Aug 30, 2025",
+        participants: 600,
+        maxParticipants: 1000,
+        mode: "Offline",
+        type: "Team",
+        paid: false,
+        prize: "₹40,000",
+        department: "All",
+        tags: ["Dance", "Music", "Drama"],
+        featured: true,
+    },
+    {
+        id: 5,
+        title: "Robonautics Workshop",
+        category: "Workshop",
+        image: "https://images.unsplash.com/photo-1581091212911-f4efc3f71c48?w=500&h=260&fit=crop&auto=format",
+        date: "Jul 22, 2025",
+        venue: "Electronics Lab",
+        deadline: "Jul 19, 2025",
+        participants: 80,
+        maxParticipants: 100,
+        mode: "Offline",
+        type: "Individual",
+        paid: true,
+        prize: "Certificates",
+        department: "ECE",
+        tags: ["Robotics", "IoT"],
+        featured: false,
+    },
+    {
+        id: 6,
+        title: "CyberShield CTF",
+        category: "Technical",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=260&fit=crop&auto=format",
+        date: "Aug 10, 2025",
+        venue: "Online Platform",
+        deadline: "Aug 8, 2025",
+        participants: 240,
+        maxParticipants: 400,
+        mode: "Online",
+        type: "Team",
+        paid: false,
+        prize: "₹35,000",
+        department: "CSE",
+        tags: ["Cybersecurity", "Hacking"],
+        featured: false,
+    },
+    {
+        id: 7,
+        title: "Inter-College Cricket Cup",
+        category: "Sports",
+        image: "https://images.unsplash.com/photo-1540747913346-19212a4b423d?w=500&h=260&fit=crop&auto=format",
+        date: "Aug 12, 2025",
+        venue: "CIT Sports Ground",
+        deadline: "Aug 5, 2025",
+        participants: 220,
+        maxParticipants: 300,
+        mode: "Offline",
+        type: "Team",
+        paid: false,
+        prize: "₹20,000",
+        department: "All",
+        tags: ["Cricket", "Sports"],
+        featured: false,
+    },
+    {
+        id: 8,
+        title: "UI/UX Design Sprint",
+        category: "Technical",
+        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=260&fit=crop&auto=format",
+        date: "Sep 1, 2025",
+        venue: "Design Studio, Block D",
+        deadline: "Aug 27, 2025",
+        participants: 90,
+        maxParticipants: 120,
+        mode: "Offline",
+        type: "Team",
+        paid: true,
+        prize: "₹25,000",
+        department: "IT",
+        tags: ["Design", "Figma", "UX"],
+        featured: false,
+    },
+    {
+        id: 9,
+        title: "ML Model Mania",
+        category: "AI/ML",
+        image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=500&h=260&fit=crop&auto=format",
+        date: "Sep 10, 2025",
+        venue: "Online Platform",
+        deadline: "Sep 6, 2025",
+        participants: 180,
+        maxParticipants: 300,
+        mode: "Online",
+        type: "Individual",
+        paid: false,
+        prize: "₹45,000",
+        department: "CSE",
+        tags: ["Python", "TensorFlow"],
+        featured: true,
+    },
+    {
+        id: 10,
+        title: "Drama & Theatre Festival",
+        category: "Cultural",
+        image: "https://images.unsplash.com/photo-1524117074681-31bd4de22ad3?w=500&h=260&fit=crop&auto=format",
+        date: "Sep 14, 2025",
+        venue: "College Auditorium",
+        deadline: "Sep 10, 2025",
+        participants: 120,
+        maxParticipants: 200,
+        mode: "Offline",
+        type: "Team",
+        paid: false,
+        prize: "₹15,000",
+        department: "All",
+        tags: ["Drama", "Theatre"],
+        featured: false,
+    },
+    {
+        id: 11,
+        title: "Cloud Builders Bootcamp",
+        category: "Workshop",
+        image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=500&h=260&fit=crop&auto=format",
+        date: "Sep 20, 2025",
+        venue: "Online Platform",
+        deadline: "Sep 16, 2025",
+        participants: 200,
+        maxParticipants: 300,
+        mode: "Online",
+        type: "Individual",
+        paid: true,
+        prize: "Certificates",
+        department: "CSE",
+        tags: ["AWS", "Cloud", "DevOps"],
+        featured: false,
+    },
+    {
+        id: 12,
+        title: "Smart India Hackathon — CIT Round",
+        category: "Hackathon",
+        image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&h=260&fit=crop&auto=format",
+        date: "Oct 5–6, 2025",
+        venue: "Main Campus",
+        deadline: "Sep 30, 2025",
+        participants: 400,
+        maxParticipants: 600,
+        mode: "Offline",
+        type: "Team",
+        paid: false,
+        prize: "₹1,00,000",
+        department: "All",
+        tags: ["Innovation", "Government", "SIH"],
+        featured: true,
+    },
+];
+
+const CATEGORIES = [
+    "All",
+    "Hackathon",
+    "Workshop",
+    "Coding Challenge",
+    "AI/ML",
+    "Technical",
+    "Cultural",
+    "Sports",
+];
+const DEPARTMENTS = ["All", "CSE", "ECE", "IT", "MECH", "CIVIL", "EEE"];
+const EVENTS_PER_PAGE = 9;
+
+// ─── Sub-components ────────────────────────────────────────────────────────────
+
+const categoryColors: Record<string, { color: string; bg: string }> = {
+    Hackathon: { color: "#1877F2", bg: "#E7F3FF" },
+    Workshop: { color: "#9B51E0", bg: "#F3E8FF" },
+    "Coding Challenge": { color: "#F7B928", bg: "#FEF9E7" },
+    "AI/ML": { color: "#42B72A", bg: "#E6F9E3" },
+    Technical: { color: "#FA3E3E", bg: "#FDE8E8" },
+    Cultural: { color: "#E91E8C", bg: "#FFE4F5" },
+    Sports: { color: "#0288D1", bg: "#E0F4FF" },
+};
+
+function getBadge(cat: string) {
+    return categoryColors[cat] ?? { color: "#65676B", bg: "#F0F2F5" };
+}
+
+function EventCard({ event }: { event: (typeof ALL_EVENTS)[0] }) {
+    const badge = getBadge(event.category);
+    const fillPct = Math.round(
+        (event.participants / event.maxParticipants) * 100,
+    );
+
+    return (
+        <div
+            style={{
+                background: "#ffffff",
+                borderRadius: 16,
+                border: "1px solid #DADDE1",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+            }}
+            onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(-6px)";
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                    "0 20px 48px rgba(0,0,0,0.12)";
+            }}
+            onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(0)";
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                    "0 2px 8px rgba(0,0,0,0.05)";
+            }}
+        >
+            {/* Poster */}
+            <div
+                style={{
+                    position: "relative",
+                    height: 168,
+                    background: "#F0F2F5",
+                    flexShrink: 0,
+                }}
+            >
+                <img
+                    src={event.image}
+                    alt={event.title}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+                <div
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                            "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%)",
+                    }}
+                />
+
+                {/* Top badges */}
+                <div
+                    style={{
+                        position: "absolute",
+                        top: 12,
+                        left: 12,
+                        display: "flex",
+                        gap: 6,
+                    }}
+                >
+                    <span
+                        style={{
+                            background: badge.bg,
+                            color: badge.color,
+                            borderRadius: 6,
+                            padding: "3px 10px",
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 700,
+                            fontSize: 11,
+                        }}
+                    >
+                        {event.category}
+                    </span>
+                    {event.featured && (
+                        <span
+                            style={{
+                                background: "#F7B928",
+                                color: "#fff",
+                                borderRadius: 6,
+                                padding: "3px 10px",
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 700,
+                                fontSize: 11,
+                            }}
+                        >
+                            ★ Featured
+                        </span>
+                    )}
+                </div>
+
+                {/* Free / Paid badge */}
+                <div style={{ position: "absolute", top: 12, right: 12 }}>
+                    <span
+                        style={{
+                            background: event.paid ? "#FDE8E8" : "#E6F9E3",
+                            color: event.paid ? "#FA3E3E" : "#42B72A",
+                            borderRadius: 6,
+                            padding: "3px 10px",
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 700,
+                            fontSize: 11,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                        }}
+                    >
+                        {event.paid ? (
+                            <Banknote size={11} />
+                        ) : (
+                            <Gift size={11} />
+                        )}
+                        {event.paid ? "Paid" : "Free"}
+                    </span>
+                </div>
+
+                {/* Mode badge — bottom */}
+                <div style={{ position: "absolute", bottom: 10, left: 12 }}>
+                    <span
+                        style={{
+                            background: "rgba(0,0,0,0.65)",
+                            color: "#fff",
+                            borderRadius: 6,
+                            padding: "3px 10px",
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 600,
+                            fontSize: 11,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                        }}
+                    >
+                        {event.mode === "Online" ? (
+                            <Wifi size={11} />
+                        ) : (
+                            <WifiOff size={11} />
+                        )}
+                        {event.mode}
+                    </span>
+                </div>
+
+                {/* Team/Individual badge — bottom right */}
+                <div style={{ position: "absolute", bottom: 10, right: 12 }}>
+                    <span
+                        style={{
+                            background: "rgba(0,0,0,0.65)",
+                            color: "#fff",
+                            borderRadius: 6,
+                            padding: "3px 10px",
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 600,
+                            fontSize: 11,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                        }}
+                    >
+                        {event.type === "Team" ? (
+                            <UsersRound size={11} />
+                        ) : (
+                            <UserRound size={11} />
+                        )}
+                        {event.type}
+                    </span>
+                </div>
+            </div>
+
+            {/* Body */}
+            <div
+                style={{
+                    padding: "16px 18px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    flex: 1,
+                }}
+            >
+                <h3
+                    style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 700,
+                        fontSize: 15,
+                        color: "#1C1E21",
+                        margin: 0,
+                        lineHeight: 1.35,
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                    }}
+                >
+                    {event.title}
+                </h3>
+
+                <div
+                    style={{ display: "flex", flexDirection: "column", gap: 6 }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 7,
+                        }}
+                    >
+                        <Calendar
+                            size={13}
+                            color="#1877F2"
+                            style={{ flexShrink: 0 }}
+                        />
+                        <span
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: 12,
+                                color: "#65676B",
+                            }}
+                        >
+                            {event.date}
+                        </span>
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 7,
+                        }}
+                    >
+                        <MapPin
+                            size={13}
+                            color="#65676B"
+                            style={{ flexShrink: 0 }}
+                        />
+                        <span
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: 12,
+                                color: "#65676B",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                            }}
+                        >
+                            {event.venue}
+                        </span>
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 7,
+                        }}
+                    >
+                        <Clock
+                            size={13}
+                            color="#FA3E3E"
+                            style={{ flexShrink: 0 }}
+                        />
+                        <span
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: 12,
+                                color: "#FA3E3E",
+                                fontWeight: 600,
+                            }}
+                        >
+                            Deadline: {event.deadline}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Tags */}
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    {event.tags.slice(0, 3).map((tag) => (
+                        <span
+                            key={tag}
+                            style={{
+                                background: "#F0F2F5",
+                                color: "#65676B",
+                                borderRadius: 5,
+                                padding: "2px 8px",
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: 11,
+                                fontWeight: 500,
+                            }}
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+
+                {/* Participants progress */}
+                <div>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginBottom: 5,
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 5,
+                            }}
+                        >
+                            <Users size={12} color="#65676B" />
+                            <span
+                                style={{
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontSize: 12,
+                                    color: "#65676B",
+                                }}
+                            >
+                                {event.participants.toLocaleString()} /{" "}
+                                {event.maxParticipants.toLocaleString()}
+                            </span>
+                        </div>
+                        <span
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: 11,
+                                color: fillPct > 80 ? "#FA3E3E" : "#65676B",
+                                fontWeight: 600,
+                            }}
+                        >
+                            {fillPct}% filled
+                        </span>
+                    </div>
+                    <div
+                        style={{
+                            height: 5,
+                            background: "#F0F2F5",
+                            borderRadius: 10,
+                            overflow: "hidden",
+                        }}
+                    >
+                        <div
+                            style={{
+                                height: "100%",
+                                width: `${fillPct}%`,
+                                background:
+                                    fillPct > 80
+                                        ? "#FA3E3E"
+                                        : fillPct > 50
+                                          ? "#F7B928"
+                                          : "#42B72A",
+                                borderRadius: 10,
+                                transition: "width 0.6s ease",
+                            }}
+                        />
+                    </div>
+                </div>
+
+                {/* Footer row */}
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginTop: "auto",
+                        paddingTop: 4,
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 5,
+                        }}
+                    >
+                        <Trophy size={14} color="#F7B928" />
+                        <span
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 700,
+                                fontSize: 14,
+                                color: "#1C1E21",
+                            }}
+                        >
+                            {event.prize}
+                        </span>
+                    </div>
+                    <button
+                        style={{
+                            padding: "8px 18px",
+                            borderRadius: 8,
+                            border: "none",
+                            background: "#1877F2",
+                            color: "#ffffff",
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 700,
+                            fontSize: 13,
+                            cursor: "pointer",
+                            transition:
+                                "background 0.15s ease, transform 0.1s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLElement).style.background =
+                                "#166FE5";
+                            (e.currentTarget as HTMLElement).style.transform =
+                                "scale(1.04)";
+                        }}
+                        onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.background =
+                                "#1877F2";
+                            (e.currentTarget as HTMLElement).style.transform =
+                                "scale(1)";
+                        }}
+                    >
+                        Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ─── Filter Panel ─────────────────────────────────────────────────────────────
+
+interface Filters {
+    search: string;
+    category: string;
+    paid: string; // "All" | "Free" | "Paid"
+    mode: string; // "All" | "Online" | "Offline"
+    type: string; // "All" | "Individual" | "Team"
+    department: string;
+    dateFrom: string;
+    dateTo: string;
+}
+
+function FilterPanel({
+    filters,
+    setFilters,
+    totalResults,
+    className,
+}: {
+    filters: Filters;
+    setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+    totalResults: number;
+    className?: String;
+}) {
+    const set = (key: keyof Filters, val: string) =>
+        setFilters((f) => ({ ...f, [key]: val }));
+
+    const activeCount = [
+        filters.category !== "All",
+        filters.paid !== "All",
+        filters.mode !== "All",
+        filters.type !== "All",
+        filters.department !== "All",
+        filters.dateFrom !== "",
+        filters.dateTo !== "",
+        filters.search !== "",
+    ].filter(Boolean).length;
+
+    const reset = () =>
+        setFilters({
+            search: "",
+            category: "All",
+            paid: "All",
+            mode: "All",
+            type: "All",
+            department: "All",
+            dateFrom: "",
+            dateTo: "",
+        });
+
+    const sectionStyle: React.CSSProperties = {
+        borderBottom: "1px solid #F0F2F5",
+        paddingBottom: 18,
+        marginBottom: 18,
+    };
+    const labelStyle: React.CSSProperties = {
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 700,
+        fontSize: 12,
+        color: "#1C1E21",
+        textTransform: "uppercase",
+        letterSpacing: 0.6,
+        marginBottom: 10,
+        display: "block",
+    };
+    const chipActive: React.CSSProperties = {
+        background: "#1877F2",
+        color: "#fff",
+        border: "1.5px solid #1877F2",
+    };
+    const chipIdle: React.CSSProperties = {
+        background: "#fff",
+        color: "#65676B",
+        border: "1.5px solid #DADDE1",
+    };
+    const chip = (active: boolean): React.CSSProperties => ({
+        ...(active ? chipActive : chipIdle),
+        padding: "6px 12px",
+        borderRadius: 8,
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 600,
+        fontSize: 12,
+        cursor: "pointer",
+        transition: "all 0.15s ease",
+        display: "inline-block",
+    });
+
+    return (
+        <aside
+            style={{
+                background: "#ffffff",
+                borderRadius: 16,
+                border: "1px solid #DADDE1",
+                padding: "22px 20px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                position: "sticky",
+                top: 80,
+                maxHeight: "calc(100vh - 100px)",
+                overflowY: "auto",
+            }}
+            className={`${className}`}
+        >
+            {/* Header */}
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: 20,
+                }}
+            >
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <SlidersHorizontal size={16} color="#1877F2" />
+                    <span
+                        style={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 800,
+                            fontSize: 15,
+                            color: "#1C1E21",
+                        }}
+                    >
+                        Filters
+                    </span>
+                    {activeCount > 0 && (
+                        <span
+                            style={{
+                                background: "#1877F2",
+                                color: "#fff",
+                                borderRadius: "50%",
+                                width: 20,
+                                height: 20,
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 700,
+                                fontSize: 11,
+                            }}
+                        >
+                            {activeCount}
+                        </span>
+                    )}
+                </div>
+                {activeCount > 0 && (
+                    <button
+                        onClick={reset}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                            background: "none",
+                            border: "none",
+                            color: "#FA3E3E",
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 600,
+                            fontSize: 12,
+                            cursor: "pointer",
+                            padding: 0,
+                        }}
+                    >
+                        <X size={13} /> Reset
+                    </button>
+                )}
+            </div>
+
+            <p
+                style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 13,
+                    color: "#65676B",
+                    margin: "0 0 18px",
+                }}
+            >
+                <strong style={{ color: "#1877F2" }}>{totalResults}</strong>{" "}
+                events found
+            </p>
+
+            {/* Search */}
+            <div style={sectionStyle}>
+                <span style={labelStyle}>Search</span>
+                <div style={{ position: "relative" }}>
+                    <Search
+                        size={15}
+                        color="#65676B"
+                        style={{
+                            position: "absolute",
+                            left: 12,
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                        }}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search events..."
+                        value={filters.search}
+                        onChange={(e) => set("search", e.target.value)}
+                        style={{
+                            width: "100%",
+                            padding: "10px 12px 10px 36px",
+                            borderRadius: 9,
+                            border: "1.5px solid #DADDE1",
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: 13,
+                            color: "#1C1E21",
+                            outline: "none",
+                            background: "#F7F8FA",
+                            boxSizing: "border-box",
+                            transition: "border-color 0.15s",
+                        }}
+                        onFocus={(e) => {
+                            e.currentTarget.style.borderColor = "#1877F2";
+                            e.currentTarget.style.background = "#fff";
+                        }}
+                        onBlur={(e) => {
+                            e.currentTarget.style.borderColor = "#DADDE1";
+                            e.currentTarget.style.background = "#F7F8FA";
+                        }}
+                    />
+                    {filters.search && (
+                        <button
+                            onClick={() => set("search", "")}
+                            style={{
+                                position: "absolute",
+                                right: 10,
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                padding: 2,
+                            }}
+                        >
+                            <X size={13} color="#65676B" />
+                        </button>
+                    )}
+                </div>
+            </div>
+
+            {/* Category */}
+            <div style={sectionStyle}>
+                <span style={labelStyle}>Category</span>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                    {CATEGORIES.map((c) => (
+                        <button
+                            key={c}
+                            onClick={() => set("category", c)}
+                            style={chip(filters.category === c)}
+                        >
+                            {c}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Free / Paid */}
+            <div style={sectionStyle}>
+                <span style={labelStyle}>Registration Fee</span>
+                <div style={{ display: "flex", gap: 7 }}>
+                    {["All", "Free", "Paid"].map((v) => (
+                        <button
+                            key={v}
+                            onClick={() => set("paid", v)}
+                            style={chip(filters.paid === v)}
+                        >
+                            {v === "Free"
+                                ? "🎁 Free"
+                                : v === "Paid"
+                                  ? "💳 Paid"
+                                  : "All"}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Online / Offline */}
+            <div style={sectionStyle}>
+                <span style={labelStyle}>Mode</span>
+                <div style={{ display: "flex", gap: 7 }}>
+                    {["All", "Online", "Offline"].map((v) => (
+                        <button
+                            key={v}
+                            onClick={() => set("mode", v)}
+                            style={chip(filters.mode === v)}
+                        >
+                            {v === "Online"
+                                ? "🌐 Online"
+                                : v === "Offline"
+                                  ? "📍 Offline"
+                                  : "All"}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Individual / Team */}
+            <div style={sectionStyle}>
+                <span style={labelStyle}>Participation</span>
+                <div style={{ display: "flex", gap: 7 }}>
+                    {["All", "Individual", "Team"].map((v) => (
+                        <button
+                            key={v}
+                            onClick={() => set("type", v)}
+                            style={chip(filters.type === v)}
+                        >
+                            {v === "Individual"
+                                ? "👤 Solo"
+                                : v === "Team"
+                                  ? "👥 Team"
+                                  : "All"}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Department */}
+            <div style={sectionStyle}>
+                <span style={labelStyle}>Department</span>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                    {DEPARTMENTS.map((d) => (
+                        <button
+                            key={d}
+                            onClick={() => set("department", d)}
+                            style={chip(filters.department === d)}
+                        >
+                            {d}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Date Range */}
+            <div>
+                <span style={labelStyle}>Date Range</span>
+                <div
+                    style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                >
+                    {(["dateFrom", "dateTo"] as const).map((field) => (
+                        <div key={field}>
+                            <label
+                                style={{
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontSize: 11,
+                                    color: "#65676B",
+                                    display: "block",
+                                    marginBottom: 4,
+                                }}
+                            >
+                                {field === "dateFrom" ? "From" : "To"}
+                            </label>
+                            <input
+                                type="date"
+                                value={filters[field]}
+                                onChange={(e) => set(field, e.target.value)}
+                                style={{
+                                    width: "100%",
+                                    padding: "9px 12px",
+                                    borderRadius: 9,
+                                    border: "1.5px solid #DADDE1",
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontSize: 13,
+                                    color: "#1C1E21",
+                                    outline: "none",
+                                    background: "#F7F8FA",
+                                    boxSizing: "border-box",
+                                }}
+                                onFocus={(e) => {
+                                    e.currentTarget.style.borderColor =
+                                        "#1877F2";
+                                }}
+                                onBlur={(e) => {
+                                    e.currentTarget.style.borderColor =
+                                        "#DADDE1";
+                                }}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </aside>
+    );
+}
+
+// ─── Pagination ───────────────────────────────────────────────────────────────
+
+function Pagination({
+    page,
+    totalPages,
+    setPage,
+}: {
+    page: number;
+    totalPages: number;
+    setPage: (p: number) => void;
+}) {
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const visible = pages.filter(
+        (p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1,
+    );
+
+    const btnBase: React.CSSProperties = {
+        width: 38,
+        height: 38,
+        borderRadius: 9,
+        border: "1.5px solid #DADDE1",
+        background: "#fff",
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 600,
+        fontSize: 14,
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        transition: "all 0.15s ease",
+    };
+
+    return (
+        <div
+            style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+                marginTop: 40,
+            }}
+        >
+            <button
+                onClick={() => setPage(Math.max(1, page - 1))}
+                disabled={page === 1}
+                style={{ ...btnBase, opacity: page === 1 ? 0.4 : 1 }}
+                onMouseEnter={(e) => {
+                    if (page > 1)
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                            "#1877F2";
+                }}
+                onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                        "#DADDE1";
+                }}
+            >
+                <ChevronLeft size={16} color="#1C1E21" />
+            </button>
+
+            {visible.map((p, i) => {
+                const prev = visible[i - 1];
+                const showEllipsis = prev && p - prev > 1;
+                return (
+                    <span
+                        key={p}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                        }}
+                    >
+                        {showEllipsis && (
+                            <span
+                                style={{
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontSize: 14,
+                                    color: "#65676B",
+                                    padding: "0 4px",
+                                }}
+                            >
+                                …
+                            </span>
+                        )}
+                        <button
+                            onClick={() => setPage(p)}
+                            style={{
+                                ...btnBase,
+                                background: p === page ? "#1877F2" : "#fff",
+                                color: p === page ? "#fff" : "#1C1E21",
+                                borderColor: p === page ? "#1877F2" : "#DADDE1",
+                            }}
+                            onMouseEnter={(e) => {
+                                if (p !== page) {
+                                    (
+                                        e.currentTarget as HTMLElement
+                                    ).style.borderColor = "#1877F2";
+                                    (
+                                        e.currentTarget as HTMLElement
+                                    ).style.color = "#1877F2";
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (p !== page) {
+                                    (
+                                        e.currentTarget as HTMLElement
+                                    ).style.borderColor = "#DADDE1";
+                                    (
+                                        e.currentTarget as HTMLElement
+                                    ).style.color = "#1C1E21";
+                                }
+                            }}
+                        >
+                            {p}
+                        </button>
+                    </span>
+                );
+            })}
+
+            <button
+                onClick={() => setPage(Math.min(totalPages, page + 1))}
+                disabled={page === totalPages}
+                style={{ ...btnBase, opacity: page === totalPages ? 0.4 : 1 }}
+                onMouseEnter={(e) => {
+                    if (page < totalPages)
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                            "#1877F2";
+                }}
+                onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                        "#DADDE1";
+                }}
+            >
+                <ChevronRight size={16} color="#1C1E21" />
+            </button>
+        </div>
+    );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
+
+export function EventsPage() {
+    const [filters, setFilters] = useState<Filters>({
+        search: "",
+        category: "All",
+        paid: "All",
+        mode: "All",
+        type: "All",
+        department: "All",
+        dateFrom: "",
+        dateTo: "",
+    });
+    const [page, setPage] = useState(1);
+    const [sort, setSort] = useState("Featured");
+    const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
+
+    const filtered = useMemo(() => {
+        let list = ALL_EVENTS;
+        if (filters.search) {
+            const q = filters.search.toLowerCase();
+            list = list.filter(
+                (e) =>
+                    e.title.toLowerCase().includes(q) ||
+                    e.category.toLowerCase().includes(q) ||
+                    e.tags.some((t) => t.toLowerCase().includes(q)),
+            );
+        }
+        if (filters.category !== "All")
+            list = list.filter((e) => e.category === filters.category);
+        if (filters.paid === "Free") list = list.filter((e) => !e.paid);
+        if (filters.paid === "Paid") list = list.filter((e) => e.paid);
+        if (filters.mode !== "All")
+            list = list.filter((e) => e.mode === filters.mode);
+        if (filters.type !== "All")
+            list = list.filter((e) => e.type === filters.type);
+        if (filters.department !== "All")
+            list = list.filter(
+                (e) =>
+                    e.department === filters.department ||
+                    e.department === "All",
+            );
+
+        // Sort
+        if (sort === "Featured")
+            list = [...list].sort(
+                (a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0),
+            );
+        if (sort === "Participants")
+            list = [...list].sort((a, b) => b.participants - a.participants);
+        if (sort === "Prize")
+            list = [...list].sort((a, b) => {
+                const pa = parseInt(a.prize.replace(/[^\d]/g, "")) || 0;
+                const pb = parseInt(b.prize.replace(/[^\d]/g, "")) || 0;
+                return pb - pa;
+            });
+
+        return list;
+    }, [filters, sort]);
+
+    const totalPages = Math.max(
+        1,
+        Math.ceil(filtered.length / EVENTS_PER_PAGE),
+    );
+    const pageEvents = filtered.slice(
+        (page - 1) * EVENTS_PER_PAGE,
+        page * EVENTS_PER_PAGE,
+    );
+
+    // Reset to page 1 whenever filters change
+    const handleSetFilters: React.Dispatch<React.SetStateAction<Filters>> = (
+        v,
+    ) => {
+        setFilters(v);
+        setPage(1);
+    };
+
+    return (
+        <Layout>
+            <div style={{ minHeight: "100vh", background: "#F0F2F5" }}>
+                {/* Page header */}
+                <div
+                    style={{
+                        background:
+                            "linear-gradient(135deg, #1877F2 0%, #0c5fcc 100%)",
+                        padding: "40px 24px 44px",
+                    }}
+                >
+                    <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+                        <h1
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 800,
+                                fontSize: "clamp(26px, 3.5vw, 40px)",
+                                color: "#ffffff",
+                                margin: "0 0 10px",
+                                letterSpacing: -0.5,
+                            }}
+                        >
+                            Browse Events
+                        </h1>
+                        <p
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: 16,
+                                color: "rgba(255,255,255,0.85)",
+                                margin: 0,
+                            }}
+                        >
+                            Find competitions, workshops, and cultural events
+                            happening at CIT.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Negative margin card pull-up */}
+                <div
+                    style={{
+                        maxWidth: 1200,
+                        margin: "-24px auto 0",
+                        padding: "0 24px 60px",
+                    }}
+                >
+                    {/* Toolbar */}
+                    <div
+                        style={{
+                            background: "#fff",
+                            borderRadius: 12,
+                            border: "1px solid #DADDE1",
+                            padding: "14px 20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginBottom: 20,
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                            gap: 12,
+                            flexWrap: "wrap",
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                            }}
+                        >
+                            <Tag size={15} color="#1877F2" />
+                            <span
+                                style={{
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 700,
+                                    fontSize: 15,
+                                    color: "#1C1E21",
+                                }}
+                            >
+                                {filtered.length} Events
+                            </span>
+                            {filters.category !== "All" && (
+                                <span
+                                    style={{
+                                        background: "#E7F3FF",
+                                        color: "#1877F2",
+                                        borderRadius: 6,
+                                        padding: "2px 10px",
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontWeight: 600,
+                                        fontSize: 12,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 5,
+                                    }}
+                                >
+                                    {filters.category}
+                                    <X
+                                        size={12}
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                            handleSetFilters((f) => ({
+                                                ...f,
+                                                category: "All",
+                                            }))
+                                        }
+                                    />
+                                </span>
+                            )}
+                        </div>
+
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 12,
+                            }}
+                        >
+                            {/* Mobile filter toggle */}
+                            <button
+                                onClick={() =>
+                                    setMobilePanelOpen(!mobilePanelOpen)
+                                }
+                                style={{
+                                    display: "none",
+                                    alignItems: "center",
+                                    gap: 6,
+                                    padding: "8px 14px",
+                                    borderRadius: 8,
+                                    border: "1.5px solid #DADDE1",
+                                    background: "#fff",
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 600,
+                                    fontSize: 13,
+                                    color: "#1C1E21",
+                                    cursor: "pointer",
+                                }}
+                                className="mobile-filter-btn"
+                            >
+                                <Filter size={14} /> Filters
+                            </button>
+
+                            {/* Sort */}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 8,
+                                }}
+                            >
+                                <span
+                                    style={{
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontSize: 13,
+                                        color: "#65676B",
+                                    }}
+                                >
+                                    Sort by:
+                                </span>
+                                <div style={{ position: "relative" }}>
+                                    <select
+                                        value={sort}
+                                        onChange={(e) =>
+                                            setSort(e.target.value)
+                                        }
+                                        style={{
+                                            padding: "8px 32px 8px 12px",
+                                            borderRadius: 8,
+                                            border: "1.5px solid #DADDE1",
+                                            background: "#fff",
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 600,
+                                            fontSize: 13,
+                                            color: "#1C1E21",
+                                            outline: "none",
+                                            cursor: "pointer",
+                                            appearance: "none",
+                                        }}
+                                    >
+                                        <option>Featured</option>
+                                        <option>Participants</option>
+                                        <option>Prize</option>
+                                    </select>
+                                    <ChevronDown
+                                        size={14}
+                                        color="#65676B"
+                                        style={{
+                                            position: "absolute",
+                                            right: 10,
+                                            top: "50%",
+                                            transform: "translateY(-50%)",
+                                            pointerEvents: "none",
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile filter slide-down */}
+                    {mobilePanelOpen && (
+                        <div
+                            style={{ marginBottom: 20 }}
+                            className="mobile-filter-panel"
+                        >
+                            <FilterPanel
+                                filters={filters}
+                                setFilters={handleSetFilters}
+                                totalResults={filtered.length}
+                                className="mobileFilter"
+                            />
+                        </div>
+                    )}
+
+                    {/* Layout: sidebar + grid */}
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "260px 1fr",
+                            gap: 20,
+                            alignItems: "start",
+                        }}
+                        className="events-layout"
+                    >
+                        {/* Sidebar */}
+                        <div className="sidebar-col">
+                            <FilterPanel
+                                filters={filters}
+                                setFilters={handleSetFilters}
+                                totalResults={filtered.length}
+                            />
+                        </div>
+
+                        {/* Grid */}
+                        <div>
+                            {pageEvents.length === 0 ? (
+                                <div
+                                    style={{
+                                        background: "#fff",
+                                        borderRadius: 16,
+                                        border: "1px solid #DADDE1",
+                                        padding: "80px 24px",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            fontSize: 48,
+                                            marginBottom: 16,
+                                        }}
+                                    >
+                                        🔍
+                                    </div>
+                                    <p
+                                        style={{
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 700,
+                                            fontSize: 18,
+                                            color: "#1C1E21",
+                                            margin: "0 0 8px",
+                                        }}
+                                    >
+                                        No events found
+                                    </p>
+                                    <p
+                                        style={{
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: 14,
+                                            color: "#65676B",
+                                            margin: 0,
+                                        }}
+                                    >
+                                        Try adjusting your filters or search
+                                        query.
+                                    </p>
+                                </div>
+                            ) : (
+                                <>
+                                    <div
+                                        style={{
+                                            display: "grid",
+                                            gridTemplateColumns:
+                                                "repeat(3, 1fr)",
+                                            gap: 18,
+                                        }}
+                                        className="event-cards-grid"
+                                    >
+                                        {pageEvents.map((event) => (
+                                            <EventCard
+                                                key={event.id}
+                                                event={event}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {totalPages > 1 && (
+                                        <Pagination
+                                            page={page}
+                                            totalPages={totalPages}
+                                            setPage={(p) => {
+                                                setPage(p);
+                                                window.scrollTo({
+                                                    top: 0,
+                                                    behavior: "smooth",
+                                                });
+                                            }}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <style>{`
+        @media (max-width: 1024px) {
+          .event-cards-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 900px) {
+          .events-layout { grid-template-columns: 1fr !important; }
+          .sidebar-col { display: none !important; }
+          .mobile-filter-btn { display: flex !important; }
+          }
+          @media (min-width: 900px){
+            .mobileFilter { display: none !important; }
+        }
+        @media (max-width: 540px) {
+          .event-cards-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+            </div>
+        </Layout>
+    );
+}
