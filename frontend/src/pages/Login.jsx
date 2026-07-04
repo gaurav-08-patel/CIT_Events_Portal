@@ -155,7 +155,7 @@ export default function Login() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <button className="cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
+                                <button className= "text-blue-600 cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold  transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
                                     <SiFacebook size={16} />
                                     Facebook
                                 </button>
