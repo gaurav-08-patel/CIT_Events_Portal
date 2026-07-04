@@ -190,7 +190,7 @@ export default function Login() {
                                                     (value) => !value,
                                                 )
                                             }
-                                            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)"
+                                            className="absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-(--cit-text-muted) transition-colors hover:bg-(--cit-primary-soft) hover:text-(--cit-primary) cursor-pointer"
                                             aria-label={
                                                 showPassword
                                                     ? "Hide password"
@@ -198,9 +198,15 @@ export default function Login() {
                                             }
                                         >
                                             {showPassword ? (
-                                                <EyeOff size={16} />
+                                                <Eye
+                                                    size={16}
+                                                    className="pointer-events-none"
+                                                />
                                             ) : (
-                                                <Eye size={16} />
+                                                <EyeOff
+                                                    size={16}
+                                                    className="pointer-events-none"
+                                                />
                                             )}
                                         </button>
                                         <input
