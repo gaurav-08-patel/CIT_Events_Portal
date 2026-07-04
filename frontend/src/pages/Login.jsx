@@ -122,7 +122,7 @@ export default function Login() {
                                     <label className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <input
                                             type="checkbox"
-                                            className= "cursor-pointer h-4 w-4 rounded border-(--cit-border) text-(--cit-primary) focus:ring-(--cit-primary-soft)"
+                                            className="cursor-pointer h-4 w-4 rounded border-(--cit-border) text-(--cit-primary) focus:ring-(--cit-primary-soft)"
                                         />
                                         Remember me
                                     </label>
@@ -155,7 +155,7 @@ export default function Login() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <button className= "text-blue-600 cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold  transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
+                                <button className="text-blue-600 cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold  transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
                                     <SiFacebook size={16} />
                                     Facebook
                                 </button>
@@ -167,6 +167,15 @@ export default function Login() {
 
                             <p className="mt-6 text-center text-sm text-(--cit-text-muted)">
                                 New here?{" "}
+                                <Link
+                                    to="/register"
+                                    className="font-semibold text-(--cit-primary) transition-colors hover:text-(--cit-primary-hover)"
+                                >
+                                    Create an account
+                                </Link>
+                                <span className="mx-2 text-(--cit-border)">
+                                    |
+                                </span>
                                 <Link
                                     to="/events"
                                     className="font-semibold text-(--cit-primary) transition-colors hover:text-(--cit-primary-hover)"
