@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { ArrowRight, Eye, EyeOff, Mail, ShieldCheck, Zap } from "lucide-react";
 import { SiFacebook, SiGithub } from "react-icons/si";
 import { Link } from "react-router-dom";
@@ -7,6 +8,19 @@ import MetaData from "../components/MetaData";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+            rememberMe: false,
+        },
+    });
+
+    const onSubmit = () => {};
 
     return (
         <main className="min-h-screen overflow-hidden bg-linear-to-br from-(--cit-primary) via-[#0c5fcc] to-[#1a3a6b] text-white">
@@ -57,8 +71,11 @@ export default function Login() {
                                 </div>
                             </div>
 
-                            <form className="space-y-4">
-                                <label className="block space-y-2">
+                            <form
+                                className="space-y-4"
+                                onSubmit={handleSubmit(onSubmit)}
+                            >
+                                <label className="block space-y-1">
                                     <span className="text-sm font-semibold text-(--cit-text)">
                                         Email address
                                     </span>
@@ -70,12 +87,28 @@ export default function Login() {
                                         <input
                                             type="email"
                                             placeholder="you@cit.edu.in"
-                                            className="w-full rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-11 py-3.5 text-(--cit-text) outline-none transition-colors duration-150 placeholder:text-(--cit-text-muted) focus:border-(--cit-primary) focus:ring-2 focus:ring-(--cit-primary-soft)"
+                                            aria-invalid={
+                                                errors.email ? "true" : "false"
+                                            }
+                                            className={`w-full rounded-(--cit-radius-md) border px-11 py-3.5 text-(--cit-text) outline-none transition-colors duration-150 placeholder:text-(--cit-text-muted) focus:ring-2 ${errors.email ? "border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-200" : "border-(--cit-border) bg-white focus:border-(--cit-primary) focus:ring-(--cit-primary-soft)"}`}
+                                            {...register("email", {
+                                                required: "Email is required.",
+                                                pattern: {
+                                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                                    message:
+                                                        "Enter a valid email address.",
+                                                },
+                                            })}
                                         />
                                     </div>
+                                    {errors.email ? (
+                                        <p className="mt-0 text-xs font-medium text-red-600">
+                                            {errors.email.message}
+                                        </p>
+                                    ) : null}
                                 </label>
 
-                                <label className="block space-y-2">
+                                <label className="block space-y-1">
                                     <span className="text-sm font-semibold text-(--cit-text)">
                                         Password
                                     </span>
@@ -113,16 +146,36 @@ export default function Login() {
                                                     : "password"
                                             }
                                             placeholder="Enter your password"
-                                            className="w-full rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3.5 pr-12 text-(--cit-text) outline-none transition-colors duration-150 placeholder:text-(--cit-text-muted) focus:border-(--cit-primary) focus:ring-2 focus:ring-(--cit-primary-soft)"
+                                            aria-invalid={
+                                                errors.password
+                                                    ? "true"
+                                                    : "false"
+                                            }
+                                            className={`w-full rounded-(--cit-radius-md) border px-4 py-3.5 pr-12 text-(--cit-text) outline-none transition-colors duration-150 placeholder:text-(--cit-text-muted) focus:ring-2 ${errors.password ? "border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-200" : "border-(--cit-border) bg-white focus:border-(--cit-primary) focus:ring-(--cit-primary-soft)"}`}
+                                            {...register("password", {
+                                                required:
+                                                    "Password is required.",
+                                                minLength: {
+                                                    value: 6,
+                                                    message:
+                                                        "Password must be at least 6 characters.",
+                                                },
+                                            })}
                                         />
                                     </div>
+                                    {errors.password ? (
+                                        <p className="mt-0 text-xs font-medium text-red-600">
+                                            {errors.password.message}
+                                        </p>
+                                    ) : null}
                                 </label>
 
                                 <div className="flex items-center justify-between gap-3 text-sm">
                                     <label className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <input
                                             type="checkbox"
-                                            className="cursor-pointer h-4 w-4 rounded border-(--cit-border) text-(--cit-primary) focus:ring-(--cit-primary-soft)"
+                                            className="h-4 w-4 cursor-pointer rounded border-(--cit-border) text-(--cit-primary) focus:ring-(--cit-primary-soft)"
+                                            {...register("rememberMe")}
                                         />
                                         Remember me
                                     </label>
@@ -155,7 +208,7 @@ export default function Login() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <button className="text-blue-600 cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold  transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
+                                <button className="text-blue-600 cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
                                     <SiFacebook size={16} />
                                     Facebook
                                 </button>
