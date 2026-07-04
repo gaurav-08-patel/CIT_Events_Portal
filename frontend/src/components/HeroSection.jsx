@@ -17,24 +17,28 @@ export function HeroSection() {
             <div
                 style={{
                     position: "absolute",
-                    top: -100,
-                    right: -100,
-                    width: 500,
-                    height: 500,
+                    top: -80,
+                    right: -80,
+                    width: 540,
+                    height: 540,
                     borderRadius: "50%",
-                    background: "rgba(255,255,255,0.05)",
+                    background: "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.14)",
+                    boxShadow: "0 0 140px rgba(255,255,255,0.1)",
                     pointerEvents: "none",
                 }}
             />
             <div
                 style={{
                     position: "absolute",
-                    bottom: -60,
-                    left: -60,
-                    width: 300,
-                    height: 300,
+                    bottom: -50,
+                    left: -50,
+                    width: 340,
+                    height: 340,
                     borderRadius: "50%",
-                    background: "rgba(255,255,255,0.04)",
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    boxShadow: "0 0 110px rgba(255,255,255,0.08)",
                     pointerEvents: "none",
                 }}
             />
@@ -43,10 +47,12 @@ export function HeroSection() {
                     position: "absolute",
                     top: "30%",
                     right: "15%",
-                    width: 180,
-                    height: 180,
+                    width: 220,
+                    height: 220,
                     borderRadius: "50%",
-                    background: "rgba(66,183,42,0.15)",
+                    background: "rgba(66,183,42,0.24)",
+                    border: "1px solid rgba(134,239,172,0.18)",
+                    boxShadow: "0 0 90px rgba(66,183,42,0.14)",
                     pointerEvents: "none",
                 }}
             />
@@ -59,7 +65,12 @@ export function HeroSection() {
                 }}
             >
                 <div
-                    style={{ gap: 60, alignItems: "center" , display: "grid" , gridTemplateColumns: "1fr 1fr" }}
+                    style={{
+                        gap: 60,
+                        alignItems: "center",
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                    }}
                     className="hero-sec"
                 >
                     {/* Left: Text */}
