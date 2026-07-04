@@ -122,7 +122,7 @@ export default function Login() {
                                     <label className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <input
                                             type="checkbox"
-                                            className="h-4 w-4 rounded border-(--cit-border) text-(--cit-primary) focus:ring-(--cit-primary-soft)"
+                                            className= "cursor-pointer h-4 w-4 rounded border-(--cit-border) text-(--cit-primary) focus:ring-(--cit-primary-soft)"
                                         />
                                         Remember me
                                     </label>
@@ -136,7 +136,7 @@ export default function Login() {
 
                                 <button
                                     type="submit"
-                                    className="group flex w-full items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3.5 text-base font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
+                                    className="cursor-pointer group flex w-full items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3.5 text-base font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
                                 >
                                     Log in
                                     <ArrowRight
@@ -155,11 +155,11 @@ export default function Login() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <button className="flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
+                                <button className="cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
                                     <SiFacebook size={16} />
                                     Facebook
                                 </button>
-                                <button className="flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
+                                <button className="cursor-pointer flex items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary)">
                                     <SiGithub size={16} />
                                     GitHub
                                 </button>
