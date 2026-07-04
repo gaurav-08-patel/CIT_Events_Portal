@@ -138,7 +138,8 @@ export default function Header() {
                         }}
                         className="nav-desktop"
                     >
-                        <button
+                        <Link
+                            to="/login"
                             style={{
                                 padding: "9px 20px",
                                 borderRadius: 8,
@@ -160,8 +161,9 @@ export default function Header() {
                             }}
                         >
                             Log In
-                        </button>
-                        <button
+                        </Link>
+                        <Link
+                            to="/register"
                             style={{
                                 padding: "9px 20px",
                                 borderRadius: 8,
@@ -182,7 +184,7 @@ export default function Header() {
                             }}
                         >
                             Register
-                        </button>
+                        </Link>
                     </div>
 
                     {/* Mobile hamburger */}
