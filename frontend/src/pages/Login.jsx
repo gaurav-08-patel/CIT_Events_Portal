@@ -5,6 +5,7 @@ import { SiFacebook, SiGithub } from "react-icons/si";
 import { Link } from "react-router-dom";
 import AuthCarousel from "../components/AuthCarousel";
 import MetaData from "../components/MetaData";
+import { DecorativeCircles } from "../components/DecorativeCircles";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +24,8 @@ export default function Login() {
     const onSubmit = () => {};
 
     return (
-        <main className="min-h-screen overflow-hidden bg-linear-to-br from-(--cit-primary) via-[#0c5fcc] to-[#1a3a6b] text-white">
+        <main className="relative min-h-screen overflow-hidden bg-linear-to-br from-(--cit-primary) via-[#0c5fcc] to-[#1a3a6b] text-white">
+            <DecorativeCircles/>
             <MetaData
                 title="Login"
                 description="Login to the CIT Events Portal to register, track events, and manage your participation."
