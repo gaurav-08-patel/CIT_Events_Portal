@@ -224,7 +224,8 @@ export default function Header() {
                     {navLinks.map((link) => {
                         const isActive = location.pathname === link.page;
                         return (
-                            <button
+                            <Link
+                                to={link.page}
                                 key={link.label}
                                 onClick={() => {
                                     if (link.page) {
@@ -247,7 +248,7 @@ export default function Header() {
                                 }}
                             >
                                 {link.label}
-                            </button>
+                            </Link>
                         );
                     })}
                     <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
