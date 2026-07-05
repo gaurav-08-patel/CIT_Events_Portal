@@ -300,7 +300,7 @@ export default function EventDetails() {
                                         type="button"
                                         onClick={handleRegister}
                                         disabled={registered}
-                                        className="mt-6 inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-(--cit-primary-hover) disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
+                                        className="cursor-pointer mt-6 inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-(--cit-primary-hover) disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
                                     >
                                         {registered
                                             ? "Registered"
