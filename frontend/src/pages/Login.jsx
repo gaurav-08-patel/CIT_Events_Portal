@@ -7,6 +7,7 @@ import AuthCarousel from "../components/AuthCarousel";
 import MetaData from "../components/MetaData";
 import { DecorativeCircles } from "../components/DecorativeCircles";
 import { useAuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,7 @@ export default function Login() {
             role: "student",
         });
 
+        toast.success("Login successful!");
         const redirectTo = location.state?.from || "/";
         navigate(redirectTo, { replace: true });
     };
