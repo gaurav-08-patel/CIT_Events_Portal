@@ -182,7 +182,7 @@ export default function Login() {
                                         Remember me
                                     </label>
                                     <Link
-                                        to="#"
+                                        to="/forgot-password"
                                         className="font-semibold text-(--cit-primary) transition-colors hover:text-(--cit-primary-hover)"
                                     >
                                         Forgot password?
