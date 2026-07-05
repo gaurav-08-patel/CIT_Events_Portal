@@ -88,7 +88,7 @@ export default function EventDetails() {
                 />
 
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mb-6 flex flex-row gap-4  justify-between">
                         <Link
                             to="/events"
                             className="inline-flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-3 py-2 text-xs font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:text-(--cit-primary) sm:text-sm"
