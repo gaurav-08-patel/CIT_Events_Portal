@@ -1,5 +1,6 @@
 import { ArrowRight, Play } from "lucide-react";
 import { DecorativeCircles } from "../DecorativeCircles";
+import { Link } from "react-router-dom";
 
 export function HeroSection() {
     return (
@@ -106,7 +107,8 @@ export function HeroSection() {
                                 flexWrap: "wrap",
                             }}
                         >
-                            <button
+                            <Link
+                                to="/events"
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -138,9 +140,10 @@ export function HeroSection() {
                                 }}
                             >
                                 Explore Events <ArrowRight size={18} />
-                            </button>
+                            </Link>
 
-                            <button
+                            <Link
+                                to="/register"
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -171,7 +174,7 @@ export function HeroSection() {
                                 }}
                             >
                                 Create Account
-                            </button>
+                            </Link>
                         </div>
 
                         <div
