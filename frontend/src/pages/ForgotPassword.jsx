@@ -37,7 +37,7 @@ const steps = [
 ];
 
 const fieldBaseClass =
-    "w-full rounded-(--cit-radius-md) border px-4 py-3.5 text-(--cit-text) outline-none transition-colors duration-150 placeholder:text-(--cit-text-muted) focus:ring-2";
+    "w-full rounded-(--cit-radius-md) border px-4 py-3 sm:py-3.5 text-sm sm:text-base text-(--cit-text) outline-none transition-colors duration-150 placeholder:text-(--cit-text-muted) focus:ring-2";
 
 const fieldErrorClass =
     "border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-200";
@@ -58,18 +58,25 @@ function StepBadge({ step, currentStep }) {
             className={`flex min-w-0 flex-1 items-center gap-3 rounded-(--cit-radius-lg) border px-3 py-3 transition-colors ${isActive ? "border-(--cit-primary) bg-(--cit-primary-soft)" : isCompleted ? "border-emerald-200 bg-emerald-50" : "border-(--cit-border) bg-(--cit-surface-subtle)"}`}
         >
             <div
-                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${isActive ? "bg-(--cit-primary) text-white" : isCompleted ? "bg-emerald-500 text-white" : "bg-white text-(--cit-text-muted)"}`}
+                className={`flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full text-xs sm:text-sm font-bold ${isActive ? "bg-(--cit-primary) text-white" : isCompleted ? "bg-emerald-500 text-white" : "bg-white text-(--cit-text-muted)"}`}
             >
-                {isCompleted ? <CheckCircle2 size={18} /> : step}
+                {isCompleted ? (
+                    <CheckCircle2
+                        size={18}
+                        className="h-4 w-4 sm:h-4.5 sm:w-4.5"
+                    />
+                ) : (
+                    step
+                )}
             </div>
             <div className="min-w-0">
-                <p className="text-sm font-semibold text-(--cit-text)">{`Step ${step}`}</p>
-                <p className="truncate text-xs text-(--cit-text-muted)">
+                <p className="text-xs sm:text-sm font-semibold text-(--cit-text)">{`Step ${step}`}</p>
+                <p className="truncate text-[10px] sm:text-xs text-(--cit-text-muted)">
                     {step === 1
                         ? "Email"
                         : step === 2
-                            ? "Verify OTP"
-                            : "Change password"}
+                          ? "Verify OTP"
+                          : "Change password"}
                 </p>
             </div>
         </div>
@@ -128,7 +135,7 @@ export default function ForgotPassword() {
         currentOtp[index] = char;
         const newOtp = currentOtp.join("").slice(0, 6);
         setValue("otp", newOtp, { shouldValidate: newOtp.length === 6 });
-        
+
         if (errors.otp && newOtp.length < 6) {
             clearErrors("otp");
         }
@@ -146,9 +153,14 @@ export default function ForgotPassword() {
 
     const handleOtpPaste = (e) => {
         e.preventDefault();
-        const pastedData = e.clipboardData.getData("text").replace(/[^0-9]/g, "").slice(0, 6);
+        const pastedData = e.clipboardData
+            .getData("text")
+            .replace(/[^0-9]/g, "")
+            .slice(0, 6);
         if (pastedData) {
-            setValue("otp", pastedData, { shouldValidate: pastedData.length === 6 });
+            setValue("otp", pastedData, {
+                shouldValidate: pastedData.length === 6,
+            });
             if (errors.otp && pastedData.length < 6) {
                 clearErrors("otp");
             }
@@ -189,10 +201,10 @@ export default function ForgotPassword() {
                                     <Zap size={24} fill="currentColor" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
+                                    <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
                                         CIT Events Portal
                                     </p>
-                                    <h1 className="text-3xl font-extrabold tracking-[-0.04em] text-(--cit-text)">
+                                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-[-0.04em] text-(--cit-text)">
                                         Reset password
                                     </h1>
                                 </div>
@@ -204,10 +216,10 @@ export default function ForgotPassword() {
                                         <ShieldCheck size={18} />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold text-(--cit-text)">
+                                        <p className="text-sm sm:text-base font-semibold text-(--cit-text)">
                                             Secure password recovery
                                         </p>
-                                        <p className="mt-1 text-sm leading-6 text-(--cit-text-muted)">
+                                        <p className="mt-1 text-xs sm:text-sm leading-relaxed sm:leading-6 text-(--cit-text-muted)">
                                             Verify your email, confirm the OTP,
                                             and set a new password without
                                             leaving this flow.
@@ -227,10 +239,10 @@ export default function ForgotPassword() {
                             </div>
 
                             <div className="mb-6 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
-                                <p className="text-sm font-semibold text-(--cit-text)">
+                                <p className="text-sm sm:text-base font-semibold text-(--cit-text)">
                                     {activeStep.title}
                                 </p>
-                                <p className="mt-1 text-sm leading-6 text-(--cit-text-muted)">
+                                <p className="mt-1 text-xs sm:text-sm leading-relaxed sm:leading-6 text-(--cit-text-muted)">
                                     {activeStep.description}
                                 </p>
                             </div>
@@ -248,7 +260,7 @@ export default function ForgotPassword() {
                             >
                                 {currentStep === 1 ? (
                                     <label className="block space-y-1">
-                                        <span className="text-sm font-semibold text-(--cit-text)">
+                                        <span className="text-xs sm:text-sm font-semibold text-(--cit-text)">
                                             Email address
                                         </span>
                                         <div className="relative">
@@ -287,42 +299,65 @@ export default function ForgotPassword() {
                                 {currentStep === 2 ? (
                                     <>
                                         <div className="w-full overflow-hidden rounded-(--cit-radius-lg) border border-(--cit-border) bg-white px-4 py-3">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted)">
+                                            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted)">
                                                 Verification email
                                             </p>
-                                            <p className="mt-1 break-all text-sm font-semibold text-(--cit-text)">
+                                            <p className="mt-1 break-all text-xs sm:text-sm font-semibold text-(--cit-text)">
                                                 {getValues("email")}
                                             </p>
                                         </div>
 
                                         <div className="block space-y-2">
-                                            <span className="text-sm font-semibold text-(--cit-text)">
+                                            <span className="text-xs sm:text-sm font-semibold text-(--cit-text)">
                                                 OTP code
                                             </span>
                                             <div className="flex w-full gap-1.5 sm:gap-2 justify-between">
-                                                {Array.from({ length: 6 }).map((_, i) => (
-                                                    <input
-                                                        key={i}
-                                                        ref={(el) => (otpRefs.current[i] = el)}
-                                                        type="text"
-                                                        inputMode="numeric"
-                                                        maxLength={2}
-                                                        value={otpValue[i] || ""}
-                                                        onChange={(e) => handleOtpChange(i, e)}
-                                                        onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                                                        onPaste={handleOtpPaste}
-                                                        className={`w-full min-w-0 flex-1 px-1 h-12 sm:h-14 text-center text-lg sm:text-xl font-bold rounded-(--cit-radius-md) border ${errors.otp ? "border-red-300 bg-red-50 text-red-900 focus:border-red-400 focus:ring-red-200" : "border-(--cit-border) bg-white text-(--cit-text) focus:border-(--cit-primary) focus:ring-(--cit-primary-soft)"} outline-none transition-colors focus:ring-2`}
-                                                    />
-                                                ))}
+                                                {Array.from({ length: 6 }).map(
+                                                    (_, i) => (
+                                                        <input
+                                                            key={i}
+                                                            ref={(el) =>
+                                                                (otpRefs.current[
+                                                                    i
+                                                                ] = el)
+                                                            }
+                                                            type="text"
+                                                            inputMode="numeric"
+                                                            maxLength={2}
+                                                            value={
+                                                                otpValue[i] ||
+                                                                ""
+                                                            }
+                                                            onChange={(e) =>
+                                                                handleOtpChange(
+                                                                    i,
+                                                                    e,
+                                                                )
+                                                            }
+                                                            onKeyDown={(e) =>
+                                                                handleOtpKeyDown(
+                                                                    i,
+                                                                    e,
+                                                                )
+                                                            }
+                                                            onPaste={
+                                                                handleOtpPaste
+                                                            }
+                                                            className={`w-full min-w-0 flex-1 px-1 h-12 sm:h-14 text-center text-lg sm:text-xl font-bold rounded-(--cit-radius-md) border ${errors.otp ? "border-red-300 bg-red-50 text-red-900 focus:border-red-400 focus:ring-red-200" : "border-(--cit-border) bg-white text-(--cit-text) focus:border-(--cit-primary) focus:ring-(--cit-primary-soft)"} outline-none transition-colors focus:ring-2`}
+                                                        />
+                                                    ),
+                                                )}
                                             </div>
                                             {/* Hidden input to maintain react-hook-form validation */}
                                             <input
                                                 type="hidden"
                                                 {...register("otp", {
-                                                    required: "OTP is required.",
+                                                    required:
+                                                        "OTP is required.",
                                                     pattern: {
                                                         value: /^\d{6}$/,
-                                                        message: "Enter the 6-digit OTP.",
+                                                        message:
+                                                            "Enter the 6-digit OTP.",
                                                     },
                                                 })}
                                             />
@@ -338,16 +373,16 @@ export default function ForgotPassword() {
                                 {currentStep === 3 ? (
                                     <>
                                         <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-white px-4 py-3">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted)">
+                                            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted)">
                                                 Verified email
                                             </p>
-                                            <p className="mt-1 break-all text-sm font-semibold text-(--cit-text)">
+                                            <p className="mt-1 break-all text-xs sm:text-sm font-semibold text-(--cit-text)">
                                                 {getValues("email")}
                                             </p>
                                         </div>
 
                                         <label className="block space-y-1">
-                                            <span className="text-sm font-semibold text-(--cit-text)">
+                                            <span className="text-xs sm:text-sm font-semibold text-(--cit-text)">
                                                 New password
                                             </span>
                                             <input
@@ -379,7 +414,7 @@ export default function ForgotPassword() {
                                         </label>
 
                                         <label className="block space-y-1">
-                                            <span className="text-sm font-semibold text-(--cit-text)">
+                                            <span className="text-xs sm:text-sm font-semibold text-(--cit-text)">
                                                 Confirm password
                                             </span>
                                             <input
@@ -402,9 +437,9 @@ export default function ForgotPassword() {
                                                             "Please confirm your password.",
                                                         validate: (value) =>
                                                             value ===
-                                                            getValues(
-                                                                "newPassword",
-                                                            ) ||
+                                                                getValues(
+                                                                    "newPassword",
+                                                                ) ||
                                                             "Passwords do not match.",
                                                     },
                                                 )}
@@ -426,7 +461,7 @@ export default function ForgotPassword() {
                                         type="button"
                                         onClick={moveToPreviousStep}
                                         disabled={currentStep === 1}
-                                        className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-3 text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary) disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-white px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-(--cit-text) transition-colors hover:border-(--cit-primary) hover:bg-(--cit-primary-soft) hover:text-(--cit-primary) disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         <ArrowLeft size={16} />
                                         Back
@@ -437,7 +472,7 @@ export default function ForgotPassword() {
                                             key="next-btn"
                                             type="button"
                                             onClick={moveToNextStep}
-                                            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-sm font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
+                                            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
                                         >
                                             {currentStep === 1
                                                 ? "Send OTP"
@@ -448,7 +483,7 @@ export default function ForgotPassword() {
                                         <button
                                             key="submit-btn"
                                             type="submit"
-                                            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-sm font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
+                                            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
                                         >
                                             Change password
                                             <ArrowRight size={16} />
@@ -457,7 +492,7 @@ export default function ForgotPassword() {
                                 </div>
                             </form>
 
-                            <p className="mt-6 text-center text-sm text-(--cit-text-muted)">
+                            <p className="mt-6 text-center text-xs sm:text-sm text-(--cit-text-muted)">
                                 Remembered your password?{" "}
                                 <Link
                                     to="/login"
