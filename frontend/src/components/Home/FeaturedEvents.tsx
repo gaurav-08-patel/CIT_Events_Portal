@@ -6,6 +6,7 @@ import {
     Clock,
     ArrowRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const events = [
     {
@@ -144,7 +145,8 @@ export function FeaturedEvents() {
                             Featured Events
                         </h2>
                     </div>
-                    <button
+                    <Link
+                        to="/events"
                         style={{
                             display: "flex",
                             alignItems: "center",
@@ -171,7 +173,7 @@ export function FeaturedEvents() {
                         }}
                     >
                         View All Events <ArrowRight size={15} />
-                    </button>
+                    </Link>
                 </div>
 
                 <div
