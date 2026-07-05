@@ -1,10 +1,14 @@
 import { Menu, X, Zap } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Header() {
     const [mobileOpen, setMobileOpen] = useState(false);
-    let location = useLocation();
+    const [profileOpen, setProfileOpen] = useState(false);
+    const profileRef = useRef(null);
+    const location = useLocation();
+    const { user, setUser, isLoggedIn } = useAuthContext();
 
     const navLinks = [
         { label: "Home", page: "/" },
@@ -13,6 +17,52 @@ export default function Header() {
         { label: "FAQ", page: null },
         { label: "Contact", page: null },
     ];
+
+    useEffect(() => {
+        setProfileOpen(false);
+        setMobileOpen(false);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                profileRef.current &&
+                !profileRef.current.contains(event.target)
+            ) {
+                setProfileOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setMobileOpen(false);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const displayName = user?.name || user?.email?.split("@")[0] || "User";
+    const roleLabel = user?.role.toUpperCase() || "Student";
+    const avatarInitials = displayName
+        .split(" ")
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join("")
+        .toUpperCase();
+
+    const handleLogout = () => {
+        setUser(null);
+        setProfileOpen(false);
+        setMobileOpen(false);
+    };
 
     return (
         <nav
@@ -138,53 +188,211 @@ export default function Header() {
                         }}
                         className="nav-desktop"
                     >
-                        <Link
-                            to="/login"
-                            style={{
-                                padding: "9px 20px",
-                                borderRadius: 8,
-                                border: "1.5px solid #1877F2",
-                                background: "transparent",
-                                color: "#1877F2",
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: 600,
-                                fontSize: 15,
-                                cursor: "pointer",
-                                transition: "all 0.15s ease",
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.background = "#E7F3FF";
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.background =
-                                    "transparent";
-                            }}
-                        >
-                            Log In
-                        </Link>
-                        <Link
-                            to="/register"
-                            style={{
-                                padding: "9px 20px",
-                                borderRadius: 8,
-                                border: "none",
-                                background: "#1877F2",
-                                color: "#ffffff",
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: 600,
-                                fontSize: 15,
-                                cursor: "pointer",
-                                transition: "background 0.15s ease",
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.background = "#166FE5";
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.background = "#1877F2";
-                            }}
-                        >
-                            Register
-                        </Link>
+                        {isLoggedIn ? (
+                            <div
+                                ref={profileRef}
+                                style={{ position: "relative" }}
+                            >
+                                <button
+                                    onClick={() =>
+                                        setProfileOpen((prev) => !prev)
+                                    }
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 10,
+                                        background: "#F7F9FC",
+                                        border: "1px solid #DADDE1",
+                                        borderRadius: 999,
+                                        padding: "6px 10px 6px 6px",
+                                        cursor: "pointer",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: 38,
+                                            height: 38,
+                                            borderRadius: "50%",
+                                            background:
+                                                "linear-gradient(135deg, #1877F2 0%, #0c5fcc 100%)",
+                                            color: "#fff",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontWeight: 700,
+                                            fontSize: 14,
+                                            flexShrink: 0,
+                                        }}
+                                    >
+                                        {avatarInitials}
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "flex-start",
+                                            minWidth: 0,
+                                        }}
+                                    >
+                                        <span
+                                            style={{
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 700,
+                                                fontSize: 14,
+                                                color: "#1C1E21",
+                                                maxWidth: 100,
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap",
+                                            }}
+                                        >
+                                            {displayName}
+                                        </span>
+                                        <span
+                                            style={{
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 600,
+                                                fontSize: 12,
+                                                color: "#65676B",
+                                            }}
+                                        >
+                                            {roleLabel}
+                                        </span>
+                                    </div>
+                                </button>
+
+                                {profileOpen && (
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                            right: 0,
+                                            top: "calc(100% + 8px)",
+                                            background: "#fff",
+                                            border: "1px solid #DADDE1",
+                                            borderRadius: 12,
+                                            boxShadow:
+                                                "0 10px 30px rgba(0,0,0,0.08)",
+                                            minWidth: 180,
+                                            padding: 8,
+                                            zIndex: 110,
+                                        }}
+                                    >
+                                        <Link
+                                            to="/profile"
+                                            onClick={() =>
+                                                setProfileOpen(false)
+                                            }
+                                            style={{
+                                                display: "block",
+                                                padding: "10px 12px",
+                                                borderRadius: 8,
+                                                color: "#1C1E21",
+                                                textDecoration: "none",
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 600,
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            Profile
+                                        </Link>
+                                        <Link
+                                            to="/dashboard"
+                                            onClick={() =>
+                                                setProfileOpen(false)
+                                            }
+                                            style={{
+                                                display: "block",
+                                                padding: "10px 12px",
+                                                borderRadius: 8,
+                                                color: "#1C1E21",
+                                                textDecoration: "none",
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 600,
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            Dashboard
+                                        </Link>
+                                        <button
+                                            onClick={handleLogout}
+                                            style={{
+                                                width: "100%",
+                                                textAlign: "left",
+                                                padding: "10px 12px",
+                                                borderRadius: 8,
+                                                border: "none",
+                                                background: "transparent",
+                                                color: "#D14343",
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 600,
+                                                fontSize: 14,
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/login"
+                                    style={{
+                                        padding: "9px 20px",
+                                        borderRadius: 8,
+                                        border: "1.5px solid #1877F2",
+                                        background: "transparent",
+                                        color: "#1877F2",
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontWeight: 600,
+                                        fontSize: 15,
+                                        cursor: "pointer",
+                                        transition: "all 0.15s ease",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background =
+                                            "#E7F3FF";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background =
+                                            "transparent";
+                                    }}
+                                >
+                                    Log In
+                                </Link>
+                                <Link
+                                    to="/register"
+                                    style={{
+                                        padding: "9px 20px",
+                                        borderRadius: 8,
+                                        border: "none",
+                                        background: "#1877F2",
+                                        color: "#ffffff",
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontWeight: 600,
+                                        fontSize: 15,
+                                        cursor: "pointer",
+                                        transition: "background 0.15s ease",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background =
+                                            "#166FE5";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background =
+                                            "#1877F2";
+                                    }}
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile hamburger */}
@@ -212,7 +420,7 @@ export default function Header() {
                     style={{
                         borderTop: "1px solid #DADDE1",
                         paddingBottom: mobileOpen ? 16 : 0,
-                        maxHeight: mobileOpen ? 320 : 0,
+                        maxHeight: mobileOpen ? 420 : 0,
                         opacity: mobileOpen ? 1 : 0,
                         overflow: "hidden",
                         transition:
@@ -252,36 +460,167 @@ export default function Header() {
                         );
                     })}
                     <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
-                        <button
-                            style={{
-                                flex: 1,
-                                padding: "10px 0",
-                                borderRadius: 8,
-                                border: "1.5px solid #1877F2",
-                                background: "transparent",
-                                color: "#1877F2",
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: 600,
-                                cursor: "pointer",
-                            }}
-                        >
-                            Log In
-                        </button>
-                        <button
-                            style={{
-                                flex: 1,
-                                padding: "10px 0",
-                                borderRadius: 8,
-                                border: "none",
-                                background: "#1877F2",
-                                color: "#fff",
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: 600,
-                                cursor: "pointer",
-                            }}
-                        >
-                            Register
-                        </button>
+                        {isLoggedIn ? (
+                            <>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 10,
+                                        width: "100%",
+                                        padding: "10px 12px",
+                                        borderRadius: 10,
+                                        background: "#F7F9FC",
+                                        border: "1px solid #DADDE1",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: 40,
+                                            height: 40,
+                                            borderRadius: "50%",
+                                            background:
+                                                "linear-gradient(135deg, #1877F2 0%, #0c5fcc 100%)",
+                                            color: "#fff",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontWeight: 700,
+                                            flexShrink: 0,
+                                        }}
+                                    >
+                                        {avatarInitials}
+                                    </div>
+                                    <div style={{ minWidth: 0 }}>
+                                        <div
+                                            style={{
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 700,
+                                                color: "#1C1E21",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap",
+                                            }}
+                                        >
+                                            {displayName}
+                                        </div>
+                                        <div
+                                            style={{
+                                                fontFamily:
+                                                    "'Inter', sans-serif",
+                                                fontWeight: 600,
+                                                fontSize: 12,
+                                                color: "#65676B",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap",
+                                            }}
+                                        >
+                                            {roleLabel}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        width: "100%",
+                                        gap: 8,
+                                    }}
+                                >
+                                    <Link
+                                        to="/profile"
+                                        onClick={() => setMobileOpen(false)}
+                                        style={{
+                                            padding: "10px 12px",
+                                            borderRadius: 8,
+                                            background: "#F7F9FC",
+                                            color: "#1C1E21",
+                                            textDecoration: "none",
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 600,
+                                            fontSize: 14,
+                                        }}
+                                    >
+                                        Profile
+                                    </Link>
+                                    <Link
+                                        to="/dashboard"
+                                        onClick={() => setMobileOpen(false)}
+                                        style={{
+                                            padding: "10px 12px",
+                                            borderRadius: 8,
+                                            background: "#F7F9FC",
+                                            color: "#1C1E21",
+                                            textDecoration: "none",
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 600,
+                                            fontSize: 14,
+                                        }}
+                                    >
+                                        Dashboard
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        style={{
+                                            padding: "10px 12px",
+                                            borderRadius: 8,
+                                            border: "none",
+                                            background: "#FDECEC",
+                                            color: "#D14343",
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 600,
+                                            fontSize: 14,
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/login"
+                                    onClick={() => setMobileOpen(false)}
+                                    style={{
+                                        flex: 1,
+                                        padding: "10px 0",
+                                        borderRadius: 8,
+                                        border: "1.5px solid #1877F2",
+                                        background: "transparent",
+                                        color: "#1877F2",
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontWeight: 600,
+                                        cursor: "pointer",
+                                        textAlign: "center",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Log In
+                                </Link>
+                                <Link
+                                    to="/register"
+                                    onClick={() => setMobileOpen(false)}
+                                    style={{
+                                        flex: 1,
+                                        padding: "10px 0",
+                                        borderRadius: 8,
+                                        border: "none",
+                                        background: "#1877F2",
+                                        color: "#fff",
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontWeight: 600,
+                                        cursor: "pointer",
+                                        textAlign: "center",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -290,6 +629,9 @@ export default function Header() {
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
           .nav-mobile-btn { display: flex !important; }
+        }
+        @media (min-width: 769px) {
+          .nav-mobile-menu { display: none !important; }
         }
         .nav-mobile-menu { display: block; }
       `}</style>
