@@ -1,10 +1,10 @@
-import { CategoriesSection } from "../components/CategoriesSection";
-import { FeaturedEvents } from "../components/FeaturedEvents";
+import { CategoriesSection } from "../components/Home/CategoriesSection";
+import { FeaturedEvents } from "../components/Home/FeaturedEvents";
 import { Footer } from "../components/Footer";
-import { HeroSection } from "../components/HeroSection";
-import { StatsSection } from "../components/StatsSection";
-import { SuccessStories } from "../components/SuccessStories";
-import { UpcomingTimeline } from "../components/UpcomingTimeline";
+import { HeroSection } from "../components/Home/HeroSection";
+import { StatsSection } from "../components/Home/StatsSection";
+import { SuccessStories } from "../components/Home/SuccessStories";
+import { UpcomingTimeline } from "../components/Home/UpcomingTimeline";
 import MetaData from "../components/MetaData";
 import Layout from "../layout/Layout";
 
