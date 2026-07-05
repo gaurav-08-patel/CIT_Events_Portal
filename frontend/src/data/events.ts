@@ -17,7 +17,17 @@ export const ALL_EVENTS = [
         tags: ["Web Dev", "AI", "Open Source"],
         featured: true,
         description:
-            "A 24-hour hackathon for students to build innovative web and AI solutions, pitch ideas, and win prizes.",
+            "A deep-dive workshop on machine learning and deep learning techniques for future AI developers.A deep-dive workshop on machine learning and deep learning techniques for future AI developers. A 24-hour hackathon for students to build innovative web and AI solutions, pitch ideas, and win prizes.",
+        rules: [
+            "Teams must have 3-5 members.",
+            "Projects must be submitted within 24 hours.",
+            "Participants must follow the college code of conduct.",
+        ],
+        privacyPolicy: [
+            "Your email address will be used only for event communication.",
+            "Photo consent may be requested for event coverage.",
+            "Personal details will not be shared without consent.",
+        ],
     },
     {
         id: 2,
@@ -37,7 +47,7 @@ export const ALL_EVENTS = [
         tags: ["ML", "Deep Learning"],
         featured: false,
         description:
-            "A deep-dive workshop on machine learning and deep learning techniques for future AI developers.",
+            "A deep-dive workshop on machine learning and deep learning techniques for future AI developers A deep-dive workshop on machine learning and deep learning techniques for future AI developers.A deep-dive workshop on machine learning and deep learning techniques for future AI developers..",
     },
     {
         id: 3,
