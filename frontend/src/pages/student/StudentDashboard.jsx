@@ -14,7 +14,7 @@ export default function StudentDashboard() {
 
     return (
         <main className="min-h-screen bg-(--cit-bg) px-6 py-10 md:px-8 lg:px-10">
-            <div className="mx-auto max-w-6xl space-y-6">
+            <div className="mx-auto max-w-300 space-y-6">
                 <section className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-(--cit-surface) p-7 shadow-(--cit-shadow-sm)">
                     <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                         <div className="space-y-3">
