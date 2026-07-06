@@ -3,7 +3,12 @@ import { createContext, useContext, useMemo, useState } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        id: 23,
+        email: "youremail@example.edu.in",
+        name: "John Kumar rathu Doe",
+        role: "student",
+    });
     const isLoggedIn = Boolean(user);
 
     const value = useMemo(
