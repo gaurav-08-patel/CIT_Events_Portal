@@ -830,7 +830,7 @@ function Pagination({
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-export function EventsPage() {
+export default function EventsPage() {
     const [filters, setFilters] = useState<Filters>({
         search: "",
         category: "All",
