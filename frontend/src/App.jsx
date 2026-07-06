@@ -1,22 +1,31 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import { EventsPage } from "./pages/EventsPage";
-import EventDetails from "./pages/EventDetails";
-import Login from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPassword";
-import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardLayout from "./layout/DashboardLayout.jsx";
+
+// Public Pages
+import Home from "./pages/Home";
+import EventsPage from "./pages/EventsPage";
+import EventDetails from "./pages/EventDetails";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+
+
+// Student Pages
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentMyEvents from "./pages/student/StudentMyEvents";
 import StudentMyTeams from "./pages/student/StudentMyTeams";
 import StudentCertificates from "./pages/student/StudentCertificates";
 import StudentProfile from "./pages/student/StudentProfile";
 import StudentResults from "./pages/student/StudentResults";
+
+// Organizer Pages
 import OrganizerDashboard from "./pages/organizer/OrganizerDashboard";
 import OrganizerProfile from "./pages/organizer/OrganizerProfile";
 import OrganizerManageEvents from "./pages/organizer/OrganizerManageEvents";
 import OrganizerCreateEvent from "./pages/organizer/OrganizerCreateEvent";
+
+// Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminEvents from "./pages/admin/AdminEvents";
