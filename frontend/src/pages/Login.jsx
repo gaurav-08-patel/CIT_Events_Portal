@@ -36,6 +36,7 @@ export default function Login() {
         // TODO: replace with real auth API later.
         setUser({
             email: formData.email,
+            name: formData.email.split("@")[0],
             role: "student",
         });
 
