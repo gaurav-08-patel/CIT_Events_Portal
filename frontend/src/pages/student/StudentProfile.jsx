@@ -4,55 +4,19 @@ export default function StudentProfile() {
     const { user } = useAuthContext();
 
     return (
-        <main
-            style={{
-                background: "#F0F2F5",
-                minHeight: "100vh",
-                padding: "32px 24px 64px",
-            }}
-        >
-            <div
-                style={{
-                    maxWidth: 1200,
-                    margin: "0 auto",
-                    background: "#fff",
-                    borderRadius: 20,
-                    padding: 24,
-                    border: "1px solid #DADDE1",
-                }}
-            >
-                <h1
-                    style={{
-                        margin: "0 0 8px",
-                        fontSize: 28,
-                        color: "#1C1E21",
-                        fontWeight: 800,
-                    }}
-                >
+        <main className="min-h-screen bg-(--cit-bg) px-6 py-10 md:px-8 lg:px-10">
+            <div className="mx-auto max-w-6xl rounded-(--cit-radius-xl) border border-(--cit-border) bg-(--cit-surface) p-7">
+                <h1 className="text-3xl font-extrabold text-(--cit-text)">
                     Profile
                 </h1>
-                <p style={{ margin: 0, color: "#65676B" }}>
+                <p className="mt-2 text-sm text-(--cit-text-muted)">
                     Your student profile details will appear here soon.
                 </p>
-                <div style={{ marginTop: 20, display: "grid", gap: 12 }}>
-                    <div
-                        style={{
-                            padding: 14,
-                            borderRadius: 12,
-                            background: "#F7F9FC",
-                            border: "1px solid #DADDE1",
-                        }}
-                    >
+                <div className="mt-6 grid gap-4">
+                    <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
                         <strong>Email:</strong> {user?.email || "Not available"}
                     </div>
-                    <div
-                        style={{
-                            padding: 14,
-                            borderRadius: 12,
-                            background: "#F7F9FC",
-                            border: "1px solid #DADDE1",
-                        }}
-                    >
+                    <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
                         <strong>Role:</strong> {user?.role || "student"}
                     </div>
                 </div>
