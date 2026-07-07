@@ -56,7 +56,9 @@ export default function DashboardLayout({ role }) {
             navItems[0],
         [location.pathname, navItems],
     );
+
     const displayName = user?.name || user?.email?.split("@")[0] || "User";
+    const roleLabel = user?.role.toUpperCase() || "Student";
     const avatarInitials = displayName
         .split(" ")
         .slice(0, 2)
@@ -113,22 +115,22 @@ export default function DashboardLayout({ role }) {
     return (
         <div className="min-h-screen bg-(--cit-bg) text-(--cit-text) overflow-x-hidden">
             <header className="sticky top-0 z-40 bg-(--cit-surface) border-b border-(--cit-border) shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
-                <div className="mx-auto max-w-300 w-full px-6 py-4">
+                <div className="mx-auto max-w-300 w-full px-2 py-4">
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <Link
                                 to={"/"}
                                 className="flex items-center gap-3 text-(--cit-text)"
                             >
-                                <div className="grid h-10 w-10 place-items-center rounded-[10px] bg-linear-to-br from-(--cit-primary) to-[#0c5fcc] text-white font-extrabold">
+                                <div className="grid h-10 w-10 place-items-center rounded-xl bg-linear-to-br from-(--cit-primary) to-[#0c5fcc] text-white shadow-[0_8px_16px_rgba(24,119,242,0.22)]">
                                     <Zap size={18} />
                                 </div>
                                 <div className="hidden md:block">
-                                    <p className="text-base font-semibold tracking-tight">
-                                        CIT
-                                    </p>
-                                    <p className="text-sm font-semibold text-(--cit-primary)">
-                                        Event Hub
+                                    <p className="text-base font-extrabold tracking-[-0.02em] text-(--cit-text)">
+                                        CIT{" "}
+                                        <span className="text-(--cit-primary)">
+                                            Event Hub
+                                        </span>
                                     </p>
                                 </div>
                             </Link>
@@ -141,15 +143,73 @@ export default function DashboardLayout({ role }) {
                                 <Menu size={20} />
                             </button>
                         </div>
-                        <div className="flex items-center gap-4">
-                            <div className="hidden sm:block text-right">
-                                <p className="text-sm font-semibold">
-                                    {displayName}
-                                </p>
-                                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--cit-text-muted)">
-                                    {role.toUpperCase()}
-                                </p>
-                            </div>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setProfileOpen((prev) => !prev)}
+                                style={{
+                                    
+                                    alignItems: "center",
+                                    gap: 10,
+                                    background: "#F7F9FC",
+                                    border: "1px solid #DADDE1",
+                                    borderRadius: 999,
+                                    padding: "6px 10px 6px 6px",
+                                    cursor: "pointer",
+                                }}
+                                className="sm:flex hidden"
+                            >
+                                <div
+                                    style={{
+                                        width: 38,
+                                        height: 38,
+                                        borderRadius: "50%",
+                                        background:
+                                            "linear-gradient(135deg, #1877F2 0%, #0c5fcc 100%)",
+                                        color: "#fff",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontWeight: 700,
+                                        fontSize: 14,
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    {avatarInitials}
+                                </div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "flex-start",
+                                        minWidth: 0,
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 700,
+                                            fontSize: 14,
+                                            color: "#1C1E21",
+                                            maxWidth: 100,
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        {displayName}
+                                    </span>
+                                    <span
+                                        style={{
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontWeight: 600,
+                                            fontSize: 12,
+                                            color: "#65676B",
+                                        }}
+                                    >
+                                        {roleLabel}
+                                    </span>
+                                </div>
+                            </button>
                             <button
                                 type="button"
                                 className="inline-flex h-10 w-10 items-center justify-center rounded-[14px] border border-(--cit-border) bg-(--cit-surface) text-(--cit-text)"
@@ -166,8 +226,12 @@ export default function DashboardLayout({ role }) {
                 <aside
                     ref={sidebarRef}
                     className={`dashboard-sidebar ${sidebarWidthClass} shrink-0 flex flex-col gap-6 border-r border-(--cit-border) bg-(--cit-surface) px-4 py-5 transition-all duration-300 ease-out ${mobileOpen ? "fixed left-0 top-0 z-50 h-full shadow-[20px_0_50px_rgba(15,23,42,0.12)] overflow-y-auto" : "fixed left-0 md:top-19.5 z-30 h-[calc(100vh-84px)] overflow-y-auto"} ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-                    onMouseEnter={() => setIsHovered(!mobileOpen ? true : false)}
-                    onMouseLeave={() => setIsHovered(!mobileOpen ? false : false)}
+                    onMouseEnter={() =>
+                        setIsHovered(!mobileOpen ? true : false)
+                    }
+                    onMouseLeave={() =>
+                        setIsHovered(!mobileOpen ? false : false)
+                    }
                 >
                     <div className="flex items-center justify-between gap-3">
                         <span
