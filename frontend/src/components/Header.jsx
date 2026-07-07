@@ -19,9 +19,9 @@ export default function Header() {
 
     const navLinks = isLoggedIn
         ? [
-            { label: "Home", page: "/" },
-            { label: "Events", page: "/events" },
-            { label: "Dashboard", page: dashboardPath },
+              { label: "Home", page: "/" },
+              { label: "Events", page: "/events" },
+              { label: "Dashboard", page: dashboardPath },
           ]
         : [
               { label: "Home", page: "/" },
@@ -478,7 +478,15 @@ export default function Header() {
                             </Link>
                         );
                     })}
-                    <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 10,
+                            marginTop: 12,
+                            width: "100%",
+                        }}
+                    >
                         {isLoggedIn ? (
                             <>
                                 <div
@@ -491,6 +499,8 @@ export default function Header() {
                                         borderRadius: 10,
                                         background: "#F7F9FC",
                                         border: "1px solid #DADDE1",
+                                        minWidth: 0,
+                                        overflow: "hidden",
                                     }}
                                 >
                                     <div
@@ -546,6 +556,7 @@ export default function Header() {
                                         flexDirection: "column",
                                         width: "100%",
                                         gap: 8,
+                                        minWidth: 0,
                                     }}
                                 >
                                     <Link
@@ -566,6 +577,11 @@ export default function Header() {
                                             fontFamily: "'Inter', sans-serif",
                                             fontWeight: 600,
                                             fontSize: 14,
+                                            width: "100%",
+                                            boxSizing: "border-box",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
                                         }}
                                     >
                                         Profile
@@ -582,6 +598,11 @@ export default function Header() {
                                             fontFamily: "'Inter', sans-serif",
                                             fontWeight: 600,
                                             fontSize: 14,
+                                            width: "100%",
+                                            boxSizing: "border-box",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
                                         }}
                                     >
                                         Dashboard
@@ -598,6 +619,11 @@ export default function Header() {
                                             fontWeight: 600,
                                             fontSize: 14,
                                             cursor: "pointer",
+                                            width: "100%",
+                                            boxSizing: "border-box",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
                                         }}
                                     >
                                         Logout
