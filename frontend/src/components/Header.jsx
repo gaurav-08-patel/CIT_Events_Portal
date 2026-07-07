@@ -10,13 +10,26 @@ export default function Header() {
     const location = useLocation();
     const { user, setUser, isLoggedIn } = useAuthContext();
 
-    const navLinks = [
-        { label: "Home", page: "/" },
-        { label: "Events", page: "/events" },
-        { label: "About", page: null },
-        { label: "FAQ", page: null },
-        { label: "Contact", page: null },
-    ];
+    const dashboardPath =
+        user?.role === "admin"
+            ? "/admin/dashboard"
+            : user?.role === "organizer"
+              ? "/organizer/dashboard"
+              : "/student/dashboard";
+
+    const navLinks = isLoggedIn
+        ? [
+            { label: "Home", page: "/" },
+            { label: "Events", page: "/events" },
+            { label: "Dashboard", page: dashboardPath },
+          ]
+        : [
+              { label: "Home", page: "/" },
+              { label: "Events", page: "/events" },
+              { label: "About", page: null },
+              { label: "FAQ", page: null },
+              { label: "Contact", page: null },
+          ];
 
     useEffect(() => {
         setProfileOpen(false);
@@ -305,13 +318,7 @@ export default function Header() {
                                             Profile
                                         </Link>
                                         <Link
-                                            to={
-                                                user?.role === "admin"
-                                                    ? "/admin/dashboard"
-                                                    : user?.role === "organizer"
-                                                      ? "/organizer/dashboard"
-                                                      : "/student/dashboard"
-                                            }
+                                            to={dashboardPath}
                                             onClick={() =>
                                                 setProfileOpen(false)
                                             }
@@ -564,13 +571,7 @@ export default function Header() {
                                         Profile
                                     </Link>
                                     <Link
-                                        to={
-                                            user?.role === "admin"
-                                                ? "/admin/dashboard"
-                                                : user?.role === "organizer"
-                                                  ? "/organizer/dashboard"
-                                                  : "/student/dashboard"
-                                        }
+                                        to={dashboardPath}
                                         onClick={() => setMobileOpen(false)}
                                         style={{
                                             padding: "10px 12px",
