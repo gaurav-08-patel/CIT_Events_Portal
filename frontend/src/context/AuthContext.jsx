@@ -8,6 +8,7 @@ export function AuthProvider({ children }) {
         email: "youremail@example.edu.in",
         name: "John Kumar rathu Doe",
         role: "student",
+        profileSetupCompleted: false,
     });
     const isLoggedIn = Boolean(user);
 
