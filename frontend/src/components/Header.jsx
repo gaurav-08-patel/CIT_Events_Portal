@@ -315,7 +315,9 @@ export default function Header() {
                                                 fontSize: 14,
                                             }}
                                         >
-                                            Profile
+                                            {user?.role === "admin"
+                                                ? "Overview"
+                                                : "Profile"}
                                         </Link>
                                         <Link
                                             to={dashboardPath}
@@ -584,7 +586,9 @@ export default function Header() {
                                             textOverflow: "ellipsis",
                                         }}
                                     >
-                                        Profile
+                                        {user?.role === "admin"
+                                            ? "Overview"
+                                            : "Profile"}
                                     </Link>
                                     <Link
                                         to={dashboardPath}
