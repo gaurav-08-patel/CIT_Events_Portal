@@ -100,42 +100,42 @@ export default function StudentProfile() {
     };
 
     return (
-        <main className="min-h-screen bg-(--cit-bg) px-6 py-8 md:px-8 lg:px-10">
-            <div className="mx-auto flex max-w-300 flex-col gap-6">
+        <main className="min-h-screen bg-(--cit-bg) py-5 sm:px-5 md:px-6 lg:px-8">
+            <div className="mx-auto w-full max-w-xl space-y-4 sm:max-w-5xl sm:space-y-5">
                 {!isProfileComplete && (
-                    <div className="rounded-(--cit-radius-xl) border border-amber-200 bg-amber-50 p-5 shadow-(--cit-shadow-sm)">
-                        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="rounded-(--cit-radius-lg) border border-amber-200 bg-amber-50 p-4 shadow-(--cit-shadow-sm) sm:p-5">
+                        <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
                             <div className="flex items-start gap-3">
-                                <div className="mt-0.5 rounded-full bg-amber-100 p-2 text-amber-600">
+                                <div className="rounded-full bg-amber-100 p-2 text-amber-600">
                                     <AlertCircle size={18} />
                                 </div>
-                                <div>
+                                <div className="min-w-0">
                                     <p className="text-sm font-semibold text-amber-800">
-                                        Complete your profile setup
+                                        Finish your student profile
                                     </p>
-                                    <p className="mt-1 text-sm text-amber-700">
-                                        Add your phone number and department so
-                                        your profile is ready for campus events
-                                        and team activities.
+                                    <p className="mt-1 max-w-xl text-sm leading-6 text-amber-700 sm:text-[13px]">
+                                        Add your contact details and department
+                                        so your profile looks complete across
+                                        the portal.
                                     </p>
                                 </div>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => setIsEditing(true)}
-                                className="cursor-pointer inline-flex items-center justify-center rounded-(--cit-radius-md) bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600"
+                                className="inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600 sm:w-auto"
                             >
-                                Update Profile
+                                Complete profile
                             </button>
                         </div>
                     </div>
                 )}
 
                 <section className="overflow-hidden rounded-(--cit-radius-xl) border border-(--cit-border) bg-(--cit-surface) shadow-(--cit-shadow-sm)">
-                    <div className="bg-linear-to-r from-[#0f172a] via-(--cit-primary) to-[#7c3aed] px-6 py-8 text-white md:px-8">
-                        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-4 border-white/80 bg-white/20 text-2xl font-extrabold shadow-(--cit-shadow-md)">
+                    <div className="bg-linear-to-r from-[#0f172a] via-(--cit-primary) to-[#7c3aed] px-5 py-5 text-white sm:px-6 sm:py-6">
+                        <div className="grid gap-5 md:grid-cols-[auto_1fr] md:items-end md:justify-between">
+                            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-white/80 bg-white/20 text-xl font-extrabold shadow-(--cit-shadow-md) sm:h-20 sm:w-20 sm:text-2xl">
                                     {avatarPreview ? (
                                         <img
                                             src={avatarPreview}
@@ -146,9 +146,9 @@ export default function StudentProfile() {
                                         initials
                                     )}
                                 </div>
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/80">
+                                <div className="min-w-0">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80">
                                             Student Profile
                                         </p>
                                         <span
@@ -159,10 +159,10 @@ export default function StudentProfile() {
                                                 : "Setup pending"}
                                         </span>
                                     </div>
-                                    <h1 className="mt-2 text-3xl font-extrabold tracking-tight">
+                                    <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
                                         {displayName}
                                     </h1>
-                                    <p className="mt-1 text-sm text-white/80">
+                                    <p className="mt-1 max-w-full text-sm text-white/80 sm:text-base wrap-break-word">
                                         {user?.email || "No email provided"}
                                     </p>
                                 </div>
@@ -171,68 +171,68 @@ export default function StudentProfile() {
                             <button
                                 type="button"
                                 onClick={() => setIsEditing((prev) => !prev)}
-                                className="cursor-pointer inline-flex items-center justify-center rounded-(--cit-radius-md) border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25"
+                                className="inline-flex w-full items-center justify-center rounded-(--cit-radius-md) border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25 sm:w-auto"
                             >
-                                {isEditing ? "Cancel" : "Update Profile"}
+                                {isEditing ? "Cancel" : "Update profile"}
                             </button>
                         </div>
                     </div>
 
-                    <div className="px-6 py-7 md:px-8">
+                    <div className="px-4 py-6 sm:px-6 sm:py-6 lg:px-8">
                         {!isEditing ? (
-                            <div className="grid gap-4 md:grid-cols-2">
-                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
+                            <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                                <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
                                     <div className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <UserRound size={16} />
-                                        <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-                                            Full Name
+                                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
+                                            Full name
                                         </p>
                                     </div>
-                                    <p className="mt-2 text-base font-semibold text-(--cit-text)">
+                                    <p className="mt-3 text-base font-semibold text-(--cit-text)">
                                         {user?.name || "Not provided"}
                                     </p>
                                 </div>
-                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
+                                <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
                                     <div className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <Mail size={16} />
-                                        <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
                                             Email
                                         </p>
                                     </div>
-                                    <p className="mt-2 text-base font-semibold text-(--cit-text)">
+                                    <p className="mt-3 wrap-break-word text-base font-semibold text-(--cit-text)">
                                         {user?.email || "Not provided"}
                                     </p>
                                 </div>
-                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
+                                <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
                                     <div className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <Phone size={16} />
-                                        <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-                                            Phone Number
+                                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
+                                            Phone number
                                         </p>
                                     </div>
-                                    <p className="mt-2 text-base font-semibold text-(--cit-text)">
+                                    <p className="mt-3 text-base font-semibold text-(--cit-text)">
                                         {user?.phone || "Not provided"}
                                     </p>
                                 </div>
-                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
+                                <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
                                     <div className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <Building2 size={16} />
-                                        <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
                                             Department
                                         </p>
                                     </div>
-                                    <p className="mt-2 text-base font-semibold text-(--cit-text)">
+                                    <p className="mt-3 text-base font-semibold text-(--cit-text)">
                                         {user?.department || "Not provided"}
                                     </p>
                                 </div>
-                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4 md:col-span-2">
+                                <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4 sm:col-span-2">
                                     <div className="flex items-center gap-2 text-(--cit-text-muted)">
                                         <CheckCircle2 size={16} />
-                                        <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-                                            Profile Status
+                                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-(--cit-text-muted)">
+                                            Profile status
                                         </p>
                                     </div>
-                                    <p className="mt-2 text-base font-semibold text-(--cit-text)">
+                                    <p className="mt-3 text-base font-semibold text-(--cit-text)">
                                         {isProfileComplete
                                             ? "Your profile is complete and ready for campus engagement."
                                             : "Your profile setup is still pending."}
