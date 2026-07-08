@@ -3,12 +3,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardLayout from "./layout/DashboardLayout.jsx";
 
 // Public Pages
-import Home from "./pages/Home";
-import EventsPage from "./pages/EventsPage";
-import EventDetails from "./pages/EventDetails";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
+import Home from "./pages/publicPages/Home.jsx";
+import EventsPage from "./pages/publicPages/EventsPage.js";
+import EventDetails from "./pages/publicPages/EventDetails.jsx";
+import Login from "./pages/publicPages/Login.jsx";
+import Register from "./pages/publicPages/Register.jsx";
+import ForgotPassword from "./pages/publicPages/ForgotPassword.jsx";
 
 
 // Student Pages
