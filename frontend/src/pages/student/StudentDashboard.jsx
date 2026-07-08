@@ -247,12 +247,13 @@ export default function StudentDashboard() {
         <main className="min-h-screen bg-(--cit-bg) py-4 md:px-8 lg:px-10">
             <div className="mx-auto max-w-6xl space-y-4 sm:space-y-8">
                 {/* Welcome Section */}
-                <section >
+                <section>
                     <h1
                         className="font-extrabold text-(--cit-text) leading-tight"
                         style={{ fontSize: "clamp(1.495rem, 5vw, 2.25rem)" }}
                     >
-                        Welcome Back,<br /> {displayName}
+                        Welcome Back,
+                        <br /> {displayName}
                     </h1>
                     <p className="text-sm text-(--cit-text-muted)">
                         Let's make the most of your competitions!
