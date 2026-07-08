@@ -152,7 +152,7 @@ export default function StudentProfile() {
                                             Student Profile
                                         </p>
                                         <span
-                                            className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${isProfileComplete ? "bg-emerald-500/20 text-emerald-100" : "bg-amber-400/20 text-amber-100"}`}
+                                            className={`${isProfileComplete ? "bg-emerald-500/20 text-emerald-500" : "bg-amber-400/20 text-amber-100"} rounded-full px-2.5 py-1 text-[11px] font-semibold ${isProfileComplete ? "bg-emerald-500/20 text-emerald-100" : "bg-amber-400/20 text-amber-100"}`}
                                         >
                                             {isProfileComplete
                                                 ? "Profile ready"
