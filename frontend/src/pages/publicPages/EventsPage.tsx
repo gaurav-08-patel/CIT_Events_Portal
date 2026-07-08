@@ -24,6 +24,7 @@ import {
 import Layout from "../../layout/Layout";
 import MetaData from "../../components/MetaData";
 import { ALL_EVENTS } from "../../data/events";
+import { useSearchContext } from "../../context/SearchProvider";
 
 // --- Data ---
 
@@ -831,16 +832,8 @@ function Pagination({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function EventsPage() {
-    const [filters, setFilters] = useState<Filters>({
-        search: "",
-        category: "All",
-        paid: "All",
-        mode: "All",
-        type: "All",
-        department: "All",
-        dateFrom: "",
-        dateTo: "",
-    });
+    const { filters, setFilters: setSearchFilters } = useSearchContext();
+
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState("Featured");
     const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
@@ -898,10 +891,8 @@ export default function EventsPage() {
     );
 
     // Reset to page 1 whenever filters change
-    const handleSetFilters: React.Dispatch<React.SetStateAction<Filters>> = (
-        v,
-    ) => {
-        setFilters(v);
+    const handleSetFilters = (v: React.SetStateAction<Filters>) => {
+        setSearchFilters(v);
         setPage(1);
     };
 
