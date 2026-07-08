@@ -171,7 +171,7 @@ export default function StudentProfile() {
                             <button
                                 type="button"
                                 onClick={() => setIsEditing((prev) => !prev)}
-                                className="inline-flex w-full items-center justify-center rounded-(--cit-radius-md) border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25 sm:w-auto"
+                                className="cursor-pointer inline-flex w-full items-center justify-center rounded-(--cit-radius-md) border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25 sm:w-auto"
                             >
                                 {isEditing ? "Cancel" : "Update profile"}
                             </button>
@@ -260,7 +260,7 @@ export default function StudentProfile() {
                                             onClick={() =>
                                                 fileInputRef.current?.click()
                                             }
-                                            className="inline-flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-primary-soft)"
+                                            className="cursor-pointer inline-flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-primary-soft)"
                                         >
                                             <Camera size={16} />
                                             Upload Photo
@@ -381,14 +381,14 @@ export default function StudentProfile() {
                                     <button
                                         type="button"
                                         onClick={handleCancel}
-                                        className="inline-flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-surface-subtle)"
+                                        className="cursor-pointer inline-flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-surface-subtle)"
                                     >
                                         <X size={16} />
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
-                                        className="inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                                        className="cursor-pointer inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
                                     >
                                         <Save size={16} />
                                         Save Profile
