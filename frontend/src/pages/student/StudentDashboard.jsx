@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { ALL_EVENTS } from "../../data/events";
 import { useAuthContext } from "../../context/AuthContext";
+import MetaData from "../../components/MetaData";
 
 // Dummy data: registered event IDs
 const registeredEventIds = [1, 2, 3, 5, 8];
@@ -244,7 +245,13 @@ export default function StudentDashboard() {
     });
 
     return (
-        <main className="min-h-screen bg-(--cit-bg) py-4 md:px-8 lg:px-10">
+        <>
+            <MetaData
+                title="Student Dashboard"
+                description="Overview of your registered events, upcoming competitions, and earned certificates."
+                canonical="/student/dashboard"
+            />
+            <main className="min-h-screen bg-(--cit-bg) py-4 md:px-8 lg:px-10">
             <div className="mx-auto max-w-300 space-y-4 sm:space-y-8">
                 {/* Welcome Section */}
                 <section>
@@ -360,5 +367,6 @@ export default function StudentDashboard() {
                 </section>
             </div>
         </main>
+        </>
     );
 }

@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useAuthContext } from "../../context/AuthContext";
 import { initialTeams } from "../../data/teams";
 import { ChevronDown, ChevronUp, Plus, Trash2, X } from "lucide-react";
+import MetaData from "../../components/MetaData";
 
 // Helper functions
 const isValidEmail = (email) => {
@@ -166,355 +167,375 @@ export default function StudentMyTeams() {
     };
 
     return (
-        <main className="min-h-screen bg-(--cit-bg)">
-            <div className="mx-auto max-w-300">
-                {/* Header */}
-                <div className="mb-8">
-                    <p className="mt-2 text-sm text-(--cit-text-muted) md:text-base">
-                        Create teams for events or join existing ones
-                    </p>
-                </div>
-
-                {/* Two Column Layout */}
-                <div className="grid gap-6 lg:grid-cols-3">
-                    {/* Left: Create Team Form */}
-                    <div className="lg:col-span-1">
-                        <div className="sticky top-4 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
-                            <h2 className="flex items-center gap-2 text-xl font-bold text-(--cit-text) mb-6">
-                                <Plus size={20} />
-                                Create Team
-                            </h2>
-
-                            {/* Error Message */}
-                            {errors.form && (
-                                <div className="mb-4 flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-danger) bg-opacity-10 p-3 text-(--cit-danger)">
-                                    <X size={18} />
-                                    <span className="text-sm font-medium">
-                                        {errors.form}
-                                    </span>
-                                </div>
-                            )}
-
-                            <form
-                                onSubmit={handleCreateTeam}
-                                className="space-y-4"
-                            >
-                                {/* Team Name */}
-                                <div>
-                                    <label className="block text-sm font-medium text-(--cit-text) mb-2">
-                                        Team Name{" "}
-                                        <span className="text-(--cit-danger)">
-                                            *
-                                        </span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={formData.teamName}
-                                        onChange={handleTeamNameChange}
-                                        placeholder="Enter team name"
-                                        className="w-full rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) px-4 py-2.5 text-sm text-(--cit-text) placeholder-text-(--cit-text-muted) transition-all focus:border-(--cit-primary) focus:outline-none focus:ring-2 focus:ring-(--cit-primary) focus:ring-opacity-10"
-                                    />
-                                    {errors.teamName && (
-                                        <p className="mt-1 text-xs text-(--cit-danger)">
-                                            {errors.teamName}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Teammates */}
-                                <div>
-                                    <label className="block text-sm font-medium text-(--cit-text) mb-2">
-                                        Teammates{" "}
-                                        <span className="text-xs text-(--cit-text-muted)">
-                                            (Max 5)
-                                        </span>
-                                    </label>
-                                    {errors.teammates && (
-                                        <p className="mb-2 text-xs text-(--cit-danger)">
-                                            {errors.teammates}
-                                        </p>
-                                    )}
-
-                                    {formData.teammates.map((email, index) => (
-                                        <div
-                                            key={index}
-                                            className="mb-3 flex gap-2"
-                                        >
-                                            <div className="flex-1">
-                                                <input
-                                                    type="email"
-                                                    value={email}
-                                                    onChange={(e) =>
-                                                        handleTeammateChange(
-                                                            index,
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    placeholder={`Teammate ${index + 1} email`}
-                                                    className="w-full rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) px-4 py-2 text-sm text-(--cit-text) placeholder-text-(--cit-text-muted) transition-all focus:border-(--cit-primary) focus:outline-none focus:ring-2 focus:ring-(--cit-primary) focus:ring-opacity-10"
-                                                />
-                                                {errors[
-                                                    `teammate_${index}`
-                                                ] && (
-                                                    <p className="mt-1 text-xs text-(--cit-danger)">
-                                                        {
-                                                            errors[
-                                                                `teammate_${index}`
-                                                            ]
-                                                        }
-                                                    </p>
-                                                )}
-                                            </div>
-                                            {formData.teammates.length > 1 && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        removeTeammateField(
-                                                            index,
-                                                        )
-                                                    }
-                                                    className="cursor-pointer rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Add More Teammate Button */}
-                                {formData.teammates.length < 5 && (
-                                    <button
-                                        type="button"
-                                        onClick={addTeammateField}
-                                        className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-(--cit-radius-md) border-2 border-dashed border-(--cit-border) bg-(--cit-surface-subtle) py-2.5 text-sm font-medium text-(--cit-primary) transition-all hover:border-(--cit-primary) hover:bg-(--cit-primary-soft)"
-                                    >
-                                        <Plus size={16} />
-                                        Add Teammate
-                                    </button>
-                                )}
-
-                                {/* Submit Button */}
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="cursor-pointer w-full rounded-(--cit-radius-md) bg-(--cit-primary) py-2.5 font-medium text-white transition-all hover:bg-(--cit-primary-hover) disabled:opacity-60 disabled:cursor-not-allowed"
-                                >
-                                    {loading ? "Creating..." : "Create Team"}
-                                </button>
-
-                                {/* Info Text */}
-                                <p className="text-xs text-(--cit-text-muted) text-center">
-                                    You will be the team leader. Max 6 members
-                                    total (including you).
-                                </p>
-                            </form>
-                        </div>
+        <>
+            <MetaData
+                title="My Teams"
+                description="Create, manage, and view your student teams for team-based events."
+                canonical="/student/my-teams"
+            />
+            <main className="min-h-screen bg-(--cit-bg)">
+                <div className="mx-auto max-w-300">
+                    {/* Header */}
+                    <div className="mb-8">
+                        <p className="mt-2 text-sm text-(--cit-text-muted) md:text-base">
+                            Create teams for events or join existing ones
+                        </p>
                     </div>
 
-                    {/* Right: Teams List */}
-                    <div className="lg:col-span-2">
-                        <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) shadow-(--cit-shadow-sm) overflow-hidden">
-                            {userTeams.length === 0 ? (
-                                <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
-                                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-(--cit-surface-subtle)">
-                                        <Plus
-                                            size={24}
-                                            className="text-(--cit-text-muted)"
-                                        />
+                    {/* Two Column Layout */}
+                    <div className="grid gap-6 lg:grid-cols-3">
+                        {/* Left: Create Team Form */}
+                        <div className="lg:col-span-1">
+                            <div className="sticky top-4 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
+                                <h2 className="flex items-center gap-2 text-xl font-bold text-(--cit-text) mb-6">
+                                    <Plus size={20} />
+                                    Create Team
+                                </h2>
+
+                                {/* Error Message */}
+                                {errors.form && (
+                                    <div className="mb-4 flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-danger) bg-opacity-10 p-3 text-(--cit-danger)">
+                                        <X size={18} />
+                                        <span className="text-sm font-medium">
+                                            {errors.form}
+                                        </span>
                                     </div>
-                                    <h3 className="text-lg font-semibold text-(--cit-text)">
-                                        No teams yet
-                                    </h3>
-                                    <p className="mt-2 text-sm text-(--cit-text-muted) max-w-xs">
-                                        Create a new team on the left to get
-                                        started
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className="divide-y divide--(--cit-border)">
-                                    {userTeams.map((team) => (
-                                        <div
-                                            key={team.id}
-                                            className="transition-colors hover:bg-(--cit-surface-subtle)"
-                                        >
-                                            {/* Team Row */}
-                                            <div
-                                                onClick={() =>
-                                                    setExpandedTeamId(
-                                                        expandedTeamId ===
-                                                            team.id
-                                                            ? null
-                                                            : team.id,
-                                                    )
-                                                }
-                                                className="flex items-center justify-between gap-4 cursor-pointer px-6 py-4"
-                                            >
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="flex-1">
-                                                            <h3 className="font-semibold text-(--cit-text) truncate">
-                                                                {team.name}
-                                                            </h3>
-                                                            <p className="text-xs text-(--cit-text-muted) mt-1">
-                                                                {team.leaderId ===
-                                                                user.id
-                                                                    ? "Leader"
-                                                                    : "Member"}{" "}
-                                                                •{" "}
-                                                                {getTeamMemberCount(
-                                                                    team,
-                                                                )}{" "}
-                                                                members
+                                )}
+
+                                <form
+                                    onSubmit={handleCreateTeam}
+                                    className="space-y-4"
+                                >
+                                    {/* Team Name */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-(--cit-text) mb-2">
+                                            Team Name{" "}
+                                            <span className="text-(--cit-danger)">
+                                                *
+                                            </span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.teamName}
+                                            onChange={handleTeamNameChange}
+                                            placeholder="Enter team name"
+                                            className="w-full rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) px-4 py-2.5 text-sm text-(--cit-text) placeholder-text-(--cit-text-muted) transition-all focus:border-(--cit-primary) focus:outline-none focus:ring-2 focus:ring-(--cit-primary) focus:ring-opacity-10"
+                                        />
+                                        {errors.teamName && (
+                                            <p className="mt-1 text-xs text-(--cit-danger)">
+                                                {errors.teamName}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Teammates */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-(--cit-text) mb-2">
+                                            Teammates{" "}
+                                            <span className="text-xs text-(--cit-text-muted)">
+                                                (Max 5)
+                                            </span>
+                                        </label>
+                                        {errors.teammates && (
+                                            <p className="mb-2 text-xs text-(--cit-danger)">
+                                                {errors.teammates}
+                                            </p>
+                                        )}
+
+                                        {formData.teammates.map(
+                                            (email, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="mb-3 flex gap-2"
+                                                >
+                                                    <div className="flex-1">
+                                                        <input
+                                                            type="email"
+                                                            value={email}
+                                                            onChange={(e) =>
+                                                                handleTeammateChange(
+                                                                    index,
+                                                                    e.target
+                                                                        .value,
+                                                                )
+                                                            }
+                                                            placeholder={`Teammate ${index + 1} email`}
+                                                            className="w-full rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) px-4 py-2 text-sm text-(--cit-text) placeholder-text-(--cit-text-muted) transition-all focus:border-(--cit-primary) focus:outline-none focus:ring-2 focus:ring-(--cit-primary) focus:ring-opacity-10"
+                                                        />
+                                                        {errors[
+                                                            `teammate_${index}`
+                                                        ] && (
+                                                            <p className="mt-1 text-xs text-(--cit-danger)">
+                                                                {
+                                                                    errors[
+                                                                        `teammate_${index}`
+                                                                    ]
+                                                                }
                                                             </p>
+                                                        )}
+                                                    </div>
+                                                    {formData.teammates.length >
+                                                        1 && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                removeTeammateField(
+                                                                    index,
+                                                                )
+                                                            }
+                                                            className="cursor-pointer rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            ),
+                                        )}
+                                    </div>
+
+                                    {/* Add More Teammate Button */}
+                                    {formData.teammates.length < 5 && (
+                                        <button
+                                            type="button"
+                                            onClick={addTeammateField}
+                                            className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-(--cit-radius-md) border-2 border-dashed border-(--cit-border) bg-(--cit-surface-subtle) py-2.5 text-sm font-medium text-(--cit-primary) transition-all hover:border-(--cit-primary) hover:bg-(--cit-primary-soft)"
+                                        >
+                                            <Plus size={16} />
+                                            Add Teammate
+                                        </button>
+                                    )}
+
+                                    {/* Submit Button */}
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="cursor-pointer w-full rounded-(--cit-radius-md) bg-(--cit-primary) py-2.5 font-medium text-white transition-all hover:bg-(--cit-primary-hover) disabled:opacity-60 disabled:cursor-not-allowed"
+                                    >
+                                        {loading
+                                            ? "Creating..."
+                                            : "Create Team"}
+                                    </button>
+
+                                    {/* Info Text */}
+                                    <p className="text-xs text-(--cit-text-muted) text-center">
+                                        You will be the team leader. Max 6
+                                        members total (including you).
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+
+                        {/* Right: Teams List */}
+                        <div className="lg:col-span-2">
+                            <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) shadow-(--cit-shadow-sm) overflow-hidden">
+                                {userTeams.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
+                                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-(--cit-surface-subtle)">
+                                            <Plus
+                                                size={24}
+                                                className="text-(--cit-text-muted)"
+                                            />
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-(--cit-text)">
+                                            No teams yet
+                                        </h3>
+                                        <p className="mt-2 text-sm text-(--cit-text-muted) max-w-xs">
+                                            Create a new team on the left to get
+                                            started
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="divide-y divide--(--cit-border)">
+                                        {userTeams.map((team) => (
+                                            <div
+                                                key={team.id}
+                                                className="transition-colors hover:bg-(--cit-surface-subtle)"
+                                            >
+                                                {/* Team Row */}
+                                                <div
+                                                    onClick={() =>
+                                                        setExpandedTeamId(
+                                                            expandedTeamId ===
+                                                                team.id
+                                                                ? null
+                                                                : team.id,
+                                                        )
+                                                    }
+                                                    className="flex items-center justify-between gap-4 cursor-pointer px-6 py-4"
+                                                >
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="flex-1">
+                                                                <h3 className="font-semibold text-(--cit-text) truncate">
+                                                                    {team.name}
+                                                                </h3>
+                                                                <p className="text-xs text-(--cit-text-muted) mt-1">
+                                                                    {team.leaderId ===
+                                                                    user.id
+                                                                        ? "Leader"
+                                                                        : "Member"}{" "}
+                                                                    •{" "}
+                                                                    {getTeamMemberCount(
+                                                                        team,
+                                                                    )}{" "}
+                                                                    members
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Actions */}
+                                                    <div className="flex items-center gap-2">
+                                                        {team.leaderId ===
+                                                            user.id && (
+                                                            <button
+                                                                onClick={(
+                                                                    e,
+                                                                ) => {
+                                                                    e.stopPropagation();
+                                                                    confirmDelete(
+                                                                        team.id,
+                                                                    );
+                                                                }}
+                                                                className="cursor-pointer rounded-(--cit-radius-md) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
+                                                            >
+                                                                <Trash2
+                                                                    size={18}
+                                                                />
+                                                            </button>
+                                                        )}
+                                                        <div className="text-(--cit-text-muted)">
+                                                            {expandedTeamId ===
+                                                            team.id ? (
+                                                                <ChevronUp
+                                                                    size={20}
+                                                                />
+                                                            ) : (
+                                                                <ChevronDown
+                                                                    size={20}
+                                                                />
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                {/* Actions */}
-                                                <div className="flex items-center gap-2">
-                                                    {team.leaderId ===
-                                                        user.id && (
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                confirmDelete(
-                                                                    team.id,
-                                                                );
-                                                            }}
-                                                            className="cursor-pointer rounded-(--cit-radius-md) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
-                                                        >
-                                                            <Trash2 size={18} />
-                                                        </button>
-                                                    )}
-                                                    <div className="text-(--cit-text-muted)">
-                                                        {expandedTeamId ===
-                                                        team.id ? (
-                                                            <ChevronUp
-                                                                size={20}
-                                                            />
-                                                        ) : (
-                                                            <ChevronDown
-                                                                size={20}
-                                                            />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                {/* Expanded Content */}
+                                                <div
+                                                    className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTeamId === team.id ? "max-h-max opacity-100" : "max-h-0 opacity-0"}`}
+                                                >
+                                                    <div className="border-t border-(--cit-border) bg-(--cit-surface-subtle) px-4 sm:px-6 py-4 min-w-0">
+                                                        <h4 className="mb-4 font-semibold text-(--cit-text)">
+                                                            Team Members
+                                                        </h4>
 
-                                            {/* Expanded Content */}
-                                            <div
-                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTeamId === team.id ? "max-h-max opacity-100" : "max-h-0 opacity-0"}`}
-                                            >
-                                                <div className="border-t border-(--cit-border) bg-(--cit-surface-subtle) px-4 sm:px-6 py-4 min-w-0">
-                                                    <h4 className="mb-4 font-semibold text-(--cit-text)">
-                                                        Team Members
-                                                    </h4>
-
-                                                    {/* Team Members List */}
-                                                    <div className="space-y-3 overflow-x-auto">
-                                                        {team.members.map(
-                                                            (member, idx) => {
-                                                                const isLeader =
-                                                                    member.id ===
-                                                                    team.leaderId;
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            member.id
-                                                                        }
-                                                                        className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-(--cit-radius-md) bg-(--cit-surface) p-3 border border-(--cit-border) min-w-0"
-                                                                    >
+                                                        {/* Team Members List */}
+                                                        <div className="space-y-3 overflow-x-auto">
+                                                            {team.members.map(
+                                                                (
+                                                                    member,
+                                                                    idx,
+                                                                ) => {
+                                                                    const isLeader =
+                                                                        member.id ===
+                                                                        team.leaderId;
+                                                                    return (
                                                                         <div
-                                                                            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                                                                                isLeader
-                                                                                    ? "bg-(--cit-primary-soft) text-(--cit-primary)"
-                                                                                    : "bg-(--cit-surface-subtle) text-(--cit-text-muted)"
-                                                                            }`}
+                                                                            key={
+                                                                                member.id
+                                                                            }
+                                                                            className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-(--cit-radius-md) bg-(--cit-surface) p-3 border border-(--cit-border) min-w-0"
                                                                         >
-                                                                            {isLeader
-                                                                                ? "L"
-                                                                                : idx}
+                                                                            <div
+                                                                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                                                                                    isLeader
+                                                                                        ? "bg-(--cit-primary-soft) text-(--cit-primary)"
+                                                                                        : "bg-(--cit-surface-subtle) text-(--cit-text-muted)"
+                                                                                }`}
+                                                                            >
+                                                                                {isLeader
+                                                                                    ? "L"
+                                                                                    : idx}
+                                                                            </div>
+                                                                            <div className="flex-1 min-w-0">
+                                                                                <p className="text-sm font-medium text-(--cit-text) truncate">
+                                                                                    {
+                                                                                        member.name
+                                                                                    }
+                                                                                </p>
+                                                                                <p className="text-xs text-(--cit-text-muted) truncate">
+                                                                                    {
+                                                                                        member.email
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                            <span
+                                                                                className={`whitespace-nowrap text-xs font-semibold px-2.5 py-1 rounded-(--cit-radius-sm) ${
+                                                                                    isLeader
+                                                                                        ? "bg-(--cit-primary-soft) text-(--cit-primary)"
+                                                                                        : "bg-(--cit-surface-subtle) text-(--cit-text-muted)"
+                                                                                }`}
+                                                                            >
+                                                                                {isLeader
+                                                                                    ? "Leader"
+                                                                                    : "Member"}
+                                                                            </span>
                                                                         </div>
-                                                                        <div className="flex-1 min-w-0">
-                                                                            <p className="text-sm font-medium text-(--cit-text) truncate">
-                                                                                {
-                                                                                    member.name
-                                                                                }
-                                                                            </p>
-                                                                            <p className="text-xs text-(--cit-text-muted) truncate">
-                                                                                {
-                                                                                    member.email
-                                                                                }
-                                                                            </p>
-                                                                        </div>
-                                                                        <span
-                                                                            className={`whitespace-nowrap text-xs font-semibold px-2.5 py-1 rounded-(--cit-radius-sm) ${
-                                                                                isLeader
-                                                                                    ? "bg-(--cit-primary-soft) text-(--cit-primary)"
-                                                                                    : "bg-(--cit-surface-subtle) text-(--cit-text-muted)"
-                                                                            }`}
-                                                                        >
-                                                                            {isLeader
-                                                                                ? "Leader"
-                                                                                : "Member"}
-                                                                        </span>
-                                                                    </div>
-                                                                );
-                                                            },
-                                                        )}
-                                                    </div>
+                                                                    );
+                                                                },
+                                                            )}
+                                                        </div>
 
-                                                    {/* Team Created Date */}
-                                                    <p className="mt-4 text-xs text-(--cit-text-muted)">
-                                                        Created on{" "}
-                                                        {new Date(
-                                                            team.createdAt,
-                                                        ).toLocaleDateString()}
-                                                    </p>
+                                                        {/* Team Created Date */}
+                                                        <p className="mt-4 text-xs text-(--cit-text-muted)">
+                                                            Created on{" "}
+                                                            {new Date(
+                                                                team.createdAt,
+                                                            ).toLocaleDateString()}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Delete Confirmation Modal */}
-            {deleteConfirmId && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.5)] p-4">
-                    <div className="opacity-100 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-lg max-w-sm w-full">
-                        <div className="mb-4">
-                            <h3 className="text-lg font-bold text-(--cit-text)">
-                                Delete Team?
-                            </h3>
-                            <p className="mt-2 text-sm text-(--cit-text-muted)">
-                                Are you sure you want to delete this team? This
-                                action cannot be undone.
-                            </p>
-                        </div>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setDeleteConfirmId(null)}
-                                className="cursor-pointer flex-1 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2.5 font-medium text-(--cit-text) transition-colors hover:bg-(--cit-surface-subtle)"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() =>
-                                    handleDeleteTeam(deleteConfirmId)
-                                }
-                                className="cursor-pointer flex-1 rounded-(--cit-radius-md) bg-(--cit-danger) px-4 py-2.5 font-medium text-white transition-colors hover:bg-opacity-90"
-                            >
-                                Delete
-                            </button>
+                {/* Delete Confirmation Modal */}
+                {deleteConfirmId && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.5)] p-4">
+                        <div className="opacity-100 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-lg max-w-sm w-full">
+                            <div className="mb-4">
+                                <h3 className="text-lg font-bold text-(--cit-text)">
+                                    Delete Team?
+                                </h3>
+                                <p className="mt-2 text-sm text-(--cit-text-muted)">
+                                    Are you sure you want to delete this team?
+                                    This action cannot be undone.
+                                </p>
+                            </div>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setDeleteConfirmId(null)}
+                                    className="cursor-pointer flex-1 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2.5 font-medium text-(--cit-text) transition-colors hover:bg-(--cit-surface-subtle)"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        handleDeleteTeam(deleteConfirmId)
+                                    }
+                                    className="cursor-pointer flex-1 rounded-(--cit-radius-md) bg-(--cit-danger) px-4 py-2.5 font-medium text-white transition-colors hover:bg-opacity-90"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </main>
+                )}
+            </main>
+        </>
     );
 }
