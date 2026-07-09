@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { useAuthContext } from "../../context/AuthContext";
 import { initialTeams } from "../../data/teams";
-import { ChevronDown, ChevronUp, Plus, Trash2, Check, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Trash2, X } from "lucide-react";
 
 // Helper functions
 const isValidEmail = (email) => {
@@ -26,8 +27,8 @@ export default function StudentMyTeams() {
         teammates: [""],
     });
     const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
     // Get user's teams
     const userTeams = teams.filter((team) =>
@@ -144,9 +145,7 @@ export default function StudentMyTeams() {
                 teammates: [""],
             });
             setErrors({});
-            setSuccessMessage("Team created successfully!");
-
-            setTimeout(() => setSuccessMessage(""), 3000);
+            toast.success("Team created successfully!");
         } catch (error) {
             setErrors({ form: "Failed to create team. Please try again." });
         } finally {
@@ -156,9 +155,14 @@ export default function StudentMyTeams() {
 
     // Delete team
     const handleDeleteTeam = (teamId) => {
-        if (window.confirm("Are you sure you want to delete this team?")) {
-            setTeams((prev) => prev.filter((team) => team.id !== teamId));
-        }
+        setTeams((prev) => prev.filter((team) => team.id !== teamId));
+        setDeleteConfirmId(null);
+        toast.success("Team deleted successfully!");
+    };
+
+    // Confirm delete
+    const confirmDelete = (teamId) => {
+        setDeleteConfirmId(teamId);
     };
 
     return (
@@ -180,16 +184,6 @@ export default function StudentMyTeams() {
                                 <Plus size={20} />
                                 Create Team
                             </h2>
-
-                            {/* Success Message */}
-                            {successMessage && (
-                                <div className="mb-4 flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-success) bg-opacity-10 p-3 text-(--cit-success)">
-                                    <Check size={18} />
-                                    <span className="text-sm font-medium">
-                                        {successMessage}
-                                    </span>
-                                </div>
-                            )}
 
                             {/* Error Message */}
                             {errors.form && (
@@ -384,7 +378,7 @@ export default function StudentMyTeams() {
                                                         <button
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                handleDeleteTeam(
+                                                                confirmDelete(
                                                                     team.id,
                                                                 );
                                                             }}
@@ -410,15 +404,15 @@ export default function StudentMyTeams() {
 
                                             {/* Expanded Content */}
                                             <div
-                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTeamId === team.id ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTeamId === team.id ? "max-h-max opacity-100" : "max-h-0 opacity-0"}`}
                                             >
-                                                <div className="border-t border-(--cit-border) bg-(--cit-surface-subtle) px-6 py-4">
+                                                <div className="border-t border-(--cit-border) bg-(--cit-surface-subtle) px-4 sm:px-6 py-4 min-w-0">
                                                     <h4 className="mb-4 font-semibold text-(--cit-text)">
                                                         Team Members
                                                     </h4>
 
                                                     {/* Team Members List */}
-                                                    <div className="space-y-3">
+                                                    <div className="space-y-3 overflow-x-auto">
                                                         {team.members.map(
                                                             (member, idx) => {
                                                                 const isLeader =
@@ -429,10 +423,10 @@ export default function StudentMyTeams() {
                                                                         key={
                                                                             member.id
                                                                         }
-                                                                        className="flex items-center gap-3 rounded-(--cit-radius-md) bg-(--cit-surface) p-3 border border-(--cit-border)"
+                                                                        className="flex flex-col sm:flex-row items-start sm:items-center gap-3 rounded-(--cit-radius-md) bg-(--cit-surface) p-3 border border-(--cit-border) min-w-0"
                                                                     >
                                                                         <div
-                                                                            className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
+                                                                            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                                                                                 isLeader
                                                                                     ? "bg-(--cit-primary-soft) text-(--cit-primary)"
                                                                                     : "bg-(--cit-surface-subtle) text-(--cit-text-muted)"
@@ -488,6 +482,39 @@ export default function StudentMyTeams() {
                     </div>
                 </div>
             </div>
+
+            {/* Delete Confirmation Modal */}
+            {deleteConfirmId && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+                    <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-lg max-w-sm w-full">
+                        <div className="mb-4">
+                            <h3 className="text-lg font-bold text-(--cit-text)">
+                                Delete Team?
+                            </h3>
+                            <p className="mt-2 text-sm text-(--cit-text-muted)">
+                                Are you sure you want to delete this team? This
+                                action cannot be undone.
+                            </p>
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setDeleteConfirmId(null)}
+                                className="cursor-pointer flex-1 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2.5 font-medium text-(--cit-text) transition-colors hover:bg-(--cit-surface-subtle)"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() =>
+                                    handleDeleteTeam(deleteConfirmId)
+                                }
+                                className="cursor-pointer flex-1 rounded-(--cit-radius-md) bg-(--cit-danger) px-4 py-2.5 font-medium text-white transition-colors hover:bg-opacity-90"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }
