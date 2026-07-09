@@ -17,6 +17,7 @@ import {
     ChevronRight,
     Zap,
 } from "lucide-react";
+import { set } from "react-hook-form";
 
 const roleNav = {
     student: [
@@ -213,7 +214,7 @@ export default function DashboardLayout({ role }) {
                             <button
                                 type="button"
                                 className="inline-flex h-10 w-10 items-center justify-center rounded-[14px] border border-(--cit-border) bg-(--cit-surface) text-(--cit-text)"
-                                onClick={() => setUser(null)}
+                                onClick={() => setLogoutConfirmation(true)}
                             >
                                 <LogOut size={18} />
                             </button>
