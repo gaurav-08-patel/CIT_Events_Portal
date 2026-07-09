@@ -166,7 +166,6 @@ export default function StudentMyTeams() {
             <div className="mx-auto max-w-300">
                 {/* Header */}
                 <div className="mb-8">
-                   
                     <p className="mt-2 text-sm text-(--cit-text-muted) md:text-base">
                         Create teams for events or join existing ones
                     </p>
@@ -280,7 +279,7 @@ export default function StudentMyTeams() {
                                                             index,
                                                         )
                                                     }
-                                                    className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
+                                                    className="cursor-pointer rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>
@@ -294,7 +293,7 @@ export default function StudentMyTeams() {
                                     <button
                                         type="button"
                                         onClick={addTeammateField}
-                                        className="w-full flex items-center justify-center gap-2 rounded-(--cit-radius-md) border-2 border-dashed border-(--cit-border) bg-(--cit-surface-subtle) py-2.5 text-sm font-medium text-(--cit-primary) transition-all hover:border-(--cit-primary) hover:bg-(--cit-primary-soft)"
+                                        className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-(--cit-radius-md) border-2 border-dashed border-(--cit-border) bg-(--cit-surface-subtle) py-2.5 text-sm font-medium text-(--cit-primary) transition-all hover:border-(--cit-primary) hover:bg-(--cit-primary-soft)"
                                     >
                                         <Plus size={16} />
                                         Add Teammate
@@ -305,7 +304,7 @@ export default function StudentMyTeams() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full rounded-(--cit-radius-md) bg-(--cit-primary) py-2.5 font-medium text-white transition-all hover:bg-(--cit-primary-hover) disabled:opacity-60 disabled:cursor-not-allowed"
+                                    className="cursor-pointer w-full rounded-(--cit-radius-md) bg-(--cit-primary) py-2.5 font-medium text-white transition-all hover:bg-(--cit-primary-hover) disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     {loading ? "Creating..." : "Create Team"}
                                 </button>
@@ -389,7 +388,7 @@ export default function StudentMyTeams() {
                                                                     team.id,
                                                                 );
                                                             }}
-                                                            className="rounded-(--cit-radius-md) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
+                                                            className="cursor-pointer rounded-(--cit-radius-md) p-2 text-(--cit-text-muted) transition-colors hover:bg-(--cit-danger) hover:text-white"
                                                         >
                                                             <Trash2 size={18} />
                                                         </button>
@@ -410,7 +409,9 @@ export default function StudentMyTeams() {
                                             </div>
 
                                             {/* Expanded Content */}
-                                            {expandedTeamId === team.id && (
+                                            <div
+                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedTeamId === team.id ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+                                            >
                                                 <div className="border-t border-(--cit-border) bg-(--cit-surface-subtle) px-6 py-4">
                                                     <h4 className="mb-4 font-semibold text-(--cit-text)">
                                                         Team Members
@@ -478,7 +479,7 @@ export default function StudentMyTeams() {
                                                         ).toLocaleDateString()}
                                                     </p>
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
