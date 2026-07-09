@@ -485,8 +485,8 @@ export default function StudentMyTeams() {
 
             {/* Delete Confirmation Modal */}
             {deleteConfirmId && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-                    <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-lg max-w-sm w-full">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.5)] p-4">
+                    <div className="opacity-100 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-lg max-w-sm w-full">
                         <div className="mb-4">
                             <h3 className="text-lg font-bold text-(--cit-text)">
                                 Delete Team?
