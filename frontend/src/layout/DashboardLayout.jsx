@@ -314,7 +314,7 @@ export default function DashboardLayout({ role }) {
                 <main
                     className={`transition-all duration-300 ease-out ${mainWidthClass} ${mainMarginClass} px-3 py-8 md:px-8 lg:px-10 overflow-auto max-h-[calc(100vh-84px)]`}
                 >
-                    <div className="mb-1 flex items-center justify-between gap-4">
+                    <div className="max-w-300 mx-auto mb-1 flex items-center justify-between gap-4">
                         <div>
                             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-(--cit-primary)">
                                 {portalLabel}
