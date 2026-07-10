@@ -54,7 +54,7 @@ export default function StudentCertificates() {
                                                     certificate,
                                                 );
                                             }}
-                                            className="rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                                            className="cursor-pointer rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
                                         >
                                             View Certificate
                                         </button>
@@ -139,7 +139,7 @@ export default function StudentCertificates() {
                                             setIsPreviewLoading(false);
                                             setActiveCertificate(null);
                                         }}
-                                        className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2.5 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-surface-subtle)"
+                                        className="cursor-pointer rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2.5 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-surface-subtle)"
                                     >
                                         Close
                                     </button>
