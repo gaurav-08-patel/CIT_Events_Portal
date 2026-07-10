@@ -92,7 +92,7 @@ export const ALL_EVENTS = [
     {
         id: 5,
         title: "Robonautics Workshop",
-        category: "Workshop",
+        category: "Non-Technical",
         image: "https://images.unsplash.com/photo-1581091212911-f4efc3f71c48?w=1200&h=640&fit=crop&auto=format",
         date: "Jul 22, 2025",
         venue: "Electronics Lab",

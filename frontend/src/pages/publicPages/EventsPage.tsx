@@ -35,6 +35,7 @@ const CATEGORIES = [
     "Coding Challenge",
     "AI/ML",
     "Technical",
+    "Non-Technical",
     "Cultural",
     "Sports",
 ];
@@ -51,6 +52,7 @@ const categoryColors: Record<string, { color: string; bg: string }> = {
     Technical: { color: "#FA3E3E", bg: "#FDE8E8" },
     Cultural: { color: "#E91E8C", bg: "#FFE4F5" },
     Sports: { color: "#0288D1", bg: "#E0F4FF" },
+    "Non-Technical": { color: "#65676B", bg: "#F0F2F5" },
 };
 
 function getBadge(cat: string) {
