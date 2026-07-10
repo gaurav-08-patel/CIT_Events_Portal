@@ -30,9 +30,9 @@ const roleNav = {
     ],
     organizer: [
         { label: "Dashboard", to: "dashboard", icon: LayoutGrid },
+        { label: "Profile", to: "profile", icon: User },
         { label: "Manage Events", to: "manage-events", icon: ClipboardList },
         { label: "Create Event", to: "create-event", icon: PlusSquare },
-        { label: "Profile", to: "profile", icon: User },
     ],
     admin: [
         { label: "Dashboard", to: "dashboard", icon: LayoutGrid },
