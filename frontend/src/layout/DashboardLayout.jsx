@@ -102,13 +102,13 @@ export default function DashboardLayout({ role }) {
     const mainMarginClass = mobileOpen
         ? "ml-0"
         : sidebarExpanded
-          ? "md:ml-72"
-          : "md:ml-20";
+          ? "lg:ml-72"
+          : "lg:ml-20";
     const mainWidthClass = mobileOpen
         ? "w-full"
         : expanded
-          ? "md:w-[calc(100%-18rem)]"
-          : "md:w-[calc(100%-5rem)]";
+          ? "lg:w-[calc(100%-18rem)]"
+          : "lg:w-[calc(100%-5rem)]";
     const portalLabel =
         role === "admin"
             ? "Admin Portal"
@@ -122,7 +122,7 @@ export default function DashboardLayout({ role }) {
                         <div className="flex items-center gap-1">
                             <button
                                 type="button"
-                                className="inline-flex h-10 w-10 items-center justify-center rounded-[14px] border border-(--cit-border) bg-(--cit-surface) text-(--cit-text) md:hidden"
+                                className="inline-flex h-10 w-10 items-center justify-center rounded-[14px] border border-(--cit-border) bg-(--cit-surface) text-(--cit-text) lg:hidden"
                                 onClick={() => setMobileOpen(true)}
                                 aria-label="Open sidebar"
                             >
@@ -226,7 +226,7 @@ export default function DashboardLayout({ role }) {
             <div className="relative min-h-[calc(100vh-84px)]">
                 <aside
                     ref={sidebarRef}
-                    className={`dashboard-sidebar ${sidebarWidthClass} shrink-0 flex flex-col gap-6 border-r border-(--cit-border) bg-(--cit-surface) px-4 py-5 transition-all duration-300 ease-out ${mobileOpen ? "fixed left-0 top-0 z-50 h-full shadow-[20px_0_50px_rgba(15,23,42,0.12)] overflow-y-auto" : "fixed left-0 md:top-19.5 z-30 h-[calc(100vh-84px)] overflow-y-auto"} ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+                    className={`dashboard-sidebar ${sidebarWidthClass} shrink-0 flex flex-col gap-6 border-r border-(--cit-border) bg-(--cit-surface) px-4 py-5 transition-all duration-300 ease-out ${mobileOpen ? "fixed left-0 top-0 z-50 h-full shadow-[20px_0_50px_rgba(15,23,42,0.12)] overflow-y-auto" : "fixed left-0 lg:top-19.5 z-30 h-[calc(100vh-84px)] overflow-y-auto"} ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
                     onMouseEnter={() =>
                         setIsHovered(!mobileOpen ? true : false)
                     }
@@ -333,7 +333,7 @@ export default function DashboardLayout({ role }) {
 
                 {mobileOpen && (
                     <div
-                        className="fixed inset-0 z-40 bg-black/30 md:hidden"
+                        className="fixed inset-0 z-40 bg-black/30 lg:hidden"
                         onClick={() => setMobileOpen(false)}
                     />
                 )}
