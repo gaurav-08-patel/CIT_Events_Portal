@@ -13,13 +13,13 @@ export default function StudentCertificates() {
                 description="Review and download your verified certificates from CIT events."
                 canonical="/student/certificates"
             />
-            <main className="min-h-screen bg-(--cit-bg) px-6 py-10 md:px-8 lg:px-10">
-                <div className="mx-auto max-w-7xl space-y-6">
-                    <div className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-(--cit-surface) p-7 shadow-(--cit-shadow-sm)">
-                        <h3 className="text-3xl font-extrabold text-(--cit-text)">
+            <main className="min-h-screen bg-(--cit-bg) py-4">
+                <div className="mx-auto max-w-300 space-y-6">
+                    <div className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-(--cit-surface) p-4 lg:p-6 shadow-(--cit-shadow-sm)">
+                        <h3 className="text-xl font-extrabold text-(--cit-text)">
                             Your earned certificates
                         </h3>
-                        <p className="mt-3 max-w-2xl text-sm text-(--cit-text-muted)">
+                        <p className="mt-1 max-w-2xl text-[12px] md:text-sm text-(--cit-text-muted)">
                             Explore certificates you have earned from CIT
                             events, view them instantly in a preview window, and
                             download your verified PDF copy.
@@ -68,20 +68,7 @@ export default function StudentCertificates() {
                                     </div>
                                 </div>
 
-                                <div className="mt-4 flex items-center gap-3 rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) text-xs font-semibold text-(--cit-primary)">
-                                        PDF
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-semibold text-(--cit-text)">
-                                            {certificate.title}
-                                        </p>
-                                        <p className="mt-1 text-xs text-(--cit-text-muted)">
-                                            {certificate.event} •{" "}
-                                            {certificate.issueDate}
-                                        </p>
-                                    </div>
-                                </div>
+                                 
 
                                 <div className="mt-6 grid gap-3 text-sm text-(--cit-text-muted)">
                                     <div className="rounded-(--cit-radius-md) bg-(--cit-surface-subtle) px-4 py-3">
