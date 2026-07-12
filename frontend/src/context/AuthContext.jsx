@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
         name: "John Kumar rathu Doe",
         role: "organizer",
         profileSetupCompleted: false,
+        isApproved: false,
     });
     const isLoggedIn = Boolean(user);
 
