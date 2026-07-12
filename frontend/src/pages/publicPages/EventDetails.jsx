@@ -299,7 +299,7 @@ export default function EventDetails() {
                                     </div>
 
                                     {isRestrictedUser ? (
-                                        <div className="mt-6 rounded-(--cit-radius-md) border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-900">
+                                        <div className="mt-6 rounded-(--cit-radius-md) border border-amber-300 bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm">
                                             Organizer and admin accounts are not
                                             allowed to register for events.
                                         </div>
