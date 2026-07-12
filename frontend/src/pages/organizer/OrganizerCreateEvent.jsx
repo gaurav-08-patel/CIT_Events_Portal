@@ -25,7 +25,6 @@ export default function OrganizerCreateEvent() {
     const [privacyInput, setPrivacyInput] = useState("");
     const [privacyPolicies, setPrivacyPolicies] = useState([]);
     const [descriptionHtml, setDescriptionHtml] = useState("");
-    const [submitMessage, setSubmitMessage] = useState("");
     const editorRef = useRef(null);
 
     const {
@@ -34,6 +33,8 @@ export default function OrganizerCreateEvent() {
         watch,
         setValue,
         reset,
+        setError,
+        clearErrors,
         formState: { errors },
     } = useForm({
         defaultValues: {
@@ -136,17 +137,55 @@ export default function OrganizerCreateEvent() {
     };
 
     const onSubmit = (data) => {
+        clearErrors(["tags", "rules", "privacyPolicies", "description"]);
+
+        let hasValidationErrors = false;
+
+        if (!tags.length) {
+            setError("tags", {
+                type: "manual",
+                message: "Add at least one tag",
+            });
+            hasValidationErrors = true;
+        }
+
+        if (!rules.length) {
+            setError("rules", {
+                type: "manual",
+                message: "Add at least one rule",
+            });
+            hasValidationErrors = true;
+        }
+
+        if (!privacyPolicies.length) {
+            setError("privacyPolicies", {
+                type: "manual",
+                message: "Add at least one privacy policy note",
+            });
+            hasValidationErrors = true;
+        }
+
+        if (!descriptionHtml.trim()) {
+            setError("description", {
+                type: "manual",
+                message: "Description is required",
+            });
+            hasValidationErrors = true;
+        }
+
+        if (hasValidationErrors) {
+            return;
+        }
+
         const payload = {
             ...data,
             tags,
             rules,
             privacyPolicies,
             description: descriptionHtml,
-            bannerPreview,
         };
 
         console.log("New event payload", payload);
-        setSubmitMessage("Event draft is ready for review.");
         reset({
             title: "",
             category: "All",
@@ -177,12 +216,12 @@ export default function OrganizerCreateEvent() {
     };
 
     return (
-        <div className="space-y-6 max-w-300 mx-auto">
+        <div className="space-y-6 max-w-300 mx-auto mt-4">
             <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h2 className="text-2xl font-extrabold text-(--cit-text)">
-                            Create a new event
+                        <h2 className="text-lg md:text-xl font-extrabold text-(--cit-text)">
+                            “Your event, your way.”
                         </h2>
                         <p className="mt-2 text-(--cit-text-muted)">
                             Collect all the details needed to publish a polished
@@ -781,29 +820,15 @@ export default function OrganizerCreateEvent() {
                     </div>
                 </section>
 
-                <aside className="space-y-6">
+                <aside className="space-y-4">
                     <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
                         <h3 className="text-lg font-extrabold text-(--cit-text)">
-                            Content preview
+                            Event overview
                         </h3>
                         <p className="mt-2 text-sm text-(--cit-text-muted)">
-                            Your rich text description will appear here as HTML.
+                            A quick snapshot of the essentials before you
+                            submit.
                         </p>
-                        <div className="mt-4 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html:
-                                        descriptionHtml ||
-                                        "<p className='text-(--cit-text-muted)'>Add a description to preview the content.</p>",
-                                }}
-                            />
-                        </div>
-                    </section>
-
-                    <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
-                        <h3 className="text-lg font-extrabold text-(--cit-text)">
-                            Submission summary
-                        </h3>
                         <div className="mt-4 space-y-3 text-sm text-(--cit-text-muted)">
                             <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
                                 <p className="font-semibold text-(--cit-text)">
@@ -844,11 +869,6 @@ export default function OrganizerCreateEvent() {
                     >
                         Create event
                     </button>
-                    {submitMessage ? (
-                        <p className="text-sm font-medium text-(--cit-success)">
-                            {submitMessage}
-                        </p>
-                    ) : null}
                 </aside>
             </form>
         </div>
