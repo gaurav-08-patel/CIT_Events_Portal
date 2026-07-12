@@ -151,7 +151,7 @@ export default function OrganizerProfile() {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditing(true)}
-                                    className="inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600 sm:w-auto"
+                                    className="cursor-pointer inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600 sm:w-auto"
                                 >
                                     Complete profile
                                 </button>
@@ -185,7 +185,7 @@ export default function OrganizerProfile() {
                                         <button
                                             type="button"
                                             onClick={openApplyModal}
-                                            className="inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-600 sm:w-auto"
+                                            className="cursor-pointer inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-600 sm:w-auto"
                                         >
                                             Apply for Approval
                                         </button>
@@ -565,14 +565,14 @@ export default function OrganizerProfile() {
                                 <button
                                     type="button"
                                     onClick={closeApplyModal}
-                                    className="inline-flex items-center rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2 text-sm font-semibold text-(--cit-text)"
+                                    className="cursor-pointer inline-flex items-center rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2 text-sm font-semibold text-(--cit-text)"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="button"
                                     onClick={sendApprovalRequest}
-                                    className="inline-flex items-center rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2 text-sm font-semibold text-white"
+                                    className="cursor-pointer inline-flex items-center rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2 text-sm font-semibold text-white"
                                 >
                                     Send Request
                                 </button>
