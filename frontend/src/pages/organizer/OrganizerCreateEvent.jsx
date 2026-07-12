@@ -177,7 +177,7 @@ export default function OrganizerCreateEvent() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 max-w-300 mx-auto">
             <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
@@ -309,7 +309,7 @@ export default function OrganizerCreateEvent() {
                                     Event date
                                 </label>
                                 <input
-                                    type="datetime-local"
+                                    type="date"
                                     {...register("eventDate", {
                                         required: "Event date is required",
                                     })}
@@ -450,7 +450,7 @@ export default function OrganizerCreateEvent() {
                                     Registration fee
                                 </label>
                                 <div className="flex gap-3">
-                                    <label className="flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm">
+                                    <label className="flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm cursor-pointer ">
                                         <input
                                             type="radio"
                                             value="free"
@@ -460,7 +460,7 @@ export default function OrganizerCreateEvent() {
                                         />
                                         Free
                                     </label>
-                                    <label className="flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm">
+                                    <label className=" cursor-pointer flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm">
                                         <input
                                             type="radio"
                                             value="paid"
@@ -513,7 +513,7 @@ export default function OrganizerCreateEvent() {
                                     Prize type
                                 </label>
                                 <div className="flex gap-3">
-                                    <label className="flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm">
+                                    <label className="flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm cursor-pointer ">
                                         <input
                                             type="radio"
                                             value="certificate"
@@ -523,7 +523,7 @@ export default function OrganizerCreateEvent() {
                                         />
                                         Certificate
                                     </label>
-                                    <label className="flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm">
+                                    <label className=" cursor-pointer flex items-center gap-2 rounded-(--cit-radius-md) border border-(--cit-border) px-3 py-2 text-sm">
                                         <input
                                             type="radio"
                                             value="money"
@@ -600,7 +600,7 @@ export default function OrganizerCreateEvent() {
                                 <button
                                     type="button"
                                     onClick={addTag}
-                                    className="inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                                    className="cursor-pointer inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
                                 >
                                     <Plus size={16} /> Add
                                 </button>
@@ -690,32 +690,34 @@ export default function OrganizerCreateEvent() {
                                 <button
                                     type="button"
                                     onClick={() => addListItem("rule")}
-                                    className="inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                                    className="cursor-pointer inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
                                 >
                                     <Plus size={16} /> Add
                                 </button>
                             </div>
-                            <ul className="space-y-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
-                                {rules.map((rule) => (
-                                    <li
-                                        key={rule}
-                                        className="flex items-start justify-between gap-3 rounded-(--cit-radius-sm) bg-(--cit-surface) px-3 py-2 text-sm"
-                                    >
-                                        <span className="text-(--cit-text)">
-                                            {rule}
-                                        </span>
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                removeListItem("rule", rule)
-                                            }
-                                            className="text-(--cit-danger)"
+                            {rules.length > 0 && (
+                                <ul className="space-y-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
+                                    {rules.map((rule) => (
+                                        <li
+                                            key={rule}
+                                            className="flex items-start justify-between gap-3 rounded-(--cit-radius-sm) bg-(--cit-surface) px-3 py-2 text-sm"
                                         >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
+                                            <span className="text-(--cit-text)">
+                                                {rule}
+                                            </span>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    removeListItem("rule", rule)
+                                                }
+                                                className="text-(--cit-danger)"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                             {errors.rules && (
                                 <p className="text-sm text-(--cit-danger)">
                                     {errors.rules.message}
@@ -739,35 +741,37 @@ export default function OrganizerCreateEvent() {
                                 <button
                                     type="button"
                                     onClick={() => addListItem("privacy")}
-                                    className="inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                                    className="cursor-pointer inline-flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
                                 >
                                     <Plus size={16} /> Add
                                 </button>
                             </div>
-                            <ul className="space-y-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
-                                {privacyPolicies.map((policy) => (
-                                    <li
-                                        key={policy}
-                                        className="flex items-start justify-between gap-3 rounded-(--cit-radius-sm) bg-(--cit-surface) px-3 py-2 text-sm"
-                                    >
-                                        <span className="text-(--cit-text)">
-                                            {policy}
-                                        </span>
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                removeListItem(
-                                                    "privacy",
-                                                    policy,
-                                                )
-                                            }
-                                            className="text-(--cit-danger)"
+                            {privacyPolicies.length > 0 && (
+                                <ul className="space-y-2 rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3">
+                                    {privacyPolicies.map((policy) => (
+                                        <li
+                                            key={policy}
+                                            className="flex items-start justify-between gap-3 rounded-(--cit-radius-sm) bg-(--cit-surface) px-3 py-2 text-sm"
                                         >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
+                                            <span className="text-(--cit-text)">
+                                                {policy}
+                                            </span>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    removeListItem(
+                                                        "privacy",
+                                                        policy,
+                                                    )
+                                                }
+                                                className="text-(--cit-danger)"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                             {errors.privacyPolicies && (
                                 <p className="text-sm text-(--cit-danger)">
                                     {errors.privacyPolicies.message}
@@ -836,7 +840,7 @@ export default function OrganizerCreateEvent() {
 
                     <button
                         type="submit"
-                        className="w-full rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                        className="cursor-pointer w-full rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
                     >
                         Create event
                     </button>
