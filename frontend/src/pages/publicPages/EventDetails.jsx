@@ -26,7 +26,9 @@ export default function EventDetails() {
         () => ALL_EVENTS.find((item) => item.id === eventId),
         [eventId],
     );
-    const { isLoggedIn } = useAuthContext();
+    const { isLoggedIn, user } = useAuthContext();
+    const isRestrictedUser =
+        user?.role === "organizer" || user?.role === "admin";
     const navigate = useNavigate();
     const location = useLocation();
     const [registered, setRegistered] = useState(false);
@@ -296,18 +298,25 @@ export default function EventDetails() {
                                         </div>
                                     </div>
 
-                                    <button
-                                        type="button"
-                                        onClick={handleRegister}
-                                        disabled={registered}
-                                        className="cursor-pointer mt-6 inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-(--cit-primary-hover) disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
-                                    >
-                                        {registered
-                                            ? "Registered"
-                                            : isLoggedIn
-                                              ? "Register Now"
-                                              : "Login to Register"}
-                                    </button>
+                                    {isRestrictedUser ? (
+                                        <div className="mt-6 rounded-(--cit-radius-md) border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-900">
+                                            Organizer and admin accounts are not
+                                            allowed to register for events.
+                                        </div>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            onClick={handleRegister}
+                                            disabled={registered}
+                                            className="cursor-pointer mt-6 inline-flex w-full items-center justify-center rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-(--cit-primary-hover) disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
+                                        >
+                                            {registered
+                                                ? "Registered"
+                                                : isLoggedIn
+                                                  ? "Register Now"
+                                                  : "Login to Register"}
+                                        </button>
+                                    )}
                                 </div>
 
                                 <div className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface-subtle) p-4 sm:p-6">
