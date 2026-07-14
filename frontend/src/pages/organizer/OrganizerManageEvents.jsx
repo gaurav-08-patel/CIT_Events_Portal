@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
     AlertCircle,
     CalendarDays,
@@ -12,7 +12,6 @@ import { ALL_EVENTS } from "../../data/events";
 const TAB_DEFINITIONS = [
     { id: "all", label: "All Participants" },
     { id: "pending", label: "Pending Approvals" },
-    { id: "approved", label: "Approved" },
 ];
 
 const buildTeamRegistrations = (eventIndex) => [
@@ -231,6 +230,11 @@ export default function OrganizerManageEvents() {
     const [expandedTeamId, setExpandedTeamId] = useState(null);
     const [isParticipantsLoading, setIsParticipantsLoading] = useState(true);
     const [participantsError, setParticipantsError] = useState(null);
+    const [tabIndicatorStyle, setTabIndicatorStyle] = useState({
+        left: 0,
+        width: 0,
+    });
+    const tabRefs = useRef([]);
 
     const selectedEvent = useMemo(
         () => events.find((event) => event.id === selectedEventId) ?? null,
@@ -357,11 +361,30 @@ export default function OrganizerManageEvents() {
         }
     };
 
+    useEffect(() => {
+        const activeIndex = TAB_DEFINITIONS.findIndex(
+            (tab) => tab.id === activeTab,
+        );
+        const activeTabElement = tabRefs.current[activeIndex];
+
+        if (activeTabElement) {
+            setTabIndicatorStyle({
+                left: activeTabElement.offsetLeft,
+                width: activeTabElement.offsetWidth,
+            });
+        }
+    }, [activeTab]);
+
     const handleEventSelect = (eventId) => {
         setSelectedEventId(eventId);
         setActiveTab(TAB_DEFINITIONS[0].id);
         setExpandedTeamId(null);
     };
+
+    const getPaymentStatusClasses = (status) =>
+        status === "Paid"
+            ? "inline-flex min-w-[84px] items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700"
+            : "inline-flex min-w-[84px] items-center justify-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700";
 
     const renderParticipantTable = () => {
         if (!selectedEvent) {
@@ -414,11 +437,9 @@ export default function OrganizerManageEvents() {
                                     </td>
                                     <td className="px-4 py-3">
                                         <span
-                                            className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                                                team.paymentStatus === "Paid"
-                                                    ? "bg-(--cit-success) bg-opacity-10 text-(--cit-success)"
-                                                    : "bg-(--cit-warning) bg-opacity-10 text-(--cit-warning)"
-                                            }`}
+                                            className={getPaymentStatusClasses(
+                                                team.paymentStatus,
+                                            )}
                                         >
                                             {team.paymentStatus}
                                         </span>
@@ -529,11 +550,9 @@ export default function OrganizerManageEvents() {
                             </td>
                             <td className="px-4 py-3">
                                 <span
-                                    className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                                        participant.paymentStatus === "Paid"
-                                            ? "bg-(--cit-success) bg-opacity-10 text-(--cit-success)"
-                                            : "bg-(--cit-warning) bg-opacity-10 text-(--cit-warning)"
-                                    }`}
+                                    className={getPaymentStatusClasses(
+                                        participant.paymentStatus,
+                                    )}
                                 >
                                     {participant.paymentStatus}
                                 </span>
@@ -732,22 +751,33 @@ export default function OrganizerManageEvents() {
                                         </div>
                                     </div>
 
-                                    <div className="mt-6 flex flex-wrap gap-2 border-b border-(--cit-border) pb-2">
-                                        {TAB_DEFINITIONS.map((tab) => {
+                                    <div className="relative mt-6 flex flex-wrap gap-2 border-b border-(--cit-border) pb-2">
+                                        <div
+                                            className="absolute bottom-0 h-0.5 rounded-full bg-(--cit-primary) transition-all duration-300 ease-out"
+                                            style={{
+                                                left: `${tabIndicatorStyle.left}px`,
+                                                width: `${tabIndicatorStyle.width}px`,
+                                            }}
+                                        />
+                                        {TAB_DEFINITIONS.map((tab, index) => {
                                             const isActive =
                                                 activeTab === tab.id;
 
                                             return (
                                                 <button
                                                     key={tab.id}
+                                                    ref={(element) => {
+                                                        tabRefs.current[index] =
+                                                            element;
+                                                    }}
                                                     type="button"
                                                     onClick={() =>
                                                         setActiveTab(tab.id)
                                                     }
-                                                    className={`rounded-(--cit-radius-md) px-4 py-2 text-sm font-semibold transition-all ${
+                                                    className={`relative rounded-(--cit-radius-md) px-4 py-2 text-sm font-semibold transition-all duration-300 ${
                                                         isActive
-                                                            ? "bg-(--cit-primary) text-white"
-                                                            : "bg-(--cit-surface-subtle) text-(--cit-text-muted)"
+                                                            ? "text-(--cit-primary)"
+                                                            : "text-(--cit-text-muted)"
                                                     }`}
                                                 >
                                                     {tab.label}
