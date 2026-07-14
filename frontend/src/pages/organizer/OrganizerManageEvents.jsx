@@ -393,177 +393,189 @@ export default function OrganizerManageEvents() {
 
         if (selectedEvent.type === "Team") {
             return (
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-(--cit-border) text-sm">
+                        <thead className="bg-(--cit-surface-subtle)">
+                            <tr>
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Team ID
+                                </th>
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Team Name
+                                </th>
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Team Size
+                                </th>
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Registration Date
+                                </th>
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Payment Status
+                                </th>
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Leader
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-(--cit-border) bg-(--cit-surface)">
+                            {selectedEvent.registrations.map((team) => (
+                                <Fragment key={team.id}>
+                                    <tr
+                                        className="cursor-pointer transition-all duration-200 hover:bg-(--cit-surface-subtle)"
+                                        onClick={() =>
+                                            toggleExpandedTeam(team.id)
+                                        }
+                                    >
+                                        <td className="px-4 py-3 font-semibold text-(--cit-text)">
+                                            {team.id}
+                                        </td>
+                                        <td className="px-4 py-3 text-(--cit-text)">
+                                            {team.teamName}
+                                        </td>
+                                        <td className="px-4 py-3 text-(--cit-text)">
+                                            {team.teamSize}
+                                        </td>
+                                        <td className="px-4 py-3 text-(--cit-text-muted)">
+                                            {team.registrationDate}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <span
+                                                className={getPaymentStatusClasses(
+                                                    team.paymentStatus,
+                                                )}
+                                            >
+                                                {team.paymentStatus}
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-3 text-(--cit-text)">
+                                            {team.leader}
+                                        </td>
+                                    </tr>
+                                    {expandedTeamId === team.id && (
+                                        <tr className="bg-(--cit-surface-subtle) transition-all duration-200">
+                                            <td
+                                                colSpan="6"
+                                                className="px-4 py-3"
+                                            >
+                                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) p-3">
+                                                    <div className="mb-2 flex items-center justify-between gap-2">
+                                                        <h4 className="font-semibold text-(--cit-text)">
+                                                            Team members
+                                                        </h4>
+                                                        <span className="text-xs text-(--cit-text-muted)">
+                                                            {team.leaderEmail}
+                                                        </span>
+                                                    </div>
+
+                                                    {team.teamMembersLoading ? (
+                                                        <div className="flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-surface-subtle) px-3 py-2 text-sm text-(--cit-text-muted)">
+                                                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                                                            Loading team
+                                                            members...
+                                                        </div>
+                                                    ) : team.teamMembersError ? (
+                                                        <div className="rounded-(--cit-radius-md) border border-(--cit-danger) bg-(--cit-danger) bg-opacity-10 px-3 py-2 text-sm text-(--cit-danger)">
+                                                            {
+                                                                team.teamMembersError
+                                                            }
+                                                        </div>
+                                                    ) : (
+                                                        <ul className="space-y-2">
+                                                            {team.members.map(
+                                                                (member) => (
+                                                                    <li
+                                                                        key={
+                                                                            member.id
+                                                                        }
+                                                                        className="flex flex-col gap-1 rounded-(--cit-radius-sm) bg-(--cit-surface-subtle) px-3 py-2 text-sm md:flex-row md:items-center md:justify-between"
+                                                                    >
+                                                                        <span className="text-(--cit-text)">
+                                                                            {
+                                                                                member.name
+                                                                            }
+                                                                        </span>
+                                                                        <span className="text-(--cit-text-muted)">
+                                                                            {
+                                                                                member.email
+                                                                            }
+                                                                        </span>
+                                                                    </li>
+                                                                ),
+                                                            )}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </Fragment>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+
+        return (
+            <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-(--cit-border) text-sm">
                     <thead className="bg-(--cit-surface-subtle)">
                         <tr>
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                                Team ID
+                                ID
                             </th>
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                                Team Name
+                                Name
                             </th>
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                                Team Size
+                                Email
                             </th>
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                                Registration Date
+                                Department
                             </th>
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
                                 Payment Status
                             </th>
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                                Leader
+                                Registration Date
                             </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-(--cit-border) bg-(--cit-surface)">
-                        {selectedEvent.registrations.map((team) => (
-                            <Fragment key={team.id}>
-                                <tr
-                                    className="cursor-pointer transition-all duration-200 hover:bg-(--cit-surface-subtle)"
-                                    onClick={() => toggleExpandedTeam(team.id)}
-                                >
-                                    <td className="px-4 py-3 font-semibold text-(--cit-text)">
-                                        {team.id}
-                                    </td>
-                                    <td className="px-4 py-3 text-(--cit-text)">
-                                        {team.teamName}
-                                    </td>
-                                    <td className="px-4 py-3 text-(--cit-text)">
-                                        {team.teamSize}
-                                    </td>
-                                    <td className="px-4 py-3 text-(--cit-text-muted)">
-                                        {team.registrationDate}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <span
-                                            className={getPaymentStatusClasses(
-                                                team.paymentStatus,
-                                            )}
-                                        >
-                                            {team.paymentStatus}
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-3 text-(--cit-text)">
-                                        {team.leader}
-                                    </td>
-                                </tr>
-                                {expandedTeamId === team.id && (
-                                    <tr className="bg-(--cit-surface-subtle) transition-all duration-200">
-                                        <td colSpan="6" className="px-4 py-3">
-                                            <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) p-3">
-                                                <div className="mb-2 flex items-center justify-between gap-2">
-                                                    <h4 className="font-semibold text-(--cit-text)">
-                                                        Team members
-                                                    </h4>
-                                                    <span className="text-xs text-(--cit-text-muted)">
-                                                        {team.leaderEmail}
-                                                    </span>
-                                                </div>
-
-                                                {team.teamMembersLoading ? (
-                                                    <div className="flex items-center gap-2 rounded-(--cit-radius-md) bg-(--cit-surface-subtle) px-3 py-2 text-sm text-(--cit-text-muted)">
-                                                        <LoaderCircle className="h-4 w-4 animate-spin" />
-                                                        Loading team members...
-                                                    </div>
-                                                ) : team.teamMembersError ? (
-                                                    <div className="rounded-(--cit-radius-md) border border-(--cit-danger) bg-(--cit-danger) bg-opacity-10 px-3 py-2 text-sm text-(--cit-danger)">
-                                                        {team.teamMembersError}
-                                                    </div>
-                                                ) : (
-                                                    <ul className="space-y-2">
-                                                        {team.members.map(
-                                                            (member) => (
-                                                                <li
-                                                                    key={
-                                                                        member.id
-                                                                    }
-                                                                    className="flex flex-col gap-1 rounded-(--cit-radius-sm) bg-(--cit-surface-subtle) px-3 py-2 text-sm md:flex-row md:items-center md:justify-between"
-                                                                >
-                                                                    <span className="text-(--cit-text)">
-                                                                        {
-                                                                            member.name
-                                                                        }
-                                                                    </span>
-                                                                    <span className="text-(--cit-text-muted)">
-                                                                        {
-                                                                            member.email
-                                                                        }
-                                                                    </span>
-                                                                </li>
-                                                            ),
-                                                        )}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </Fragment>
+                        {selectedEvent.registrations.map((participant) => (
+                            <tr
+                                key={participant.id}
+                                className="transition-all duration-200 hover:bg-(--cit-surface-subtle)"
+                            >
+                                <td className="px-4 py-3 font-semibold text-(--cit-text)">
+                                    {participant.id}
+                                </td>
+                                <td className="px-4 py-3 text-(--cit-text)">
+                                    {participant.name}
+                                </td>
+                                <td className="px-4 py-3 text-(--cit-text-muted)">
+                                    {participant.email}
+                                </td>
+                                <td className="px-4 py-3 text-(--cit-text-muted)">
+                                    {participant.department}
+                                </td>
+                                <td className="px-4 py-3">
+                                    <span
+                                        className={getPaymentStatusClasses(
+                                            participant.paymentStatus,
+                                        )}
+                                    >
+                                        {participant.paymentStatus}
+                                    </span>
+                                </td>
+                                <td className="px-4 py-3 text-(--cit-text-muted)">
+                                    {participant.registrationDate}
+                                </td>
+                            </tr>
                         ))}
                     </tbody>
                 </table>
-            );
-        }
-
-        return (
-            <table className="min-w-full divide-y divide-(--cit-border) text-sm">
-                <thead className="bg-(--cit-surface-subtle)">
-                    <tr>
-                        <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                            ID
-                        </th>
-                        <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                            Name
-                        </th>
-                        <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                            Email
-                        </th>
-                        <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                            Department
-                        </th>
-                        <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                            Payment Status
-                        </th>
-                        <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
-                            Registration Date
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-(--cit-border) bg-(--cit-surface)">
-                    {selectedEvent.registrations.map((participant) => (
-                        <tr
-                            key={participant.id}
-                            className="transition-all duration-200 hover:bg-(--cit-surface-subtle)"
-                        >
-                            <td className="px-4 py-3 font-semibold text-(--cit-text)">
-                                {participant.id}
-                            </td>
-                            <td className="px-4 py-3 text-(--cit-text)">
-                                {participant.name}
-                            </td>
-                            <td className="px-4 py-3 text-(--cit-text-muted)">
-                                {participant.email}
-                            </td>
-                            <td className="px-4 py-3 text-(--cit-text-muted)">
-                                {participant.department}
-                            </td>
-                            <td className="px-4 py-3">
-                                <span
-                                    className={getPaymentStatusClasses(
-                                        participant.paymentStatus,
-                                    )}
-                                >
-                                    {participant.paymentStatus}
-                                </span>
-                            </td>
-                            <td className="px-4 py-3 text-(--cit-text-muted)">
-                                {participant.registrationDate}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            </div>
         );
     };
 
@@ -610,8 +622,8 @@ export default function OrganizerManageEvents() {
                 description="Review event registrations, inspect participants, and manage approvals from one place."
                 canonical="/organizer/manage-events"
             />
-            <main className="min-h-screen bg-(--cit-bg) px-4 py-6 md:px-6 lg:px-8">
-                <div className="mx-auto flex max-w-7xl flex-col gap-6">
+            <main className="min-h-screen bg-(--cit-bg) py-6">
+                <div className="mx-auto flex max-w-300 flex-col gap-6">
                     <section className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-linear-to-r from-(--cit-primary-soft) to-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
                         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
                             <div>
@@ -679,7 +691,7 @@ export default function OrganizerManageEvents() {
                                                 onClick={() =>
                                                     handleEventSelect(event.id)
                                                 }
-                                                className={`min-w-62.5 flex-1 rounded-(--cit-radius-md) border p-4 text-left transition-all duration-200 ${
+                                                className={`cursor-pointer min-w-62.5 flex-1 rounded-(--cit-radius-md) border p-4 text-left transition-all duration-200 ${
                                                     isSelected
                                                         ? "border-(--cit-primary) bg-(--cit-primary-soft) shadow-(--cit-shadow-sm)"
                                                         : "border-(--cit-border) bg-(--cit-surface-subtle) hover:border-(--cit-primary) hover:bg-(--cit-surface)"
@@ -774,7 +786,7 @@ export default function OrganizerManageEvents() {
                                                     onClick={() =>
                                                         setActiveTab(tab.id)
                                                     }
-                                                    className={`relative rounded-(--cit-radius-md) px-4 py-2 text-sm font-semibold transition-all duration-300 ${
+                                                    className={`cursor-pointer relative rounded-(--cit-radius-md) px-4 py-2 text-sm font-semibold transition-all duration-300 ${
                                                         isActive
                                                             ? "text-(--cit-primary)"
                                                             : "text-(--cit-text-muted)"
