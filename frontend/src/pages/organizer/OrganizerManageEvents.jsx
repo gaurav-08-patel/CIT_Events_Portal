@@ -624,26 +624,26 @@ export default function OrganizerManageEvents() {
             />
             <main className="min-h-screen bg-(--cit-bg) py-6">
                 <div className="mx-auto flex max-w-300 flex-col gap-6">
-                    <section className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-linear-to-r from-(--cit-primary-soft) to-(--cit-surface) p-6 shadow-(--cit-shadow-sm)">
+                    <section className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-linear-to-r from-(--cit-primary-soft) to-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-6">
                         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
                             <div>
-                                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--cit-primary)">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-(--cit-primary) sm:text-sm">
                                     Organizer workspace
                                 </p>
-                                <h1 className="mt-2 text-3xl font-extrabold text-(--cit-text)">
+                                <h1 className="mt-2 text-2xl font-extrabold text-(--cit-text) sm:text-3xl">
                                     Manage your events
                                 </h1>
-                                <p className="mt-3 max-w-2xl text-sm text-(--cit-text-muted)">
+                                <p className="mt-3 max-w-2xl text-xs leading-5 text-(--cit-text-muted) sm:text-sm">
                                     Review every event you created, inspect
                                     registrations, and keep approvals moving
                                     without switching screens.
                                 </p>
                             </div>
-                            <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-3">
-                                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted)">
+                            <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-3 py-2.5 sm:px-4 sm:py-3">
+                                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted) sm:text-xs">
                                     Active events
                                 </p>
-                                <p className="mt-1 text-2xl font-bold text-(--cit-text)">
+                                <p className="mt-1 text-xl font-bold text-(--cit-text) sm:text-2xl">
                                     {events.length}
                                 </p>
                             </div>
@@ -665,13 +665,13 @@ export default function OrganizerManageEvents() {
                         </section>
                     ) : (
                         <>
-                            <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-5 shadow-(--cit-shadow-sm)">
+                            <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-5">
                                 <div className="flex items-center justify-between gap-3">
                                     <div>
-                                        <h2 className="text-lg font-bold text-(--cit-text)">
+                                        <h2 className="text-base font-bold text-(--cit-text) sm:text-lg">
                                             Your events
                                         </h2>
-                                        <p className="mt-1 text-sm text-(--cit-text-muted)">
+                                        <p className="mt-1 text-xs leading-5 text-(--cit-text-muted) sm:text-sm">
                                             Choose one event to inspect
                                             participants and registration
                                             activity.
@@ -679,7 +679,7 @@ export default function OrganizerManageEvents() {
                                     </div>
                                 </div>
 
-                                <div className="mt-5 flex gap-3 overflow-x-auto pb-1">
+                                <div className="mt-5 flex gap-3 overflow-x-auto pb-1 scrollbar-none">
                                     {events.map((event) => {
                                         const isSelected =
                                             event.id === selectedEventId;
@@ -691,7 +691,7 @@ export default function OrganizerManageEvents() {
                                                 onClick={() =>
                                                     handleEventSelect(event.id)
                                                 }
-                                                className={`cursor-pointer min-w-62.5 flex-1 rounded-(--cit-radius-md) border p-4 text-left transition-all duration-200 ${
+                                                className={`cursor-pointer min-w-52 flex-1 rounded-(--cit-radius-md) border p-3 text-left transition-all duration-200 sm:min-w-[16rem] sm:p-4 ${
                                                     isSelected
                                                         ? "border-(--cit-primary) bg-(--cit-primary-soft) shadow-(--cit-shadow-sm)"
                                                         : "border-(--cit-border) bg-(--cit-surface-subtle) hover:border-(--cit-primary) hover:bg-(--cit-surface)"
@@ -699,26 +699,26 @@ export default function OrganizerManageEvents() {
                                             >
                                                 <div className="flex items-start justify-between gap-3">
                                                     <div>
-                                                        <p className="text-sm font-semibold text-(--cit-primary)">
+                                                        <p className="text-[11px] font-semibold text-(--cit-primary) sm:text-sm">
                                                             {event.category}
                                                         </p>
-                                                        <h3 className="mt-1 text-base font-bold text-(--cit-text)">
+                                                        <h3 className="mt-1 text-sm font-bold text-(--cit-text) sm:text-base">
                                                             {event.title}
                                                         </h3>
                                                     </div>
-                                                    <span className="rounded-full border border-(--cit-border) bg-(--cit-surface) px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted)">
+                                                    <span className="rounded-full border border-(--cit-border) bg-(--cit-surface) px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-(--cit-text-muted) sm:px-2.5 sm:text-[11px]">
                                                         {event.type}
                                                     </span>
                                                 </div>
 
-                                                <div className="mt-4 flex flex-wrap gap-2 text-xs text-(--cit-text-muted)">
-                                                    <span className="flex items-center gap-1 rounded-full bg-(--cit-surface) px-2.5 py-1">
+                                                <div className="mt-4 flex flex-wrap gap-2 text-[10px] text-(--cit-text-muted) sm:text-xs">
+                                                    <span className="flex items-center gap-1 rounded-full bg-(--cit-surface) px-2 py-1">
                                                         <CalendarDays
                                                             size={12}
                                                         />{" "}
                                                         {event.date}
                                                     </span>
-                                                    <span className="flex items-center gap-1 rounded-full bg-(--cit-surface) px-2.5 py-1">
+                                                    <span className="flex items-center gap-1 rounded-full bg-(--cit-surface) px-2 py-1">
                                                         <Users size={12} />{" "}
                                                         {event.participants}{" "}
                                                         regs
@@ -731,29 +731,29 @@ export default function OrganizerManageEvents() {
                             </section>
 
                             {selectedEvent && (
-                                <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-5 shadow-(--cit-shadow-sm)">
+                                <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-5">
                                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                                         <div>
                                             <div className="flex flex-wrap items-center gap-2">
-                                                <h2 className="text-xl font-bold text-(--cit-text)">
+                                                <h2 className="text-lg font-bold text-(--cit-text) sm:text-xl">
                                                     {selectedEvent.title}
                                                 </h2>
-                                                <span className="rounded-full bg-(--cit-primary-soft) px-2.5 py-1 text-xs font-semibold text-(--cit-primary)">
+                                                <span className="rounded-full bg-(--cit-primary-soft) px-2 py-1 text-[10px] font-semibold text-(--cit-primary) sm:px-2.5 sm:text-xs">
                                                     {selectedEvent.type} event
                                                 </span>
                                             </div>
-                                            <p className="mt-3 max-w-2xl text-sm text-(--cit-text-muted)">
+                                            <p className="mt-3 max-w-2xl text-xs leading-5 text-(--cit-text-muted) sm:text-sm">
                                                 {selectedEvent.description}
                                             </p>
                                         </div>
 
-                                        <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-4">
-                                            <div className="flex items-center gap-2 text-sm font-semibold text-(--cit-text)">
+                                        <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface-subtle) p-3 sm:p-4">
+                                            <div className="flex items-center gap-2 text-xs font-semibold text-(--cit-text) sm:text-sm">
                                                 <Clock3 size={16} />
                                                 Deadline:{" "}
                                                 {selectedEvent.deadline}
                                             </div>
-                                            <div className="mt-2 flex items-center gap-2 text-sm text-(--cit-text-muted)">
+                                            <div className="mt-2 flex items-center gap-2 text-xs text-(--cit-text-muted) sm:text-sm">
                                                 <Users size={16} />
                                                 {
                                                     selectedEvent.participants
@@ -763,7 +763,7 @@ export default function OrganizerManageEvents() {
                                         </div>
                                     </div>
 
-                                    <div className="relative mt-6 flex flex-wrap gap-2 border-b border-(--cit-border) pb-2">
+                                    <div className="relative mt-6 flex flex-nowrap items-center gap-2 overflow-x-auto border-b border-(--cit-border) pb-2 scrollbar-none">
                                         <div
                                             className="absolute bottom-0 h-0.5 rounded-full bg-(--cit-primary) transition-all duration-300 ease-out"
                                             style={{
@@ -786,7 +786,7 @@ export default function OrganizerManageEvents() {
                                                     onClick={() =>
                                                         setActiveTab(tab.id)
                                                     }
-                                                    className={`cursor-pointer relative rounded-(--cit-radius-md) px-4 py-2 text-sm font-semibold transition-all duration-300 ${
+                                                    className={`cursor-pointer relative shrink-0 whitespace-nowrap rounded-(--cit-radius-md) px-3 py-2 text-xs font-semibold transition-all duration-300 sm:px-4 sm:py-2 sm:text-sm ${
                                                         isActive
                                                             ? "text-(--cit-primary)"
                                                             : "text-(--cit-text-muted)"
