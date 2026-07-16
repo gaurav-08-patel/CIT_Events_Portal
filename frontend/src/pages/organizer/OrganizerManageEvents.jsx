@@ -2,9 +2,12 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
     AlertCircle,
     CalendarDays,
+    CheckCircle2,
     Clock3,
+    FileText,
     LoaderCircle,
     Users,
+    XCircle,
 } from "lucide-react";
 import MetaData from "../../components/MetaData";
 import { ALL_EVENTS } from "../../data/events";
@@ -25,6 +28,7 @@ const buildTeamRegistrations = (eventIndex) => [
         leader: "Aarav Menon",
         leaderEmail: "aarav@cit.edu",
         leaderDepartment: "CSE",
+        proposalUrl: "/certificate1.pdf",
         members: [
             {
                 id: `member-${eventIndex + 1}-01`,
@@ -69,6 +73,7 @@ const buildTeamRegistrations = (eventIndex) => [
         leader: "Nisha Rao",
         leaderEmail: "nisha@cit.edu",
         leaderDepartment: "IT",
+        proposalUrl: "/certificate2.pdf",
         members: [
             {
                 id: `member-${eventIndex + 1}-05`,
@@ -106,6 +111,7 @@ const buildTeamRegistrations = (eventIndex) => [
         leader: "Priya S",
         leaderEmail: "priya@cit.edu",
         leaderDepartment: "CSE",
+        proposalUrl: "/certificate2.pdf",
         members: [
             {
                 id: `member-${eventIndex + 1}-08`,
@@ -158,6 +164,7 @@ const buildIndividualRegistrations = (eventIndex) => [
         paymentStatus: "Paid",
         approvalStatus: "Approved",
         department: "CSE",
+        proposalUrl: "/certificate2.pdf",
     },
     {
         id: `IND-${eventIndex + 1}02`,
@@ -167,6 +174,7 @@ const buildIndividualRegistrations = (eventIndex) => [
         paymentStatus: "Pending",
         approvalStatus: "Pending",
         department: "MECH",
+        proposalUrl: "/certificate1.pdf",
     },
     {
         id: `IND-${eventIndex + 1}03`,
@@ -176,6 +184,7 @@ const buildIndividualRegistrations = (eventIndex) => [
         paymentStatus: "Paid",
         approvalStatus: "Approved",
         department: "ECE",
+        proposalUrl: "/certificate2.pdf",
     },
     {
         id: `IND-${eventIndex + 1}04`,
@@ -185,6 +194,7 @@ const buildIndividualRegistrations = (eventIndex) => [
         paymentStatus: "Pending",
         approvalStatus: "Pending",
         department: "IT",
+        proposalUrl: "/certificate1.pdf",
     },
     {
         id: `IND-${eventIndex + 1}05`,
@@ -194,6 +204,7 @@ const buildIndividualRegistrations = (eventIndex) => [
         paymentStatus: "Paid",
         approvalStatus: "Approved",
         department: "AI",
+        proposalUrl: "/certificate2.pdf",
     },
 ];
 
@@ -234,6 +245,9 @@ export default function OrganizerManageEvents() {
         left: 0,
         width: 0,
     });
+    const [activeProposalFile, setActiveProposalFile] = useState(null);
+    const [isProposalPreviewLoading, setIsProposalPreviewLoading] =
+        useState(false);
     const tabRefs = useRef([]);
 
     const selectedEvent = useMemo(
@@ -386,9 +400,78 @@ export default function OrganizerManageEvents() {
             ? "inline-flex min-w-[84px] items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700"
             : "inline-flex min-w-[84px] items-center justify-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700";
 
+    const openProposalPreview = (proposalUrl) => {
+        setIsProposalPreviewLoading(true);
+        setActiveProposalFile(proposalUrl);
+    };
+
+    const closeProposalPreview = () => {
+        setIsProposalPreviewLoading(false);
+        setActiveProposalFile(null);
+    };
+
+    const handleRegistrationDecision = (registrationId, decision) => {
+        if (!selectedEvent) {
+            return;
+        }
+
+        setEvents((currentEvents) =>
+            currentEvents.map((event) =>
+                event.id === selectedEvent.id
+                    ? {
+                          ...event,
+                          registrations: event.registrations.map(
+                              (registration) =>
+                                  registration.id === registrationId
+                                      ? {
+                                            ...registration,
+                                            approvalStatus: decision,
+                                        }
+                                      : registration,
+                          ),
+                      }
+                    : event,
+            ),
+        );
+    };
+
+    const renderEmptyState = (title, description, IconComponent) => (
+        <div className="flex flex-col items-center justify-center gap-3 rounded-(--cit-radius-md) border border-dashed border-(--cit-border) bg-(--cit-surface-subtle) px-6 py-10 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
+                <IconComponent size={20} />
+            </div>
+            <div className="space-y-1">
+                <h3 className="text-sm font-semibold text-(--cit-text)">
+                    {title}
+                </h3>
+                <p className="text-sm text-(--cit-text-muted)">{description}</p>
+            </div>
+        </div>
+    );
+
     const renderParticipantTable = () => {
         if (!selectedEvent) {
             return null;
+        }
+
+        const isPendingTab = activeTab === "pending";
+        const registrations = Array.isArray(selectedEvent.registrations)
+            ? selectedEvent.registrations
+            : [];
+        const visibleRegistrations = registrations.filter((registration) =>
+            isPendingTab ? registration.approvalStatus === "Pending" : true,
+        );
+
+        if (visibleRegistrations.length === 0) {
+            return renderEmptyState(
+                isPendingTab
+                    ? "No pending approvals yet"
+                    : "No participants yet",
+                isPendingTab
+                    ? "This event has no registrations waiting for review right now."
+                    : "No student registrations have come in for this event yet.",
+                Users,
+            );
         }
 
         if (selectedEvent.type === "Team") {
@@ -415,10 +498,18 @@ export default function OrganizerManageEvents() {
                                 <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
                                     Leader
                                 </th>
+                                {isPendingTab ? (
+                                    <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                        Action
+                                    </th>
+                                ) : null}
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    View Proposal
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-(--cit-border) bg-(--cit-surface)">
-                            {selectedEvent.registrations.map((team) => (
+                            {visibleRegistrations.map((team) => (
                                 <Fragment key={team.id}>
                                     <tr
                                         className="cursor-pointer transition-all duration-200 hover:bg-(--cit-surface-subtle)"
@@ -450,14 +541,71 @@ export default function OrganizerManageEvents() {
                                         <td className="px-4 py-3 text-(--cit-text)">
                                             {team.leader}
                                         </td>
-                                    </tr>
-                                    {expandedTeamId === team.id && (
-                                        <tr className="bg-(--cit-surface-subtle) transition-all duration-200">
-                                            <td
-                                                colSpan="6"
-                                                className="px-4 py-3"
+                                        {isPendingTab ? (
+                                            <td className="px-4 py-3">
+                                                <div className="flex flex-wrap gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            handleRegistrationDecision(
+                                                                team.id,
+                                                                "Approved",
+                                                            );
+                                                        }}
+                                                        className="inline-flex cursor-pointer items-center gap-1 rounded-(--cit-radius-md) border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                                                    >
+                                                        <CheckCircle2
+                                                            size={14}
+                                                        />
+                                                        Accept
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            handleRegistrationDecision(
+                                                                team.id,
+                                                                "Rejected",
+                                                            );
+                                                        }}
+                                                        className="inline-flex cursor-pointer items-center gap-1 rounded-(--cit-radius-md) border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-100"
+                                                    >
+                                                        <XCircle size={14} />
+                                                        Reject
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        ) : null}
+                                        <td className="px-4 py-3">
+                                            <button
+                                                type="button"
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    openProposalPreview(
+                                                        team.proposalUrl,
+                                                    );
+                                                }}
+                                                className="inline-flex cursor-pointer items-center gap-1 rounded-(--cit-radius-md) border border-(--cit-primary-soft) bg-(--cit-primary-soft) px-2.5 py-1.5 text-xs font-semibold text-(--cit-primary) transition hover:bg-(--cit-primary-hover) hover:text-white"
                                             >
-                                                <div className="rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) p-3">
+                                                <FileText size={14} />
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-(--cit-surface-subtle)">
+                                        <td
+                                            colSpan={isPendingTab ? "8" : "7"}
+                                            className="px-0 py-0"
+                                        >
+                                            <div
+                                                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                                                    expandedTeamId === team.id
+                                                        ? "max-h-96 opacity-100"
+                                                        : "max-h-0 opacity-0"
+                                                }`}
+                                            >
+                                                <div className="border-t border-(--cit-border) bg-(--cit-surface-subtle) p-3">
                                                     <div className="mb-2 flex items-center justify-between gap-2">
                                                         <h4 className="font-semibold text-(--cit-text)">
                                                             Team members
@@ -505,9 +653,9 @@ export default function OrganizerManageEvents() {
                                                         </ul>
                                                     )}
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    )}
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </Fragment>
                             ))}
                         </tbody>
@@ -539,10 +687,18 @@ export default function OrganizerManageEvents() {
                             <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
                                 Registration Date
                             </th>
+                            {isPendingTab ? (
+                                <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                    Action
+                                </th>
+                            ) : null}
+                            <th className="px-4 py-3 text-left font-semibold text-(--cit-text)">
+                                View Proposal
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-(--cit-border) bg-(--cit-surface)">
-                        {selectedEvent.registrations.map((participant) => (
+                        {visibleRegistrations.map((participant) => (
                             <tr
                                 key={participant.id}
                                 className="transition-all duration-200 hover:bg-(--cit-surface-subtle)"
@@ -571,6 +727,52 @@ export default function OrganizerManageEvents() {
                                 <td className="px-4 py-3 text-(--cit-text-muted)">
                                     {participant.registrationDate}
                                 </td>
+                                {isPendingTab ? (
+                                    <td className="px-4 py-3">
+                                        <div className="flex flex-wrap gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    handleRegistrationDecision(
+                                                        participant.id,
+                                                        "Approved",
+                                                    )
+                                                }
+                                                className="inline-flex cursor-pointer items-center gap-1 rounded-(--cit-radius-md) border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                                            >
+                                                <CheckCircle2 size={14} />
+                                                Accept
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    handleRegistrationDecision(
+                                                        participant.id,
+                                                        "Rejected",
+                                                    )
+                                                }
+                                                className="inline-flex cursor-pointer items-center gap-1 rounded-(--cit-radius-md) border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-100"
+                                            >
+                                                <XCircle size={14} />
+                                                Reject
+                                            </button>
+                                        </div>
+                                    </td>
+                                ) : null}
+                                <td className="px-4 py-3">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            openProposalPreview(
+                                                participant.proposalUrl,
+                                            )
+                                        }
+                                        className="inline-flex cursor-pointer items-center gap-1 rounded-(--cit-radius-md) border border-(--cit-primary-soft) bg-(--cit-primary-soft) px-2.5 py-1.5 text-xs font-semibold text-(--cit-primary) transition hover:bg-(--cit-primary-hover) hover:text-white"
+                                    >
+                                        <FileText size={14} />
+                                        View
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -582,8 +784,19 @@ export default function OrganizerManageEvents() {
     const renderTabContent = () => {
         if (activeTab === "pending") {
             return (
-                <div className="mt-5 rounded-(--cit-radius-md) border border-dashed border-(--cit-border) bg-(--cit-surface-subtle) p-8 text-center text-sm text-(--cit-text-muted)">
-                    Pending approvals are ready for the next API-driven step.
+                <div className="mt-5 overflow-hidden rounded-(--cit-radius-md) border border-(--cit-border)">
+                    {isParticipantsLoading ? (
+                        <div className="flex items-center justify-center gap-2 bg-(--cit-surface) px-6 py-10 text-sm text-(--cit-text-muted)">
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                            Loading pending approvals...
+                        </div>
+                    ) : participantsError ? (
+                        <div className="bg-(--cit-surface) px-6 py-10 text-center text-sm text-(--cit-danger)">
+                            {participantsError}
+                        </div>
+                    ) : (
+                        renderParticipantTable()
+                    )}
                 </div>
             );
         }
@@ -623,6 +836,69 @@ export default function OrganizerManageEvents() {
                 canonical="/organizer/manage-events"
             />
             <main className="min-h-screen bg-(--cit-bg) py-6">
+                {activeProposalFile && (
+                    <div
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.55)] p-4"
+                        onClick={closeProposalPreview}
+                    >
+                        <div
+                            className="relative w-full max-w-6xl overflow-hidden rounded-(--cit-radius-lg) bg-(--cit-surface) shadow-lg"
+                            onClick={(event) => event.stopPropagation()}
+                        >
+                            <div className="flex flex-col gap-4 border-b border-(--cit-border) px-5 py-4 md:flex-row md:items-center md:justify-between">
+                                <div>
+                                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--cit-primary)">
+                                        Preview proposal
+                                    </p>
+                                    <h3 className="mt-2 text-xl font-bold text-(--cit-text)">
+                                        Registration proposal
+                                    </h3>
+                                    <p className="mt-1 text-sm text-(--cit-text-muted)">
+                                        Review the submitted proposal PDF before
+                                        approving the request.
+                                    </p>
+                                </div>
+                                <div className="flex flex-wrap gap-3">
+                                    <a
+                                        href={activeProposalFile}
+                                        download
+                                        className="rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-(--cit-primary-hover)"
+                                    >
+                                        Download
+                                    </a>
+                                    <button
+                                        type="button"
+                                        onClick={closeProposalPreview}
+                                        className="cursor-pointer rounded-(--cit-radius-md) border border-(--cit-border) bg-(--cit-surface) px-4 py-2.5 text-sm font-semibold text-(--cit-text) transition hover:bg-(--cit-surface-subtle)"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="relative h-[75vh] min-h-120 bg-(--cit-surface)">
+                                {isProposalPreviewLoading && (
+                                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-(--cit-surface)">
+                                        <div className="flex flex-col items-center gap-3">
+                                            <div className="h-10 w-10 animate-spin rounded-full border-4 border-(--cit-primary-soft) border-t-(--cit-primary)" />
+                                            <p className="text-sm font-medium text-(--cit-text-muted)">
+                                                Loading proposal...
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                                <iframe
+                                    src={activeProposalFile}
+                                    title="Registration proposal"
+                                    className="h-full w-full rounded-b-(--cit-radius-lg) border-0"
+                                    onLoad={() =>
+                                        setIsProposalPreviewLoading(false)
+                                    }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className="mx-auto flex max-w-300 flex-col gap-6">
                     <section className="rounded-(--cit-radius-xl) border border-(--cit-border) bg-linear-to-r from-(--cit-primary-soft) to-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-6">
                         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
