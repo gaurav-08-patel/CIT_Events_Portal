@@ -156,24 +156,30 @@ export default function AdminDashboard() {
                                     <span>Name</span>
                                     <span>Designation</span>
                                 </div>
-                                {recentOrganizers.map((organizer) => (
-                                    <div
-                                        key={organizer.id}
-                                        className="grid grid-cols-[1.5fr_1fr] border-t border-(--cit-border) px-4 py-3 text-sm text-(--cit-text)"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
-                                                <UserRound size={16} />
+                                {recentOrganizers.length > 0 ? (
+                                    recentOrganizers.map((organizer) => (
+                                        <div
+                                            key={organizer.id}
+                                            className="grid grid-cols-[1.5fr_1fr] border-t border-(--cit-border) px-4 py-3 text-sm text-(--cit-text)"
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
+                                                    <UserRound size={16} />
+                                                </div>
+                                                <span className="font-medium">
+                                                    {organizer.name}
+                                                </span>
                                             </div>
-                                            <span className="font-medium">
-                                                {organizer.name}
+                                            <span className="text-(--cit-text-muted)">
+                                                {organizer.designation}
                                             </span>
                                         </div>
-                                        <span className="text-(--cit-text-muted)">
-                                            {organizer.designation}
-                                        </span>
+                                    ))
+                                ) : (
+                                    <div className="border-t border-(--cit-border) px-4 py-6 text-center text-sm text-(--cit-text-muted)">
+                                        No recent organizers found.
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </SectionCard>
 
@@ -188,25 +194,31 @@ export default function AdminDashboard() {
                                     <span>Name</span>
                                     <span>Email</span>
                                 </div>
-                                {recentStudents.map((student) => (
-                                    <div
-                                        key={student.id}
-                                        className="grid grid-cols-[1.2fr_1.2fr] border-t border-(--cit-border) px-4 py-3 text-sm text-(--cit-text)"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
-                                                <UserRound size={16} />
+                                {recentStudents.length > 0 ? (
+                                    recentStudents.map((student) => (
+                                        <div
+                                            key={student.id}
+                                            className="grid grid-cols-[1.2fr_1.2fr] border-t border-(--cit-border) px-4 py-3 text-sm text-(--cit-text)"
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
+                                                    <UserRound size={16} />
+                                                </div>
+                                                <span className="font-medium">
+                                                    {student.name}
+                                                </span>
                                             </div>
-                                            <span className="font-medium">
-                                                {student.name}
-                                            </span>
+                                            <div className="flex items-center gap-2 text-(--cit-text-muted)">
+                                                <Mail size={14} />
+                                                <span>{student.email}</span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-2 text-(--cit-text-muted)">
-                                            <Mail size={14} />
-                                            <span>{student.email}</span>
-                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="border-t border-(--cit-border) px-4 py-6 text-center text-sm text-(--cit-text-muted)">
+                                        No recent students found.
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </SectionCard>
                     </section>
