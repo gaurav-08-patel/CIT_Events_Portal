@@ -84,31 +84,6 @@ function StatCard({ label, value, icon: Icon, accent }) {
     );
 }
 
-function SectionCard({ title, description, actionLabel, actionTo, children }) {
-    return (
-        <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-5">
-            <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                    <h2 className="text-lg font-semibold text-(--cit-text)">
-                        {title}
-                    </h2>
-                    <p className="text-sm text-(--cit-text-muted)">
-                        {description}
-                    </p>
-                </div>
-                <Link
-                    to={actionTo}
-                    className="inline-flex items-center gap-1 rounded-(--cit-radius-sm) bg-(--cit-primary-soft) px-3 py-2 text-sm font-semibold text-(--cit-primary) transition hover:bg-(--cit-primary) hover:text-white"
-                >
-                    {actionLabel}
-                    <ArrowRight size={16} />
-                </Link>
-            </div>
-            {children}
-        </section>
-    );
-}
-
 export default function AdminDashboard() {
     const { user } = useAuthContext();
     const displayName = user?.name || user?.email?.split("@")[0] || "Admin";
@@ -145,12 +120,24 @@ export default function AdminDashboard() {
                     </section>
 
                     <section className="grid gap-4 xl:grid-cols-2">
-                        <SectionCard
-                            title="Recent Organizers"
-                            description="Latest organizers who joined the portal"
-                            actionLabel="View all"
-                            actionTo="/admin/users"
-                        >
+                        <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-5">
+                            <div className="mb-4 flex items-center justify-between gap-3">
+                                <div>
+                                    <h2 className="text-lg font-semibold text-(--cit-text)">
+                                        Recent Organizers
+                                    </h2>
+                                    <p className="text-sm text-(--cit-text-muted)">
+                                        Latest organizers who joined the portal
+                                    </p>
+                                </div>
+                                <Link
+                                    to="/admin/users"
+                                    className="inline-flex items-center gap-1 rounded-(--cit-radius-sm) bg-(--cit-primary-soft) px-3 py-2 text-sm font-semibold text-(--cit-primary) transition hover:bg-(--cit-primary) hover:text-white"
+                                >
+                                    View all
+                                    <ArrowRight size={16} />
+                                </Link>
+                            </div>
                             <div className="overflow-hidden rounded-(--cit-radius-md) border border-(--cit-border)">
                                 <div className="grid grid-cols-[1.5fr_1fr] bg-(--cit-surface-subtle) px-4 py-3 text-sm font-semibold text-(--cit-text-muted)">
                                     <span>Name</span>
@@ -191,14 +178,28 @@ export default function AdminDashboard() {
                                     </div>
                                 )}
                             </div>
-                        </SectionCard>
+                        </section>
 
-                        <SectionCard
-                            title="Recent Students"
-                            description="Newest students registered on the platform"
-                            actionLabel="View all"
-                            actionTo="/admin/users"
-                        >
+                        <section className="rounded-(--cit-radius-lg) border border-(--cit-border) bg-(--cit-surface) p-4 shadow-(--cit-shadow-sm) sm:p-5">
+                            <div className="mb-4 flex items-center justify-between gap-3">
+                                <div>
+                                    <h2 className="text-lg font-semibold text-(--cit-text)">
+                                        Recent Students
+                                    </h2>
+                                    <p className="text-sm text-(--cit-text-muted)">
+                                        Newest students registered on the
+                                        platform
+                                    </p>
+                                </div>
+                                <Link
+                                    to="/admin/users"
+                                    state={{ type: "students" }}
+                                    className="inline-flex items-center gap-1 rounded-(--cit-radius-sm) bg-(--cit-primary-soft) px-3 py-2 text-sm font-semibold text-(--cit-primary) transition hover:bg-(--cit-primary) hover:text-white"
+                                >
+                                    View all
+                                    <ArrowRight size={16} />
+                                </Link>
+                            </div>
                             <div className="overflow-hidden rounded-(--cit-radius-md) border border-(--cit-border)">
                                 <div className="grid grid-cols-[1.2fr_1.2fr] bg-(--cit-surface-subtle) px-4 py-3 text-sm font-semibold text-(--cit-text-muted)">
                                     <span>Name</span>
@@ -240,7 +241,7 @@ export default function AdminDashboard() {
                                     </div>
                                 )}
                             </div>
-                        </SectionCard>
+                        </section>
                     </section>
                 </div>
             </main>
