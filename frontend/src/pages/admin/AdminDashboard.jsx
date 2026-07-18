@@ -163,8 +163,18 @@ export default function AdminDashboard() {
                                             className="grid grid-cols-[1.5fr_1fr] border-t border-(--cit-border) px-4 py-3 text-sm text-(--cit-text)"
                                         >
                                             <div className="flex items-center gap-2">
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
-                                                    <UserRound size={16} />
+                                                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-(--cit-primary-soft)">
+                                                    {organizer.profilePicture ? (
+                                                        <img
+                                                            src={
+                                                                organizer.profilePicture
+                                                            }
+                                                            alt={`${organizer.name} avatar`}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <UserRound size={16} />
+                                                    )}
                                                 </div>
                                                 <span className="font-medium">
                                                     {organizer.name}
@@ -201,8 +211,18 @@ export default function AdminDashboard() {
                                             className="grid grid-cols-[1.2fr_1.2fr] border-t border-(--cit-border) px-4 py-3 text-sm text-(--cit-text)"
                                         >
                                             <div className="flex items-center gap-2">
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--cit-primary-soft) text-(--cit-primary)">
-                                                    <UserRound size={16} />
+                                                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-(--cit-primary-soft)">
+                                                    {student.profilePicture ? (
+                                                        <img
+                                                            src={
+                                                                student.profilePicture
+                                                            }
+                                                            alt={`${student.name} avatar`}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <UserRound size={16} />
+                                                    )}
                                                 </div>
                                                 <span className="font-medium">
                                                     {student.name}
