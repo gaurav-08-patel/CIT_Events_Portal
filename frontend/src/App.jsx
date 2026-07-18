@@ -30,6 +30,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminSettings from "./pages/admin/AdminSettings";
+import FallBack404 from "./pages/FallBack404";
 
 function App() {
     return (
@@ -90,6 +91,7 @@ function App() {
                 <Route path="events" element={<AdminEvents />} />
                 <Route path="settings" element={<AdminSettings />} />
             </Route>
+            <Route path="*" element={<FallBack404 />} />
         </Routes>
     );
 }
