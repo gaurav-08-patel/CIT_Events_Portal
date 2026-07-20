@@ -9,7 +9,8 @@ import {
     UserRound,
     Zap,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import AuthCarousel from "../../components/AuthCarousel";
 import MetaData from "../../components/MetaData";
 import { DecorativeCircles } from "../../components/DecorativeCircles";
@@ -17,11 +18,14 @@ import { DecorativeCircles } from "../../components/DecorativeCircles";
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
         getValues,
+        reset,
         formState: { errors },
     } = useForm({
         defaultValues: {
@@ -34,7 +38,59 @@ export default function Register() {
         },
     });
 
-    const onSubmit = () => {};
+    const onSubmit = async (data) => {
+        setIsSubmitting(true);
+
+        const payload = {
+            firstName: data.firstName.trim(),
+            lastName: data.lastName.trim(),
+            role: data.role,
+            email: data.email.trim().toLowerCase(),
+            password: data.password,
+        };
+
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/v1/auth/register`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                },
+            );
+
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(
+                    result.error || "Registration failed. Please try again.",
+                );
+            }
+
+            toast.success(
+                result.message ||
+                    "Account created successfully. Please check your email to verify it.",
+            );
+            reset({
+                firstName: "",
+                lastName: "",
+                role: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+            });
+            setTimeout(() => {
+                navigate("/login");
+            }, 1000);
+            // navigate("/login");
+        } catch (error) {
+            toast.error(error.message || "Registration failed.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <main className="relative min-h-screen overflow-hidden bg-linear-to-br from-(--cit-primary) via-[#0c5fcc] to-[#1a3a6b] text-white">
@@ -349,9 +405,12 @@ export default function Register() {
 
                                 <button
                                     type="submit"
-                                    className="cursor-pointer group flex w-full items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3.5 text-base font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
+                                    disabled={isSubmitting}
+                                    className="cursor-pointer group flex w-full items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3.5 text-base font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md) disabled:cursor-not-allowed disabled:opacity-70"
                                 >
-                                    Create account
+                                    {isSubmitting
+                                        ? "Creating account..."
+                                        : "Create account"}
                                     <ArrowRight
                                         size={18}
                                         className="transition-transform duration-150 group-hover:translate-x-0.5"
