@@ -11,10 +11,12 @@ import toast from "react-hot-toast";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const {
         register,
         handleSubmit,
         getValues,
+        reset,
         formState: { errors },
     } = useForm({
         defaultValues: {
@@ -27,26 +29,48 @@ export default function Login() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
+        setIsSubmitting(true);
+
         const formData = {
-            email: getValues("email"),
+            email: getValues("email").trim().toLowerCase(),
             password: getValues("password"),
         };
 
-        // TODO: replace with real auth API later.
-        setUser({
-            email: formData.email,
-            name: formData.email.split("@")[0],
-            role: "student",
-        });
+        try {
+            // TODO: replace with real auth API later.
+            // const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/v1/auth/login`, {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify(formData),
+            // });
+            // const result = await response.json().catch(() => ({}));
+            // if (!response.ok) {
+            //     throw new Error(result.error || "Login failed.");
+            // }
 
-        toast.success("Login successful!");
-        // support full location object passed in state (preserves search/hash)
-        const fromLocation = location.state?.from;
-        const redirectTo = fromLocation
-            ? (fromLocation.pathname || "/") + (fromLocation.search || "") + (fromLocation.hash || "")
-            : "/";
-        navigate(redirectTo, { replace: true });
+            setUser({
+                email: formData.email,
+                name: formData.email.split("@")[0],
+                role: "student",
+            });
+
+            toast.success("Login successful!");
+            reset({ email: "", password: "", rememberMe: false });
+
+            // support full location object passed in state (preserves search/hash)
+            const fromLocation = location.state?.from;
+            const redirectTo = fromLocation
+                ? (fromLocation.pathname || "/") +
+                  (fromLocation.search || "") +
+                  (fromLocation.hash || "")
+                : "/";
+            navigate(redirectTo, { replace: true });
+        } catch (error) {
+            toast.error(error.message || "Login failed.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -217,9 +241,10 @@ export default function Login() {
 
                                 <button
                                     type="submit"
-                                    className="cursor-pointer group flex w-full items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3.5 text-base font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md)"
+                                    disabled={isSubmitting}
+                                    className="cursor-pointer group flex w-full items-center justify-center gap-2 rounded-(--cit-radius-md) bg-(--cit-primary) px-4 py-3.5 text-base font-bold text-white shadow-(--cit-shadow-sm) transition-all duration-150 hover:-translate-y-0.5 hover:bg-(--cit-primary-hover) hover:shadow-(--cit-shadow-md) disabled:cursor-not-allowed disabled:opacity-70"
                                 >
-                                    Log in
+                                    {isSubmitting ? "Logging in..." : "Log in"}
                                     <ArrowRight
                                         size={18}
                                         className="transition-transform duration-150 group-hover:translate-x-0.5"
