@@ -47,7 +47,7 @@ app.get('/', async (req, res) => {
 })
 
 // Health check endpoint (placed before 404 handler to ensure it works)
-app.get('/health', async (req, res) => {
+app.get('/ready', async (req, res) => {
   try {
     const conn = await getConnection();
     await conn.query('SELECT 1');
@@ -57,6 +57,10 @@ app.get('/health', async (req, res) => {
     console.error('Database connection error in health check:', err);
     res.status(500).json({ status: 'ERROR', message: 'Database connection failed' });
   }
+});
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', message: 'Server is healthy!' });
 });
 
 // API routes
