@@ -5,10 +5,10 @@ import { registerUser, loginUser, initiatePasswordReset, resetPassword as resetP
 export const register = async (req, res) => {
   try {
     const result = await registerUser(req.body);
-    res.status(201).json({ message: 'User registered. Verification email sent.', userId: result.insertId });
+    res.status(201).json({ success: true, message: 'User registered. Verification email sent.', userId: result.insertId });
   } catch (err) {
     console.error('Register error:', err);
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ success: false, error: err.message });
   }
 };
 
