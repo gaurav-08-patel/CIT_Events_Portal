@@ -85,7 +85,8 @@ export async function loginUser({ email, password }) {
     const [rows] = await conn.execute(`SELECT * FROM users WHERE email = ?`, [email]);
     const user = rows[0];
     if (!user) throw new Error('Invalid credentials');
-    const match = await bcrypt.compare(password, user.password_hash);
+
+    const match = await bcrypt.compare(password, user.password);
     if (!match) throw new Error('Invalid credentials');
 
     // Block login based on status

@@ -15,12 +15,11 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { accessToken, refreshToken, user } = await loginUser(req.body);
-    // Set refresh token as HttpOnly cookie
     res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production' });
-    res.json({ accessToken, user });
+    res.status(200).json({ success: true, accessToken, user });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(401).json({ error: err.message });
+    res.status(401).json({ success: false, error: err.message });
   }
 };
 
