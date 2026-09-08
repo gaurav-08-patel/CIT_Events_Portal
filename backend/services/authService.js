@@ -1,9 +1,12 @@
 // Core business logic for authentication (register, login, password reset, email verification)
 
+import dotenv from 'dotenv'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import { getConnection } from '../config/database.js';
+import transporter from '../config/nodemailer.js';
+dotenv.config()
 
 const SALT_ROUNDS = 12;
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'access_secret';
@@ -12,22 +15,11 @@ const JWT_EMAIL_SECRET = process.env.JWT_EMAIL_SECRET || 'email_secret'; // for 
 const ACCESS_EXPIRES_IN = '15m';
 const REFRESH_EXPIRES_IN = '7d';
 
-// Nodemailer transporter 
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: Number(process.env.MAIL_PORT) || 587,
-  secure: process.env.MAIL_SECURE === 'true', // true for 465, false for other ports
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-});
-
 /** Helper to send email */
 async function sendMail(to, subject, html) {
   try {
     await transporter.sendMail({
-      from: process.env.MAIL_FROM || 'no-reply@cithub.com',
+      from: process.env.SENDER_EMAIL || 'no-reply@cithub.com',
       to,
       subject,
       html,
@@ -42,6 +34,13 @@ export async function registerUser({ email, password, firstName, lastName, role 
   const hashed = await bcrypt.hash(password, SALT_ROUNDS);
   const conn = await getConnection();
   try {
+
+    const [userCheck] = await conn.execute(`SELECT EXISTS (SELECT 1 FROM users WHERE email = ?) AS email_exists`,[email])
+
+    if(userCheck[0].email_exists){
+      throw new Error("User already registered!")
+    }
+
     // Determine initial status based on role
     const initialStatus = role === 'organizer' ? 'pending' : 'active';
     const [result] = await conn.execute(
@@ -70,10 +69,10 @@ export async function registerUser({ email, password, firstName, lastName, role 
 
     // Email verification token (expires in 24h)
     const emailToken = jwt.sign({ email, type: 'verify' }, JWT_EMAIL_SECRET, { expiresIn: '24h' });
-    const verifyUrl = `${process.env.FRONTEND_URI || 'http://localhost:3000'}/verify-email?token=${emailToken}`;
-    await sendMail(email, 'Verify your CIT Event Hub account', `<p>Please verify your email by clicking <a href="${verifyUrl}">here</a>.</p>`);
+    const verifyUrl = `${process.env.FRONTEND_URI || 'http://localhost:5173'}/verify-email?token=${emailToken}`;
+    await sendMail(email, 'Verify your CIT Event Hub account', `<p>Please verify your email by clicking <a href="${verifyUrl}"></br></br>${verifyUrl}</a>.</p>`);
 
-    return result; // contains insertId
+    return result; 
   } finally {
     conn.release();
   }
