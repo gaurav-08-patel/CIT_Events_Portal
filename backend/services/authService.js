@@ -9,9 +9,9 @@ import transporter from '../config/nodemailer.js';
 dotenv.config()
 
 const SALT_ROUNDS = 12;
-const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'access_secret';
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh_secret';
-const JWT_EMAIL_SECRET = process.env.JWT_EMAIL_SECRET || 'email_secret'; // for verification & reset
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+const JWT_EMAIL_SECRET = process.env.JWT_EMAIL_SECRET; // for verification & reset
 const ACCESS_EXPIRES_IN = '15m';
 const REFRESH_EXPIRES_IN = '7d';
 
@@ -69,8 +69,10 @@ export async function registerUser({ email, password, firstName, lastName, role 
 
     // Email verification token (expires in 24h)
     const emailToken = jwt.sign({ email, type: 'verify' }, JWT_EMAIL_SECRET, { expiresIn: '24h' });
-    const verifyUrl = `${process.env.FRONTEND_URI || 'http://localhost:5173'}/verify-email?token=${emailToken}`;
-    await sendMail(email, 'Verify your CIT Event Hub account', `<p>Please verify your email by clicking <a href="${verifyUrl}"></br></br>${verifyUrl}</a>.</p>`);
+    const verifyUrl = `${process.env.FRONTEND_URI}/verify-email?token=${emailToken}`;
+    sendMail(email, 'Verify your CIT Event Hub account', `<p>Please verify your email by clicking <a href="${verifyUrl}"></br></br>${verifyUrl}</a>.</p>`).catch(err => {
+      console.log("Email not send",err)
+    })
 
     return result; 
   } finally {
@@ -78,7 +80,7 @@ export async function registerUser({ email, password, firstName, lastName, role 
   }
 }
 
-/** Login */
+/* Login */
 export async function loginUser({ email, password }) {
   const conn = await getConnection();
   try {
@@ -111,14 +113,14 @@ export async function loginUser({ email, password }) {
   }
 }
 
-/** Initiate password reset */
+/* Initiate password reset */
 export async function initiatePasswordReset(email) {
   const token = jwt.sign({ email, type: 'reset' }, JWT_EMAIL_SECRET, { expiresIn: '1h' });
-  const resetUrl = `${process.env.FRONTEND_URI || 'http://localhost:3000'}/reset-password?token=${token}`;
+  const resetUrl = `${process.env.FRONTEND_URI}/reset-password?token=${token}`;
   await sendMail(email, 'Reset your CIT Event Hub password', `<p>Reset your password by clicking <a href="${resetUrl}">here</a>. This link expires in 1 hour.</p>`);
 }
 
-/** Reset password */
+/* Reset password */
 export async function resetPassword(token, newPassword) {
   let payload;
   try {
@@ -136,7 +138,7 @@ export async function resetPassword(token, newPassword) {
   }
 }
 
-/** Verify email */
+/* Verify email */
 export async function verifyEmail(token) {
   let payload;
   try {
@@ -149,7 +151,6 @@ export async function verifyEmail(token) {
   const conn = await getConnection();
   try {
     await conn.execute(`UPDATE users SET is_verified = TRUE WHERE email = ?`, [payload.email]);
-    return res.status(200).json({ message: 'Email verified successfully' });
   } finally {
     conn.release();
   }

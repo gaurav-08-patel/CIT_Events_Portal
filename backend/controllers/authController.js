@@ -54,9 +54,9 @@ export const emailVerification = async (req, res) => {
   try {
     const { token } = req.query;
     await verifyEmail(token);
-    res.json({ message: 'Email verified successfully.' });
+    res.status(200).json({ success: true, message: 'Email verified successfully.' });
   } catch (err) {
     console.error('Email verification error:', err);
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ success: false, error: err.message });
   }
 };
