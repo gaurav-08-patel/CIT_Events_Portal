@@ -5,6 +5,10 @@ import { register, login, logout, forgotPassword, resetPassword, emailVerificati
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    res.status(200).json({status: "ok", message:"This is Auth Endpoint."})
+})
+
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
